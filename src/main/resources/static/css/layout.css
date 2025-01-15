@@ -1,0 +1,144 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.website-name {
+    margin-bottom: 20px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.website-img p {
+    font-size: x-large;
+    font-weight: 600;
+    color: #91AC8E;
+    margin: 0;
+}
+
+.main-container {
+    display: flex;
+}
+
+.side-left-container {
+/* border: 1px solid red; */
+/* width: 250px; */
+    width: 20%;
+    margin: 0 20px;
+
+}
+
+.side-profile-container {
+/* border: 1px solid blue; */
+}
+
+.profile-box {
+    border-radius: 15px;
+    background-color: rgba(224, 224, 224, 0.25);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    padding: 25px;
+}
+
+.username {
+    font-weight: 600;
+    font-size: x-large;
+}
+
+.username > span:nth-child(2) {
+    padding-left: 20px;
+    font-weight: 200;
+    font-size: x-small;
+}
+
+.manage-container > p {
+    margin-bottom: 10px;
+    margin-top: 30px;
+    color:#666;
+    font-size: small;
+}
+
+.manage-container > .manage-box {
+    border: 1px solid #666;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 두 개의 열 */
+    grid-template-rows: 1fr 1fr;
+    text-align: center;
+}
+
+.manage-box > div {
+    padding: 10px;
+    background-color: white;
+}
+
+.manage-box > div:hover {
+    cursor: pointer;
+}
+
+.manage-box > div:nth-child(1) {
+    border-top-left-radius: 5px;
+    border-bottom: 1px solid #666;
+    border-right: 1px solid #666;
+}
+
+.manage-box > div:nth-child(2) {
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid #666;
+}
+
+.manage-box > div:nth-child(3) {
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid #666;
+}
+
+.manage-box > div:nth-child(4) {
+    border-bottom-right-radius: 5px;
+}
+
+.manage-box > div > a {
+    color: black;
+    text-decoration: none;
+    font-size: small;
+}
+
+.right-container {
+/* border: 1px solid red; */
+    width: 80%;
+    height: 100%;
+    margin-right: 20px;
+}
+
+.top-menu-box {
+    background-color: #66785F;
+    display: flex;
+    align-items: center;
+    /* margin-bottom: 20px; */
+    height: 30px;
+}
+
+.top-menu {
+    width: 17%;
+}
+
+.top-menu > p {
+    color: white;
+    font-weight: 600;
+    font-size: small;
+    text-align: center;
+    margin: 0;
+}
+
+.top-menu > p:hover {
+    cursor: pointer;
+}
+
+.root-container {
+    padding: 10px;
+    /* border: 1px solid blue; */
+    /* position: absolute;
+    left: 300px;
+    top: 180px; */
+    /* background-color: #8380221c; */
+}

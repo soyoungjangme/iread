@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import './BookRegist.css';
+import '../../css/BookRegist.css';
 
 function BookRegist(){
+
 
     return(
         <div className="book-regist-container">
@@ -55,7 +56,9 @@ function BookRegist(){
     );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <BookRegist />
-);
+//const root = ReactDOM.createRoot(document.getElementById('root'));
+//root.render(
+//    <BookRegist />
+//);
+
+export default BookRegist;

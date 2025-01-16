@@ -74,8 +74,13 @@ task buildReact(type: Exec) {
 	}
 }
 
+//task cleanReactBuild(type: Delete) {
+//	delete "$projectDir/src/main/resources/static/static/js"
+//}
+
 task copyReactBuildFiles(type: Copy) {
 	dependsOn "buildReact"
 	from "$frontendDir/build"
 	into "$projectDir/src/main/resources/static"
+	includeEmptyDirs = false
 }

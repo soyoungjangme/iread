@@ -1,8 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
 import '../../css/BookRegist.css';
 
 function BookRegist(){
+
+    const [query, setQuery] = useState('');
+
+    const searchBook = async() => {
+        console.log("도서검색클릭!")
+
+        try{
+            const resp = await axios.get('/api/searchBook',{
+                params: { query: encodeURIComponent(query) }, // 검색어 query 전달
+            });
+            const data = resp.data;
+            console.log("도서정보 ", data.items);
+            return data.items;
+        }catch (error){
+            console.error("네이버도서api fetch 중 error: ", error);
+        }
+
+    }
 
 
     return(
@@ -30,7 +49,13 @@ function BookRegist(){
                             <div className="book-content-text">줄거리ㅏ얼아러알</div>
                         </div>
                     </div>
-                    <button type="button">도 서 검 색</button>
+                    <input
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="검색어를 입력하세요"
+                    />
+                    <button type="button" onClick={searchBook}>도 서 검 색</button>
                 </div>
                 <div className="book-regist-delete">
                     <button type="button">저장</button>

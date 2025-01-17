@@ -1,18 +1,22 @@
 package com.project.iread.controller;
 
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
+@RequestMapping("/api/adminBook")
 public class AdminBookController {
 
-    @GetMapping("/api/searchBook")
+    // 네이버 도서 검색 api
+    @GetMapping("/searchBook")
     public ResponseEntity<String> bookApi(@RequestParam("query") String query) {
+        System.out.println("query:" + query);
         if (query == null || query.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("검색어를 입력하세요.");
+            return ResponseEntity.badRequest().body("검색어를 입력하세요."); //400 반환
         }
 
         String clientId = "gq6geVvoGry2ivKjmIn5"; // 네이버 API Client ID
@@ -39,6 +43,17 @@ public class AdminBookController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("네이버 API 호출 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    //도서등록하기_네이버api
+    @PostMapping("/registBook")
+    public ResponseEntity<String> registBook(@RequestBody List<Map<String, String>> bookList){
+        if(bookList != null && !bookList.isEmpty()){
+            System.out.println("bookList: " + bookList);
+            return ResponseEntity.ok("200");
+        } else {
+            return ResponseEntity.badRequest().body("리스트 못받음."); //400 반환
         }
     }
 }

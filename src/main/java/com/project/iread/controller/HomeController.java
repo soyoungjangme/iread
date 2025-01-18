@@ -31,7 +31,7 @@ public class HomeController {
         Map<String, Object> assetManifest = objectMapper.readValue(manifestFile, Map.class);
 
         // 로그 추가하여 assetManifest 확인
-        System.out.println("Asset Manifest: " + assetManifest);
+        //System.out.println("Asset Manifest: " + assetManifest);
 
         // 모델에 assetManifest를 전달
         model.addAttribute("assetManifest", assetManifest);

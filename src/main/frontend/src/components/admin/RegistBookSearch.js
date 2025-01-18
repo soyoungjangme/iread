@@ -9,10 +9,24 @@ function RegistBookSearch(){
     const [query, setQuery] = useState(''); //검색어상태
     const [searchTerm, setSearchTerm] = useState(''); //검색어
     const [searchList, setSearchList] = useState([]); //도서data
+    const [cantSelect, setCantSelect] = useState([]); //이미 등록된 도서
 
     //목록박스
     const [addedList, setAddedList] = useState([]); //추가된 도서 목록
 
+    //검색목록
+    //등록된 도서 처리
+    useEffect(() => {
+        const checkSameBook = async() => {
+            try{
+                const resp = await axios.get('/api/adminBook/getIsbn');
+                setCantSelect(resp.data);
+            } catch(error){
+                console.log("등록된 도서 호출 중 error ", error);
+            }
+        }
+        checkSameBook();
+    },[]);
 
     // 검색버튼
     const searchClick = async() => {
@@ -56,13 +70,30 @@ function RegistBookSearch(){
 
     //등록하기
     const registBook = async() => {
+        if(addedList.length === 0){
+            alert('목록이 비어있습니다.');
+            return;
+        }
         try {
             const response = await axios.post('/api/adminBook/registBook', addedList);
-            console.log(response.data); // "200"
+            console.log(response.data); // "등록성공"
+
+            if(response.status){
+                window.location.href="/iread/main";
+            }
         } catch (error) {
-            console.error(error.response.data); // "리스트 못받음."
+            console.error(error.response ? error.response.data : error.message);
+            alert('서버 오류가 발생했습니다.');
         }
     }
+
+    //삭제
+    const deleteListBook = (isbn) => {
+        setAddedList((prev) =>
+            prev.filter((item) => item.isbn !== isbn)
+        );
+    };
+
 
     return(
         <div className="search-book-container">
@@ -95,13 +126,20 @@ function RegistBookSearch(){
                                 {searchTerm ?(
                                     searchList.length > 0 ? (
                                         searchList.map((list) => (
-                                            <div className="search-book" key={list.isbn}>
+
+                                            <div className={cantSelect.includes(list.isbn) ? "search-book activated" : "search-book"}
+                                                key={list.isbn}
+                                            >
                                                 <img src={list.image || "/img/noImg.png"} alt="책표지"/>
                                                 <p>{list.title}</p>
                                                 <p>{list.author}</p>
                                                 <p>{list.publisher}</p>
                                                 <p>{list.pubdate}</p>
-                                                <button type="button" onClick={() => addList(list)}>추가</button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => addList(list)}
+                                                    disabled={cantSelect.includes(list.isbn)}  // cantSelect에 포함된 ISBN이면 disabled 처리
+                                                >추가</button>
                                             </div>
                                         ))
                                     ) : (
@@ -133,10 +171,13 @@ function RegistBookSearch(){
                                         <option>동화</option>
                                         <option>에세이</option>
                                     </select>
+                                    <button type="button" onClick={()=>deleteListBook(item.isbn)}>삭제</button>
                                 </div>
                             ))
                         ):(
-                            null
+                            <div className="book-of-list">
+                                <p style={{gridColumn:"span 15", textAlign: "center"}}>비어있음</p>
+                            </div>
                         )}
 
 

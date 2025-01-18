@@ -21,7 +21,7 @@ p { margin: 0; }
 
 /* 검색박스 */
 .search-book-left {
-    width: 70%;
+    width: 65%;
     display: flex;
     flex-direction: column;
 }
@@ -30,8 +30,8 @@ p { margin: 0; }
     background-color: white;
     border: 2px solid #666;
     border-radius: 5px;
-    padding: 20px;
-    height: 500px;
+    padding: 15px;
+    height: 490px;
 }
 
 .search-book-content > p {
@@ -98,6 +98,14 @@ p { margin: 0; }
     height: 95%;
 }
 
+.activated {
+    opacity: 0.3;
+}
+
+.activated > button {
+    display: none;
+}
+
 .search-book {
     display: flex;
     align-items: center;
@@ -120,7 +128,7 @@ p { margin: 0; }
 
 /* 목록 박스 */
 .search-book-right {
-    width: 30%;
+    width: 35%;
     display: flex;
     flex-direction: column;
 }
@@ -144,14 +152,14 @@ p { margin: 0; }
     border: 2px solid yellowgreen;
     border-radius: 5px;
     height: 500px;
-    padding: 20px;
+    padding: 10px;
     overflow-y: auto;
 }
 
 .book-of-list {
     display: grid;
-    grid-template-columns: repeat(10,1fr);
-    gap: 5px;
+    grid-template-columns: repeat(15,1fr);
+    gap: 2px;
     margin-bottom: 5px;
 }
 
@@ -161,19 +169,34 @@ p { margin: 0; }
     font-size: small;
 }
 
-.book-of-list p:nth-child(2){
-    border-bottom: 1px solid #ccc;
-}
-
 .book-of-list p:nth-child(1) {
     grid-column: span 1;
     font-weight: 600;
 }
 
 .book-of-list p:nth-child(2) {
-    grid-column: span 6;
+    grid-column: span 8;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .book-of-list select {
-    grid-column: span 3;
-} 
+    grid-column: span 4;
+    font-size: x-small;
+}
+
+.book-of-list button {
+    all: unset;
+    text-align: center;
+    font-size: small;
+    font-weight: 500;
+    grid-column: span 2;
+    cursor: pointer;
+}
+
+.book-of-list button:hover {
+    background-color: #6666663b;
+    border-radius: 3px;
+}

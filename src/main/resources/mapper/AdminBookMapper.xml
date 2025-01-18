@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.iread.mapper.AdminBookMapper">
+
+    <select id="getIsbn" resultType="string">
+        select book_isbn
+        from books
+    </select>
+
+    <insert id="registBook" parameterType="com.project.iread.dto.BookDTO">
+        insert into books(
+                        book_isbn,
+                        book_title,
+                        book_link,
+                        book_image,
+                        book_author,
+                        book_discount,
+                        book_publisher,
+                        book_pub_date,
+                        book_description)
+        values(
+            #{isbn},
+            #{title},
+            #{link},
+            #{image},
+            #{author},
+            #{discount},
+            #{publisher},
+            #{pubdate},
+            #{description})
+
+    </insert>
+</mapper>

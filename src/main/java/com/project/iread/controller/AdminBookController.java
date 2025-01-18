@@ -1,5 +1,9 @@
 package com.project.iread.controller;
 
+import com.project.iread.dto.BookDTO;
+import com.project.iread.service.AdminBookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -11,10 +15,13 @@ import java.util.Map;
 @RequestMapping("/api/adminBook")
 public class AdminBookController {
 
+    @Autowired
+    @Qualifier("adminBookService")
+    private AdminBookService adminBookService;
+
     // 네이버 도서 검색 api
     @GetMapping("/searchBook")
     public ResponseEntity<String> bookApi(@RequestParam("query") String query) {
-        System.out.println("query:" + query);
         if (query == null || query.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("검색어를 입력하세요."); //400 반환
         }
@@ -48,12 +55,29 @@ public class AdminBookController {
 
     //도서등록하기_네이버api
     @PostMapping("/registBook")
-    public ResponseEntity<String> registBook(@RequestBody List<Map<String, String>> bookList){
+    public ResponseEntity<String> registBook(@RequestBody List<BookDTO> bookList){
         if(bookList != null && !bookList.isEmpty()){
-            System.out.println("bookList: " + bookList);
-            return ResponseEntity.ok("200");
+
+            try{
+                for(BookDTO dto : bookList){
+                    adminBookService.registBook(dto);
+                }
+                //모든 책이 등록 성공
+                return ResponseEntity.ok("성공적으로 등록되었습니다.");
+            } catch (Exception e){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("도서등록 중 오류 발생" + e.getMessage());
+            }
+
         } else {
-            return ResponseEntity.badRequest().body("리스트 못받음."); //400 반환
+            return ResponseEntity.badRequest().body("리스트 전달에 실패하였습니다."); //400 반환
         }
+    }
+
+    //등록된 도서 isbn호출
+    @GetMapping("/getIsbn")
+    public List<String> getIsbn(){
+        List<String> result = adminBookService.getIsbn();
+        return result;
     }
 }

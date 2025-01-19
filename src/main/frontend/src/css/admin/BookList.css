@@ -1,0 +1,189 @@
+
+.registed-book-list-container{
+/* border: 1px solid black;
+width: 1000px; */
+}
+
+.registed-book-list-container p {
+    margin: 0;
+}
+
+/* 도서검색창 */
+.book-search {
+/* border: 1px solid red; */
+    padding: 40px 0;
+    gap: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    margin: auto;
+}
+
+.book-search p {
+    background-color: #66785F;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.book-search i {
+    color: white;
+}
+
+.search-box {
+    width: 70%;
+}
+
+.search-box > input {
+    border: 2px solid #66785F;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width: 100%;
+    /* display: flex; */
+    align-items: center;
+}
+
+/* 도서등록btn */
+.book-regist {
+    width: 78%;
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.book-regist > button {
+    font-size: small;
+    border: 1px solid #666;
+    color: #666;
+    background-color: white;
+}
+
+.regist-way-container {
+    position: absolute;
+    top: 130%;
+    left: 100%;
+    transform: translateY(-50%);
+    padding: 10px;
+    z-index: 10;
+    width: 90px; /* 드롭다운의 넓이를 조정 */
+    display: none;
+}
+
+.regist-way-box {
+    padding: 10px;
+    font-size: small;
+    height: 65px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.regist-way-box a {
+    text-decoration: none;
+    color: #666;
+}
+
+.regist-way-box a:hover {
+    font-size: medium;
+    font-weight: bold;
+    color: #66785F;
+}
+
+/* hover 시 메뉴 표시 */
+.book-regist:hover .regist-way-container {
+    display: block;
+}
+
+
+/* 도서목록 */
+.registed-book-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.book-box {
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    width: 76%;
+    margin: 5px auto;
+    display: flex;
+    justify-content: center;
+    font-size: small;
+    align-items: center;
+}
+
+.book-no {
+    width: 5%;
+    height: 130px;
+    /* border-right: 1px solid grey; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-img {
+    width: 25%;
+    height: 130px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-img img {
+    height: 100%;
+}
+
+.book-info {
+    width: 35%;
+    height: 130px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    border-right: 1px solid #ddd;
+    align-items: center;
+}
+
+.info-title {
+    text-align: right;
+}
+
+.info-cont {
+    text-align: left;
+}
+
+.book-review-cnt {
+    width: 20%;
+    height: 130px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 15%;
+    align-items: center;
+}
+
+.info-btn button {
+    all: unset;
+    font-size: x-small;
+}
+
+.info-btn button:active {
+    font-weight: bold;
+}
+
+.info-btn button:nth-child(3) {
+    color: #ca1717
+}

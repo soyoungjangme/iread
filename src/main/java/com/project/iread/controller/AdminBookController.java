@@ -28,7 +28,7 @@ public class AdminBookController {
 
         String clientId = "gq6geVvoGry2ivKjmIn5"; // 네이버 API Client ID
         String clientSecret = "GXXIzqFD96"; // 네이버 API Client Secret
-        String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + query;
+        String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + query + "&display=100";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Naver-Client-Id", clientId);
@@ -79,5 +79,17 @@ public class AdminBookController {
     public List<String> getIsbn(){
         List<String> result = adminBookService.getIsbn();
         return result;
+    }
+
+    //도서목록 호출
+    @GetMapping("/getAllBook")
+    public ResponseEntity<List<BookDTO>> getAllBooks(){
+        try{
+            List<BookDTO> bookList = adminBookService.getAllBook();
+            return ResponseEntity.ok(bookList);
+        } catch (Exception e) {
+            System.err.println("도서목록 호출 중 오류: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
+        }
     }
 }

@@ -10,4 +10,6 @@ public interface AdminBookMapper {
 
     List<String> getIsbn();
     void registBook(BookDTO bookDTO);
+    List<BookDTO> getAllBook();
+
 }

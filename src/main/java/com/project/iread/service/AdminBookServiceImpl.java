@@ -22,4 +22,9 @@ public class AdminBookServiceImpl implements AdminBookService{
     public void registBook(BookDTO bookDTO) {
         adminBookMapper.registBook(bookDTO);
     }
+
+    @Override
+    public List<BookDTO> getAllBook() {
+        return adminBookMapper.getAllBook();
+    }
 }

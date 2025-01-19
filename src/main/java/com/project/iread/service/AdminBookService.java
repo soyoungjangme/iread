@@ -8,5 +8,5 @@ public interface AdminBookService {
 
     List<String> getIsbn();
     void registBook(BookDTO bookDTO); //api 도서등록
-
+    List<BookDTO> getAllBook();
 }

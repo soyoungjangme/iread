@@ -134,11 +134,6 @@ body {
     cursor: pointer;
 }
 
-.root-container {
-    padding: 10px;
-    /* border: 1px solid blue; */
-    /* position: absolute;
-    left: 300px;
-    top: 180px; */
-    /* background-color: #8380221c; */
+.root {
+    padding: 10px 0;
 }

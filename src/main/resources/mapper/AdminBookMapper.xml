@@ -11,15 +11,15 @@
 
     <insert id="registBook" parameterType="com.project.iread.dto.BookDTO">
         insert into books(
-                        book_isbn,
-                        book_title,
-                        book_link,
-                        book_image,
-                        book_author,
-                        book_discount,
-                        book_publisher,
-                        book_pub_date,
-                        book_description)
+                        isbn,
+                        title,
+                        link,
+                        image,
+                        author,
+                        discount,
+                        publisher,
+                        pubdate,
+                        description)
         values(
             #{isbn},
             #{title},
@@ -32,4 +32,9 @@
             #{description})
 
     </insert>
+
+<!--  모든 도서 목록 호출  -->
+    <select id="getAllBook" resultType="com.project.iread.dto.BookDTO">
+        select * from books
+    </select>
 </mapper>

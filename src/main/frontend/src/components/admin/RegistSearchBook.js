@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import '../../css/RegistBookSearch.css';
+import '../../css/admin/RegistSearchBook.css';
 
-function RegistBookSearch(){
+function RegistSearchBook(){
     //검색박스
     const [query, setQuery] = useState(''); //검색어상태
     const [searchTerm, setSearchTerm] = useState(''); //검색어
@@ -29,8 +28,11 @@ function RegistBookSearch(){
     },[]);
 
     // 검색버튼
-    const searchClick = async() => {
+    const searchClick = async(e) => {
 
+        if (e.type === "keypress" && e.key !== "Enter") {
+            return;
+        }
         if (!query.trim()) {
             alert("검색어를 입력하세요.");
             return;
@@ -110,8 +112,11 @@ function RegistBookSearch(){
                                 value={query}
                                 placeholder="검색어를 입력해주세요." 
                                 onChange={(e) => setQuery(e.target.value)}
+                                onKeyPress={(e) => searchClick(e)}
                             />
-                            <button type="button" onClick={searchClick}><i className="bi bi-search"></i></button>
+                            <button type="button" onClick={searchClick}>
+                                <i className="bi bi-search"></i>
+                            </button>
                         </div>
                         <div className="search-result">
                             <div className="search-title">
@@ -126,7 +131,6 @@ function RegistBookSearch(){
                                 {searchTerm ?(
                                     searchList.length > 0 ? (
                                         searchList.map((list) => (
-
                                             <div className={cantSelect.includes(list.isbn) ? "search-book activated" : "search-book"}
                                                 key={list.isbn}
                                             >
@@ -176,7 +180,7 @@ function RegistBookSearch(){
                             ))
                         ):(
                             <div className="book-of-list">
-                                <p style={{gridColumn:"span 15", textAlign: "center"}}>비어있음</p>
+                                <p style={{gridColumn:"span 15", textAlign: "center", fontWeight: "normal"}}>비어있음</p>
                             </div>
                         )}
 
@@ -189,9 +193,5 @@ function RegistBookSearch(){
     );
 }
 
-//const root = ReactDOM.createRoot(document.getElementById('root'));
-//root.render(
-//    <BookRegist />
-//);
 
-export default RegistBookSearch;
+export default RegistSearchBook;

@@ -78,10 +78,10 @@ function RegistSearchBook(){
         }
         try {
             const response = await axios.post('/api/adminBook/registBook', addedList);
-            console.log(response.data); // "등록성공"
+            alert(response.data); // "등록성공"
 
             if(response.status){
-                window.location.href="/iread/main";
+                window.location.href="/iread/admin/booklist";
             }
         } catch (error) {
             console.error(error.response ? error.response.data : error.message);

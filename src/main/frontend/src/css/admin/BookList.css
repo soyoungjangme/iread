@@ -22,7 +22,7 @@ width: 1000px; */
 
 .book-search p {
     background-color: #66785F;
-    padding: 10px;
+    padding: 7px 10px;
     border-radius: 20px;
 }
 
@@ -37,7 +37,7 @@ width: 1000px; */
 .search-box > input {
     border: 2px solid #66785F;
     border-radius: 20px;
-    padding: 5px 10px;
+    padding: 10px;
     width: 100%;
     /* display: flex; */
     align-items: center;
@@ -61,7 +61,7 @@ width: 1000px; */
 
 .regist-way-container {
     position: absolute;
-    top: 130%;
+    top: 205%;
     left: 100%;
     transform: translateY(-50%);
     padding: 10px;
@@ -106,46 +106,47 @@ width: 1000px; */
 }
 
 .book-box {
-    border: 1px solid grey;
-    border-radius: 5px;
     padding: 10px;
     text-align: center;
     width: 76%;
     margin: 5px auto;
-    display: flex;
-    justify-content: center;
     font-size: small;
-    align-items: center;
+    background-color: #66785f18;
 }
 
-.book-no {
-    width: 5%;
-    height: 130px;
-    /* border-right: 1px solid grey; */
+.book-title {
+    display: flex;
+    gap: 10px;
+    padding: 5px 10px;
+    background-color: white;
+    border: 1px solid #66785f;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #66785f;
+}
+
+.info{
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 20px;
 }
 
 .book-img {
-    width: 25%;
-    height: 130px;
-    border-right: 1px solid #ddd;
+    width: 13%;
+     border-right: 1px solid #ddd;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .book-img img {
-    height: 100%;
+    width: 100%;
 }
 
 .book-info {
-    width: 35%;
-    height: 130px;
+    width: 40%;
     display: flex;
     gap: 10px;
-    justify-content: center;
     border-right: 1px solid #ddd;
     align-items: center;
 }
@@ -160,7 +161,6 @@ width: 1000px; */
 
 .book-review-cnt {
     width: 20%;
-    height: 130px;
     border-right: 1px solid #ddd;
     display: flex;
     justify-content: center;
@@ -171,7 +171,7 @@ width: 1000px; */
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 15%;
+    width: 20%;
     align-items: center;
 }
 

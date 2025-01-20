@@ -5,7 +5,7 @@
 <mapper namespace="com.project.iread.mapper.AdminBookMapper">
 
     <select id="getIsbn" resultType="string">
-        select book_isbn
+        select isbn
         from books
     </select>
 

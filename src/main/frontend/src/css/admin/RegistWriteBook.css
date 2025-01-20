@@ -1,0 +1,119 @@
+.write-book-container p {
+    margin: 0;
+}
+
+.top-title {
+    display: flex;
+    align-items: center;
+}
+
+.top-title p {
+    font-weight: 600;
+    font-size: large;
+    margin: 20px;
+    color: #66785F;
+}
+
+.form-container {
+/* border: 1px solid black; */
+    display: flex;
+    gap: 50px;
+    margin: 10px 20px;
+}
+
+.form {
+    width: 50%;
+}
+
+.input-group {
+/* display: flex;
+align-items: center;
+text-align: left;
+gap: 10px; */
+    display: grid;
+    grid-template-columns: repeat(10,1fr);
+    margin-bottom: 10px;
+}
+
+.input-group p {
+    grid-column: span 2;
+    font-size: small;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input,
+.input-group textarea {
+    grid-column: span 8;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid #666;
+}
+
+.img-group {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.img-group p {
+    grid-column: span 2;
+    grid-row: span 1;
+    font-size: small;
+}
+
+.img-regist {
+    grid-column: span 8;
+    grid-row: span 5;
+}
+
+.img-regist button {
+    font-size: small;
+    margin-bottom: 10px;
+    background-color: #76886f38;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    color: black;
+    cursor: pointer;
+}
+
+.img-regist button:hover {
+    background-color: #76886fcb;
+    color: white;
+}
+
+.img-box img {
+    height: 200px;
+}
+
+.input-group textarea {
+    resize: none;
+    height: 260px;
+    border: 1px solid #666;
+    overflow-y: auto;
+}
+
+.descript {
+    margin: 0;
+}
+
+.descript p {
+    display: flex;
+    align-items: start;
+}
+
+.regist-btn {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px;
+}
+
+.regist-btn button {
+    border: 1px solid #66785f;
+    border-radius: 5px;
+    padding: 3px 10px;
+    color: #66785f;
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+}

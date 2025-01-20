@@ -57,7 +57,6 @@ public class AdminBookController {
     @PostMapping("/registBook")
     public ResponseEntity<String> registBook(@RequestBody List<BookDTO> bookList){
         if(bookList != null && !bookList.isEmpty()){
-
             try{
                 for(BookDTO dto : bookList){
                     adminBookService.registBook(dto);
@@ -70,6 +69,18 @@ public class AdminBookController {
             }
 
         } else {
+            return ResponseEntity.badRequest().body("리스트 전달에 실패하였습니다."); //400 반환
+        }
+    }
+
+    //도서등록_직접등록
+    @PostMapping("/registWriteBook")
+    public ResponseEntity<String> registWriteBook(@RequestBody BookDTO bookInfo){
+        System.out.println("확인 " + bookInfo);
+        try{
+            adminBookService.registBook(bookInfo);
+            return ResponseEntity.ok("성공적으로 등록되었습니다.");
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("리스트 전달에 실패하였습니다."); //400 반환
         }
     }
@@ -91,5 +102,12 @@ public class AdminBookController {
             System.err.println("도서목록 호출 중 오류: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
         }
+    }
+
+    //도서목록_검색결과
+    @GetMapping("/searchResult")
+    public ResponseEntity<String> getSearchResult(@RequestParam("keyword") String keyword){
+        System.out.println("keyword " + keyword);
+        return ResponseEntity.ok("success");
     }
 }

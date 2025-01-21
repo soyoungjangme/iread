@@ -37,4 +37,37 @@
     <select id="getAllBook" resultType="com.project.iread.dto.BookDTO">
         select * from books
     </select>
+
+<!--  도서목록_검색호출  -->
+    <select id="getSearchBook" parameterType="string" resultType="com.project.iread.dto.BookDTO">
+        select * from books b
+        where b.title like concat ('%', #{keyword}, '%')
+        or b.author like concat ('%', #{keyword}, '%')
+        or b.publisher like concat ('%', #{keyword}, '%')
+    </select>
+
+<!--  장르등록  -->
+    <insert id="registGenre" parameterType="list">
+        insert into genres(genre_name)
+        values
+        <foreach item="genre" collection="list" separator=",">
+            (#{genre})
+        </foreach>
+    </insert>
+
+<!--  장르삭제  -->
+    <delete id="deleteGenre" parameterType="list">
+        delete from genres
+        where genre_name in
+            <foreach collection="list" item="newGenre" open="(" separator="," close=")">
+                #{newGenre}
+            </foreach>
+    </delete>
+
+<!--  장르호출  -->
+    <select id="getGenre" resultType="string">
+        select genre_name
+        from genres
+    </select>
+
 </mapper>

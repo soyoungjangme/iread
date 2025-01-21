@@ -1,0 +1,124 @@
+.genre-manage-container p {
+    margin: 0;
+}
+
+.top-title {
+    display: flex;
+    align-items: center;
+}
+
+.top-title p {
+    font-weight: 600;
+    font-size: large;
+    margin: 20px;
+    color: #66785F;
+}
+
+.genre-manage-box {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 30px;
+}
+
+.genre-manage-box
+.input-group {
+    display: flex;
+    justify-content: right;
+    align-items: start;
+    width: 15%;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.genre-manage-box
+.input-group input{
+    border: 1px solid #666;
+    padding: 5px;
+}
+
+.genre-manage-box
+.btn-group {
+    display: flex;
+    align-items: start;
+    margin-top: 10px;
+}
+
+.genre-manage-box
+.btn-group button {
+    background-color: white;
+    border: none;
+    color: #666;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.genre-manage-box
+.btn-group button:hover {
+    background-color: #66785f67;
+    color: white;
+}
+
+.genre-manage-box
+.list-group {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #999;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 10px;
+    width: 15%;
+    font-size: small;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.genre-list {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 2px 5px;
+}
+
+.genre-list button {
+    all: unset;
+    font-size: x-small;
+    padding: 3px;
+    display: none;
+    cursor: pointer;
+}
+
+.genre-list:hover {
+    background-color: #dddddd63;
+}
+
+.genre-list:hover button {
+    display: block;
+    padding: 0 5px;
+}
+
+.end-btn-group {
+    float: right;
+    margin-right: 15%;
+    display: flex;
+    gap: 5px;
+}
+
+.complete-btn {
+    background-color: white;
+    border: 2px solid #66785f;
+    border-radius: 3px;
+    color: #66785f;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.cancle-btn {
+    background-color: white;
+    border: 2px solid #999;
+    border-radius: 3px;
+    color: #999;
+    padding: 3px 5px;
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 package com.project.iread.controller;
 
 import com.project.iread.dto.BookDTO;
+import com.project.iread.dto.GenreDTO;
 import com.project.iread.service.AdminBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,7 +50,7 @@ public class AdminBookController {
             return ResponseEntity.ok(response.getBody()); // 결과 반환
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("네이버 API 호출 중 오류가 발생했습니다: " + e.getMessage());
+                    .body("네이버 API 호출 중 오류가 발생 " + e.getMessage());
         }
     }
 
@@ -69,7 +70,7 @@ public class AdminBookController {
             }
 
         } else {
-            return ResponseEntity.badRequest().body("리스트 전달에 실패하였습니다."); //400 반환
+            return ResponseEntity.badRequest().body("도서 리스트 전달에 실패하였습니다."); //400 반환
         }
     }
 
@@ -81,7 +82,7 @@ public class AdminBookController {
             adminBookService.registBook(bookInfo);
             return ResponseEntity.ok("성공적으로 등록되었습니다.");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("리스트 전달에 실패하였습니다."); //400 반환
+            return ResponseEntity.badRequest().body("도서 리스트 전달에 실패하였습니다."); //400 반환
         }
     }
 
@@ -106,8 +107,38 @@ public class AdminBookController {
 
     //도서목록_검색결과
     @GetMapping("/searchResult")
-    public ResponseEntity<String> getSearchResult(@RequestParam("keyword") String keyword){
+    public ResponseEntity<List<BookDTO>> getSearchResult(@RequestParam("keyword") String keyword){
         System.out.println("keyword " + keyword);
-        return ResponseEntity.ok("success");
+
+        try {
+            List<BookDTO> searchResult = adminBookService.getSearchBook(keyword);
+            System.out.println("검색결과 " + searchResult);
+            return ResponseEntity.ok(searchResult);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
+        }
+    }
+
+    //장르등록
+    @PostMapping("/registGenre")
+    public ResponseEntity<String> registGenre(@RequestBody List<String> newGenre){
+        try{
+            adminBookService.registGenre(newGenre);
+            return ResponseEntity.ok("성공적으로 등록되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("장르등록 중 오류 발생" + e.getMessage());
+        }
+    }
+
+    //기존장르 호출
+    @GetMapping("/getGenre")
+    public ResponseEntity<List<String>> getGenre(){
+        try{
+            List<String> genreList = adminBookService.getGenre();
+            return ResponseEntity.ok(genreList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

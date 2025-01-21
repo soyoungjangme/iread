@@ -20,10 +20,14 @@ function BookList(){
 
     //검색
     const searchKeyword = async(e) => {
-        const keyword = e.target.value;
+        const keyword = e.target.value.trim();
         console.log("검색어: ", keyword);
 
         if (e.type === "keypress" && e.key !== "Enter") {
+            return;
+        }
+        if(!keyword){
+            alert('검색어를 입력해주세요.');
             return;
         }
 
@@ -31,8 +35,7 @@ function BookList(){
             const resp = await axios.get('/api/adminBook/searchResult',{
                 params: {keyword}
             });
-            //setBookList(resp.data);
-            console.log(resp.data);
+            setBookList(resp.data);
         }catch (error){
             console.log("검색결과 호출 중 error ", error);
         }

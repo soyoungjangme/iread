@@ -13,7 +13,8 @@ public interface AdminBookMapper {
     void registBook(BookDTO bookDTO);
     List<BookDTO> getAllBook();
     List<BookDTO> getSearchBook(String keyword);
-    void registGenre(List<String> newGenre);
-    void deleteGenre(List<String> newGenre);
-    List<String> getGenre();
+    void registGenre(List<GenreDTO> newGenre);
+    void deleteGenre(List<GenreDTO> newGenre);
+    List<GenreDTO> getGenre();
+    boolean deleteBook(Long bookNo);
 }

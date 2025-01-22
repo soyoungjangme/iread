@@ -23,4 +23,5 @@ public class BookDTO {
     private String description;
     private Long bookLike; //default 0
     private String bookActivated; //default 'Y'
+    private Long genreNo;
 }

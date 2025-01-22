@@ -19,7 +19,8 @@
                         discount,
                         publisher,
                         pubdate,
-                        description)
+                        description,
+                        genre_no)
         values(
             #{isbn},
             #{title},
@@ -29,7 +30,8 @@
             #{discount},
             #{publisher},
             #{pubdate},
-            #{description})
+            #{description},
+            #{genreNo})
 
     </insert>
 
@@ -46,12 +48,18 @@
         or b.publisher like concat ('%', #{keyword}, '%')
     </select>
 
+<!--  도서목록_삭제  -->
+    <delete id="deleteBook" parameterType="long">
+        delete from books
+        where book_no = #{bookNo}
+    </delete>
+
 <!--  장르등록  -->
     <insert id="registGenre" parameterType="list">
         insert into genres(genre_name)
         values
-        <foreach item="genre" collection="list" separator=",">
-            (#{genre})
+        <foreach item="item" collection="list" separator=",">
+            (#{item.genreName})
         </foreach>
     </insert>
 
@@ -59,14 +67,14 @@
     <delete id="deleteGenre" parameterType="list">
         delete from genres
         where genre_name in
-            <foreach collection="list" item="newGenre" open="(" separator="," close=")">
-                #{newGenre}
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item.genreName}
             </foreach>
     </delete>
 
 <!--  장르호출  -->
-    <select id="getGenre" resultType="string">
-        select genre_name
+    <select id="getGenre" resultType="com.project.iread.dto.GenreDTO">
+        select *
         from genres
     </select>
 

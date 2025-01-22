@@ -6,17 +6,21 @@ import '../../css/admin/BookList.css';
 function BookList(){
     const [bookList, setBookList] = useState([]);
 
+
+
     useEffect(() => {
-        const getBooks = async() => {
-            try{
-                const resp = await axios.get('/api/adminBook/getAllBook');
-                setBookList(resp.data);
-            }catch(error){
-                console.log('도서목록 호출 중 error, ', error);
-            }
-        }
         getBooks();
     },[]);
+
+    //목록호출
+    const getBooks = async() => {
+        try{
+            const resp = await axios.get('/api/adminBook/getAllBook');
+            setBookList(resp.data);
+        }catch(error){
+            console.log('도서목록 호출 중 error, ', error);
+        }
+    }
 
     //검색
     const searchKeyword = async(e) => {
@@ -40,6 +44,27 @@ function BookList(){
             console.log("검색결과 호출 중 error ", error);
         }
     }
+
+    //삭제
+
+    const deleteBook = async (bookNoToDelete) => {
+        if(!window.confirm('삭제하시겠습니까?')){
+            return;
+        }
+
+        try {
+            console.log(bookNoToDelete);
+
+            // 쿼리 파라미터를 통해 bookNo 전달
+            const resp = await axios.delete(`/api/adminBook/deleteBook?bookNo=${bookNoToDelete}`);
+
+            alert(resp.data || "삭제가 완료되었습니다.");
+            getBooks();
+        } catch (error) {
+            console.error("삭제 중 오류 발생:", error);
+            alert("삭제 중 오류가 발생했습니다.");
+        }
+    };
 
     return(
         <div className="registed-book-list-container">
@@ -98,7 +123,7 @@ function BookList(){
                                 <div className="info-btn">
                                     <button className="book-detail">상세보기</button>
                                     <button className="book-modify">수정</button>
-                                    <button className="book-del">삭제</button>
+                                    <button className="book-del" onClick={() => deleteBook(list.bookNo)}>삭제</button>
                                 </div>
                             </div>
                         </div>

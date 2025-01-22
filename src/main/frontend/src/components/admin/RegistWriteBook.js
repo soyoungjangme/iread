@@ -6,6 +6,22 @@ import '../../css/admin/RegistWriteBook.css';
 function RegistWriteBook(){
 
     const [bookInfo, setBookInfo] = useState([]);
+    const [genre, setGenre] = useState([]);
+
+    useEffect(()=>{
+        getGenre();
+    },[]);
+
+    //장르호출
+    const getGenre = async() => {
+        try{
+            const resp = await axios.get('/api/adminBook/getGenre');
+            setGenre(resp.data);
+            console.log("장르 ", resp.data);
+        }catch (error){
+            console.log("장르 호출 중 error ", error);
+        }
+    }
 
     const changeInput = (e) => {
         const {id, value} = e.target;
@@ -26,6 +42,15 @@ function RegistWriteBook(){
         }catch (error){
             console.log("도서등록실패 ", error);
         }
+    }
+
+    const genreChange = (e) => {
+        const genreNo = e.target.value;
+        setBookInfo((prev) => ({
+            ...prev,
+            genreNo
+        }));
+        console.log('내용 ', bookInfo);
     }
 
     return(
@@ -65,6 +90,21 @@ function RegistWriteBook(){
                     <div className="input-group">
                         <p>출간일</p>
                         <input type="text" id="pubdate" value={bookInfo.pubdate} onChange={changeInput} placeholder="출간일 입력"/>
+                    </div>
+                    <div className="input-group">
+                        <p>장르</p>
+                        {genre.length > 0 ? (
+                            <select value={bookInfo.genreNo} onChange={(e)=> genreChange(e)}>
+                                <option value="" disabled selected>장르</option>
+                                {genre.map((item, index) => (
+                                    <option key={index} value={item.genreNo}>{item.genreName}</option>
+                                ))}
+                            </select>
+                        ):(
+                            <select>
+                                <option value="" hidden>없음</option>
+                            </select>
+                        )}
                     </div>
                     <div className="input-group descript">
                         <p>설명</p>

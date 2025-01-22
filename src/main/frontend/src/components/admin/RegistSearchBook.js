@@ -4,6 +4,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/admin/RegistSearchBook.css';
 
 function RegistSearchBook(){
+    const [loading, setLoading] = useState(false);
+
     //검색박스
     const [query, setQuery] = useState(''); //검색어상태
     const [searchTerm, setSearchTerm] = useState(''); //검색어
@@ -12,50 +14,62 @@ function RegistSearchBook(){
 
     //목록박스
     const [addedList, setAddedList] = useState([]); //추가된 도서 목록
+    const [genre, setGenre] = useState([]); // 장르 호출
+
+    useEffect(() => {
+        checkSameBook();
+        getGenre();
+    },[]);
 
     //검색목록
-    //등록된 도서 처리
-    useEffect(() => {
-        const checkSameBook = async() => {
-            try{
-                const resp = await axios.get('/api/adminBook/getIsbn');
-                setCantSelect(resp.data);
-            } catch(error){
-                console.log("등록된 도서 호출 중 error ", error);
-            }
+    //이미 등록된 도서 처리
+    const checkSameBook = async() => {
+        try{
+            const resp = await axios.get('/api/adminBook/getIsbn');
+            setCantSelect(resp.data);
+        } catch(error){
+            console.log("등록된 도서 호출 중 error ", error);
         }
-        checkSameBook();
-    },[]);
+    }
+
+    //장르호출
+    const getGenre = async() => {
+        try{
+            const resp = await axios.get('/api/adminBook/getGenre');
+            setGenre(resp.data);
+            console.log("장르 ", resp.data);
+        }catch (error){
+            console.log("장르 호출 중 error ", error);
+        }
+    }
 
     // 검색버튼
     const searchClick = async(e) => {
 
-        if (e.type === "keypress" && e.key !== "Enter") {
-            return;
-        }
+//        if (e.type === "keypress" && e.key !== "Enter") {
+//            return;
+//        }
         if (!query.trim()) {
             alert("검색어를 입력하세요.");
             return;
         }
         setSearchTerm(query);
+        setLoading(true);
         try{
             const resp = await axios.get('/api/adminBook/searchBook', {
                 params:{query}
             });
             const data = resp.data;
             setSearchList(data.items);
-            console.log("도서정보 ", data.items);
         }catch (error){
-            if (error.response) {
-                // 서버에서 반환한 응답 처리
-                if (error.response.status === 400) {
-                    alert(error.response.data); // "검색어를 입력하세요."
-                } else {
-                    alert("에러 발생: " + error.response.status);
-                }
+            // 서버에서 반환한 응답 처리
+            if (error.response.status === 400) {
+                alert(error.response.data); // "검색어를 입력하세요."
             } else {
-                console.error("네트워크 오류:", error.message);
+                alert("에러 발생: " + error.response.status);
             }
+        } finally{
+            setLoading(false);
         }
     };
 
@@ -66,7 +80,7 @@ function RegistSearchBook(){
                 alert('이미 존재');
                 return prevList;
             }
-            return [...prevList, list];
+            return [...prevList, { ...list, genreNo: "" }];
         });
     };
 
@@ -76,6 +90,14 @@ function RegistSearchBook(){
             alert('목록이 비어있습니다.');
             return;
         }
+
+        for (const book of addedList) {
+            if (!book.genreNo) {
+                alert('장르를 선택하지 않은 도서가 있습니다.');
+                return;
+            }
+        }
+
         try {
             const response = await axios.post('/api/adminBook/registBook', addedList);
             alert(response.data); // "등록성공"
@@ -96,6 +118,16 @@ function RegistSearchBook(){
         );
     };
 
+    const genreChange = (e, isbn) => {
+        const genreNo = e.target.value;
+        setAddedList((prev) =>
+            prev.map((book) =>
+                book.isbn === isbn ? { ...book, genreNo } : book
+            )
+        );
+        console.log('추가된 목록 ', addedList);
+    }
+
 
     return(
         <div className="search-book-container">
@@ -112,7 +144,7 @@ function RegistSearchBook(){
                                 value={query}
                                 placeholder="검색어를 입력해주세요." 
                                 onChange={(e) => setQuery(e.target.value)}
-                                onKeyPress={(e) => searchClick(e)}
+                                onKeyDown={(e) => e.key === 'Enter' && searchClick(e)}
                             />
                             <button type="button" onClick={searchClick}>
                                 <i className="bi bi-search"></i>
@@ -129,7 +161,11 @@ function RegistSearchBook(){
                             </div>
                             <div className="search-list">
                                 {searchTerm ?(
-                                    searchList.length > 0 ? (
+                                loading ? (
+                                    <div className="loading-indicator">
+                                        <p>Loading...</p>
+                                    </div>
+                                ) : searchList.length > 0 ? (
                                         searchList.map((list) => (
                                             <div className={cantSelect.includes(list.isbn) ? "search-book activated" : "search-book"}
                                                 key={list.isbn}
@@ -168,13 +204,18 @@ function RegistSearchBook(){
                                 <div className="book-of-list" key={item.isbn}>
                                     <p>{index+1}</p>
                                     <p>{item.title}</p>
-                                    <select>
-                                        <option value="" hidden>장르</option>
-                                        <option>소설</option>
-                                        <option>스릴러</option>
-                                        <option>동화</option>
-                                        <option>에세이</option>
-                                    </select>
+                                    {genre.length > 0 ? (
+                                        <select onChange={(e)=> genreChange(e, item.isbn)}>
+                                            <option value="" disabled selected>장르</option>
+                                            {genre.map((genreItem, genreIndex) => (
+                                                <option key={genreIndex} value={genreItem.genreNo}>{genreItem.genreName}</option>
+                                            ))}
+                                        </select>
+                                    ):(
+                                        <select>
+                                            <option value="" hidden>없음</option>
+                                        </select>
+                                    )}
                                     <button type="button" onClick={()=>deleteListBook(item.isbn)}>삭제</button>
                                 </div>
                             ))

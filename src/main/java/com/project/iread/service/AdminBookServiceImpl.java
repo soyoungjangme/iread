@@ -37,18 +37,21 @@ public class AdminBookServiceImpl implements AdminBookService{
 
     @Override
     @Transactional
-    public void registGenre(List<String> newGenre) {
+    public void registGenre(List<GenreDTO> newGenre) {
         // 기존에 등록된 장르 가져오기
-        List<String> existingGenres = adminBookMapper.getGenre();
+        List<GenreDTO> existingGenres = adminBookMapper.getGenre();
 
-        // 새 장르 중에서 기존에 없는 장르만 필터링
-        List<String> genresToAdd = newGenre.stream()
-                .filter(genre -> !existingGenres.contains(genre))
+
+        // 새 장르 중에서 기존에 없는 장르만 필터링 (genreName 기준)
+        List<GenreDTO> genresToAdd = newGenre.stream()
+                .filter(newItem -> existingGenres.stream()
+                        .noneMatch(existingItem -> existingItem.getGenreName().equals(newItem.getGenreName())))
                 .toList();
 
-        // 기존에 있는 장르 중, 새 장르에 없는 것들만 필터링 (삭제할 장르)
-        List<String> genresToDelete = existingGenres.stream()
-                .filter(genre -> !newGenre.contains(genre))
+        // 기존 장르 중, 새 장르에 없는 것들만 필터링 (genreName 기준, 삭제할 장르)
+        List<GenreDTO> genresToDelete = existingGenres.stream()
+                .filter(existingItem -> newGenre.stream()
+                        .noneMatch(newItem -> newItem.getGenreName().equals(existingItem.getGenreName())))
                 .toList();
 
         // 새로운 장르 등록
@@ -62,9 +65,13 @@ public class AdminBookServiceImpl implements AdminBookService{
         }
     }
 
+    @Override
+    public List<GenreDTO> getGenre() {
+        return adminBookMapper.getGenre();
+    }
 
     @Override
-    public List<String> getGenre() {
-        return adminBookMapper.getGenre();
+    public boolean deleteBook(Long bookNo) {
+        return adminBookMapper.deleteBook(bookNo);
     }
 }

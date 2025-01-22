@@ -119,9 +119,25 @@ public class AdminBookController {
         }
     }
 
+    //도서목록_삭제
+    @DeleteMapping("/deleteBook")
+    public ResponseEntity<String> deleteBook(@RequestParam("bookNo") Long bookNo){
+        try{
+            boolean success = adminBookService.deleteBook(bookNo);
+            if(success){
+                return ResponseEntity.ok("삭제되었습니다.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당도서를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("도서삭제 중 오류 발생" + e.getMessage());
+        }
+    }
+
     //장르등록
     @PostMapping("/registGenre")
-    public ResponseEntity<String> registGenre(@RequestBody List<String> newGenre){
+    public ResponseEntity<String> registGenre(@RequestBody List<GenreDTO> newGenre){
         try{
             adminBookService.registGenre(newGenre);
             return ResponseEntity.ok("성공적으로 등록되었습니다.");
@@ -133,9 +149,9 @@ public class AdminBookController {
 
     //기존장르 호출
     @GetMapping("/getGenre")
-    public ResponseEntity<List<String>> getGenre(){
+    public ResponseEntity<List<GenreDTO>> getGenre(){
         try{
-            List<String> genreList = adminBookService.getGenre();
+            List<GenreDTO> genreList = adminBookService.getGenre();
             return ResponseEntity.ok(genreList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

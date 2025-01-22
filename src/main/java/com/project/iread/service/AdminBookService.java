@@ -11,7 +11,8 @@ public interface AdminBookService {
     void registBook(BookDTO bookDTO); //api 도서등록
     List<BookDTO> getAllBook();
     List<BookDTO> getSearchBook(String keyword);
-    void registGenre(List<String> newGenre);
-    List<String> getGenre();
+    void registGenre(List<GenreDTO> newGenre);
+    List<GenreDTO> getGenre();
+    boolean deleteBook(Long bookNo);
 
 }

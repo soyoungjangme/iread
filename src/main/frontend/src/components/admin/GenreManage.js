@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../../css/admin/GenreManage.css';
 
 function GenreManage(){
     const inputRef = useRef(null);
+    const navigate = useNavigate();
 
     const [inputGenre, setInputGenre] = useState(''); // 장르입력
     const [genreList, setGenreList] = useState([]); // 보기용 (기존장르 + new장르)
@@ -13,7 +15,7 @@ function GenreManage(){
             try{
                 const resp = await axios.get('/api/adminBook/getGenre');
                 console.log('기존장르 ', resp.data);
-                setGenreList(resp.data);
+                setGenreList(resp.data.map(genre => ({genreName: genre.genreName})));
             }catch (error){
                 console.log('기존 장르 호출 중 에러 ', error);
             }
@@ -23,15 +25,21 @@ function GenreManage(){
 
     // list에 장르추가
     const addGenre = () => {
-        if(genreList.includes(inputGenre)){
+
+        // 중복 체크 (장르명만 비교)
+        if (genreList.some(genre => genre.genreName === inputGenre)) {
             alert('이미 등록되어있습니다.');
-            inputRef.current.focus(); // input 포커스
+            inputRef.current.focus();
+            return;
+        }
+        if (!inputGenre || inputGenre.trim() === "") {
+            inputRef.current.focus();
             return;
         }
 
         setGenreList((prev) => [
             ...prev,
-            inputGenre
+            {genreName: inputGenre}
         ]);
         setInputGenre(''); //input 초기화
         inputRef.current.focus(); // input 포커스
@@ -47,6 +55,10 @@ function GenreManage(){
             console.log('장르등록 중 오류 ', error);
         }
     }
+
+    const handleCancel = () => {
+        navigate(-1); // 이전 화면으로 이동
+    };
 
     //삭제
     const deleteGenre = (indexToDelete) => {
@@ -72,8 +84,8 @@ function GenreManage(){
                 <div className="list-group">
                     {genreList.length > 0 ? (
                         genreList.map((genre,index) => (
-                            <div className="genre-list">
-                                <p>{genre}</p>
+                            <div className="genre-list" key={index}>
+                                <p>{genre.genreName}</p>
                                 <button type="button" onClick={()=>deleteGenre(index)}>삭제</button>
                             </div>
                         ))
@@ -86,7 +98,7 @@ function GenreManage(){
             </div>
             <div className="end-btn-group">
                 <button type="button" className="complete-btn" onClick={registGenre}>완료</button>
-                <button type="button" className="cancle-btn">취소</button>
+                <button type="button" className="cancle-btn" onClick={handleCancel}>취소</button>
             </div>
         </div>
     );

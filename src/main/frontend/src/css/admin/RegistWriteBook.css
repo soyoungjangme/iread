@@ -93,6 +93,11 @@ gap: 10px; */
     overflow-y: auto;
 }
 
+.input-group select {
+    grid-column: span 4;
+    padding: 3px;
+}
+
 .descript {
     margin: 0;
 }

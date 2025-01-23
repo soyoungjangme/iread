@@ -1,25 +1,43 @@
 import React, { useEffect, useState }  from 'react';
+import ReactPaginate from 'react-paginate';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/admin/BookList.css';
 
 function BookList(){
-    const [bookList, setBookList] = useState([]);
+    const [searching, setSearching] = useState(false); //검색여부
+    const [bookList, setBookList] = useState([]); //도서전체목록
+
+    //pagination
+    const [pageCount, setPageCount] = useState(0); //전체 페이지수
+    const [currentPage, setCurrentPage] = useState(0); //현재 페이지번호
+
+    const bookPerPage = 10; //페이지당 도서 개수
 
 
 
     useEffect(() => {
         getBooks();
-    },[]);
+    },[currentPage]);
 
     //목록호출
     const getBooks = async() => {
         try{
-            const resp = await axios.get('/api/adminBook/getAllBook');
-            setBookList(resp.data);
+            const resp = await axios.get('/api/adminBook/getAllBook',{
+                params: {
+                    page : currentPage+1,
+                    pageSize : bookPerPage
+                }
+            });
+            setBookList(resp.data.books);
+            setPageCount(Math.ceil(resp.data.totalCount/bookPerPage));
         }catch(error){
             console.log('도서목록 호출 중 error, ', error);
         }
+    }
+
+    const handlePageClick = (e) => {
+        setCurrentPage(e.selected);
     }
 
     //검색
@@ -40,26 +58,23 @@ function BookList(){
                 params: {keyword}
             });
             setBookList(resp.data);
+            setSearching(true);
         }catch (error){
             console.log("검색결과 호출 중 error ", error);
         }
     }
 
     //삭제
-
     const deleteBook = async (bookNoToDelete) => {
         if(!window.confirm('삭제하시겠습니까?')){
             return;
         }
-
         try {
-            console.log(bookNoToDelete);
-
             // 쿼리 파라미터를 통해 bookNo 전달
             const resp = await axios.delete(`/api/adminBook/deleteBook?bookNo=${bookNoToDelete}`);
 
             alert(resp.data || "삭제가 완료되었습니다.");
-            getBooks();
+            setBookList((prev)=> prev.filter((book)=>book.bookNo !== bookNoToDelete)); //삭제한 도서 필터링
         } catch (error) {
             console.error("삭제 중 오류 발생:", error);
             alert("삭제 중 오류가 발생했습니다.");
@@ -95,9 +110,9 @@ function BookList(){
 
                 {bookList.length > 0 ? (
                     bookList.map((list, index)=>(
-                        <div className="book-box">
+                        <div className="book-box" key={index}>
                             <div className="book-title">
-                                <div className="book-no">{index + 1}</div>
+                                <div className="book-no">{currentPage*bookPerPage + index + 1}</div>
                                     <p>{list.title}</p>
                                 </div>
                                 <div className="info">
@@ -134,6 +149,18 @@ function BookList(){
                     </div>
                 )}
             </div>
+            {/* React Paginate 컴포넌트 */}
+            <ReactPaginate
+                previousLabel={"이전"} // 이전 버튼 텍스트
+                nextLabel={"다음"} // 다음 버튼 텍스트
+                breakLabel={"..."} // 페이지 사이 구분자
+                pageCount={pageCount} // 전체 페이지 수
+                marginPagesDisplayed={1} // 처음과 끝에 보여질 페이지 수
+                pageRangeDisplayed={5} // 현재 페이지 주변에 보여질 페이지 수
+                onPageChange={handlePageClick} // 페이지 클릭 이벤트
+                containerClassName={"pagination"} // 페이지네이션 컨테이너 클래스
+                activeClassName={"active"} // 활성화된 페이지 클래스
+            />
         </div>
     );
 }

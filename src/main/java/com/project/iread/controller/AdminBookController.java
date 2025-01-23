@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,15 +95,28 @@ public class AdminBookController {
     }
 
     //도서목록 호출
+//    @GetMapping("/getAllBook")
+//    public ResponseEntity<List<BookDTO>> getAllBooks(){
+//        try{
+//            List<BookDTO> bookList = adminBookService.getAllBook();
+//            return ResponseEntity.ok(bookList);
+//        } catch (Exception e) {
+//            System.err.println("도서목록 호출 중 오류: " + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
+//        }
+//    }
+
     @GetMapping("/getAllBook")
-    public ResponseEntity<List<BookDTO>> getAllBooks(){
-        try{
-            List<BookDTO> bookList = adminBookService.getAllBook();
-            return ResponseEntity.ok(bookList);
-        } catch (Exception e) {
-            System.err.println("도서목록 호출 중 오류: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
-        }
+    public Map<String, Object> getAllBooks(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        int offset = (page -1) * pageSize;
+        List<BookDTO> bookList = adminBookService.getAllBook(offset, pageSize);
+        Long totalCount = adminBookService.totalCount();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("books", bookList);
+        response.put("totalCount", totalCount);
+
+        return response;
     }
 
     //도서목록_검색결과
@@ -110,28 +124,18 @@ public class AdminBookController {
     public ResponseEntity<List<BookDTO>> getSearchResult(@RequestParam("keyword") String keyword){
         System.out.println("keyword " + keyword);
 
-        try {
-            List<BookDTO> searchResult = adminBookService.getSearchBook(keyword);
-            System.out.println("검색결과 " + searchResult);
-            return ResponseEntity.ok(searchResult);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
-        }
+        List<BookDTO> searchResult = adminBookService.getSearchBook(keyword);
+        return ResponseEntity.ok(searchResult);
     }
 
     //도서목록_삭제
     @DeleteMapping("/deleteBook")
     public ResponseEntity<String> deleteBook(@RequestParam("bookNo") Long bookNo){
-        try{
-            boolean success = adminBookService.deleteBook(bookNo);
-            if(success){
-                return ResponseEntity.ok("삭제되었습니다.");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당도서를 찾을 수 없습니다.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("도서삭제 중 오류 발생" + e.getMessage());
+        boolean success = adminBookService.deleteBook(bookNo);
+        if(success){
+            return ResponseEntity.ok("삭제되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당도서를 찾을 수 없습니다.");
         }
     }
 
@@ -150,11 +154,7 @@ public class AdminBookController {
     //기존장르 호출
     @GetMapping("/getGenre")
     public ResponseEntity<List<GenreDTO>> getGenre(){
-        try{
-            List<GenreDTO> genreList = adminBookService.getGenre();
-            return ResponseEntity.ok(genreList);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        List<GenreDTO> genreList = adminBookService.getGenre();
+        return ResponseEntity.ok(genreList);
     }
 }

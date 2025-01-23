@@ -163,7 +163,7 @@ function RegistSearchBook(){
                                 {searchTerm ?(
                                 loading ? (
                                     <div className="loading-indicator">
-                                        <p>Loading...</p>
+                                        <p style={{width: "100%"}}>Loading...</p>
                                     </div>
                                 ) : searchList.length > 0 ? (
                                         searchList.map((list) => (

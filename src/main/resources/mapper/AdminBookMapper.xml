@@ -34,10 +34,17 @@
             #{genreNo})
 
     </insert>
+    
+<!--  모든 도서 개수 호출  -->
+    <select id="totalCount" resultType="long">
+        select count(*)
+        from books
+    </select>
 
 <!--  모든 도서 목록 호출  -->
     <select id="getAllBook" resultType="com.project.iread.dto.BookDTO">
         select * from books
+        limit #{pageSize} offset #{offset}
     </select>
 
 <!--  도서목록_검색호출  -->

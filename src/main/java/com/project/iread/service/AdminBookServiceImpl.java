@@ -26,8 +26,13 @@ public class AdminBookServiceImpl implements AdminBookService{
     }
 
     @Override
-    public List<BookDTO> getAllBook() {
-        return adminBookMapper.getAllBook();
+    public Long totalCount() {
+        return adminBookMapper.totalCount();
+    }
+
+    @Override
+    public List<BookDTO> getAllBook(int offset, int pageSize) {
+        return adminBookMapper.getAllBook(offset,pageSize);
     }
 
     @Override

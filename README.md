@@ -34,3 +34,6 @@ iread _ 나는 읽는다
 
 ##### 1/21 : 장르 리스트 관리
 🔗[블로그](https://soyoungjang.tistory.com/41)
+
+##### 1/23 : 페이징
+🔗[블로그](https://soyoungjang.tistory.com/46)

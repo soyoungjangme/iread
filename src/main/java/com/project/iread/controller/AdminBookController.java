@@ -94,23 +94,14 @@ public class AdminBookController {
         return result;
     }
 
-    //도서목록 호출
-//    @GetMapping("/getAllBook")
-//    public ResponseEntity<List<BookDTO>> getAllBooks(){
-//        try{
-//            List<BookDTO> bookList = adminBookService.getAllBook();
-//            return ResponseEntity.ok(bookList);
-//        } catch (Exception e) {
-//            System.err.println("도서목록 호출 중 오류: " + e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 500 오류 반환
-//        }
-//    }
-
+    //도서목록_전체
     @GetMapping("/getAllBook")
-    public Map<String, Object> getAllBooks(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+    public Map<String, Object> getAllBooks(@RequestParam("page") int page,
+                                           @RequestParam("pageSize") int pageSize){
         int offset = (page -1) * pageSize;
         List<BookDTO> bookList = adminBookService.getAllBook(offset, pageSize);
         Long totalCount = adminBookService.totalCount();
+        System.out.println("totalCount " + totalCount);
 
         Map<String, Object> response = new HashMap<>();
         response.put("books", bookList);
@@ -121,11 +112,19 @@ public class AdminBookController {
 
     //도서목록_검색결과
     @GetMapping("/searchResult")
-    public ResponseEntity<List<BookDTO>> getSearchResult(@RequestParam("keyword") String keyword){
-        System.out.println("keyword " + keyword);
+    public Map<String, Object> getSearchResult(@RequestParam("keyword") String keyword,
+                                                 @RequestParam("page") int page,
+                                                 @RequestParam("pageSize") int pageSize){
+        int offset = (page-1) * pageSize;
+        List<BookDTO> searchResult = adminBookService.getSearchBook(keyword, offset, pageSize);
+        Long totalCount = adminBookService.searchTotalCount(keyword);
+        System.out.println("totalCount2 " + totalCount);
 
-        List<BookDTO> searchResult = adminBookService.getSearchBook(keyword);
-        return ResponseEntity.ok(searchResult);
+        Map<String, Object> response = new HashMap<>();
+        response.put("books", searchResult);
+        response.put("totalCount", totalCount);
+
+        return response;
     }
 
     //도서목록_삭제

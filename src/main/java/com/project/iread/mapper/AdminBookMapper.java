@@ -13,8 +13,9 @@ public interface AdminBookMapper {
     List<String> getIsbn();
     void registBook(BookDTO bookDTO);
     Long totalCount();
+    Long searchTotalCount(String keyword);
     List<BookDTO> getAllBook(@Param("offset") int offset, @Param("pageSize") int pageSize);
-    List<BookDTO> getSearchBook(String keyword);
+    List<BookDTO> getSearchBook(@Param("keyword") String keyword, @Param("offset") int offset, @Param("pageSize") int pageSize);
     void registGenre(List<GenreDTO> newGenre);
     void deleteGenre(List<GenreDTO> newGenre);
     List<GenreDTO> getGenre();

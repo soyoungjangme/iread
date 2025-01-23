@@ -10,8 +10,9 @@ public interface AdminBookService {
     List<String> getIsbn();
     void registBook(BookDTO bookDTO); //api 도서등록
     Long totalCount();
+    Long searchTotalCount(String keyword);
     List<BookDTO> getAllBook(int offset, int pageSize);
-    List<BookDTO> getSearchBook(String keyword);
+    List<BookDTO> getSearchBook(String keyword, int offset, int pageSize);
     void registGenre(List<GenreDTO> newGenre);
     List<GenreDTO> getGenre();
     boolean deleteBook(Long bookNo);

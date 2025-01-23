@@ -42,17 +42,47 @@
     </select>
 
 <!--  모든 도서 목록 호출  -->
-    <select id="getAllBook" resultType="com.project.iread.dto.BookDTO">
-        select * from books
+    <select id="getAllBook" resultMap="booksMap">
+        select b.*, g.genre_name
+        from books b
+        left join genres g on g.genre_no = b.genre_no
         limit #{pageSize} offset #{offset}
     </select>
 
-<!--  도서목록_검색호출  -->
-    <select id="getSearchBook" parameterType="string" resultType="com.project.iread.dto.BookDTO">
-        select * from books b
+    <resultMap id="booksMap" type="com.project.iread.dto.BookDTO">
+        <id property="bookNo" column="book_no"/>
+        <result property="isbn" column="isbn"/>
+        <result property="title" column="title"/>
+        <result property="link" column="link"/>
+        <result property="image" column="image"/>
+        <result property="author" column="author"/>
+        <result property="discount" column="discount"/>
+        <result property="publisher" column="publisher"/>
+        <result property="pubdate" column="pubdate"/>
+        <result property="description" column="description"/>
+        <result property="bookLike" column="bookLike"/>
+        <result property="bookActivated" column="bookActivated"/>
+        <result property="genreNo" column="genreNo"/>
+        <result property="genreName" column="genre_name"/>
+    </resultMap>
+
+
+<!--  검색 도서 개수 호출  -->
+    <select id="searchTotalCount" parameterType="string" resultType="long">
+        select count(*) from books b
         where b.title like concat ('%', #{keyword}, '%')
         or b.author like concat ('%', #{keyword}, '%')
         or b.publisher like concat ('%', #{keyword}, '%')
+    </select>
+
+<!--  도서목록_검색호출  -->
+    <select id="getSearchBook" parameterType="map" resultMap="booksMap">
+        select b.*, g.genre_name from books b
+        left join genres g on g.genre_no = b.genre_no
+        where b.title like concat ('%', #{keyword}, '%')
+        or b.author like concat ('%', #{keyword}, '%')
+        or b.publisher like concat ('%', #{keyword}, '%')
+        limit #{pageSize} offset #{offset}
     </select>
 
 <!--  도서목록_삭제  -->

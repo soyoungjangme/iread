@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/admin/BookList.css';
 
 function BookList(){
+    const [keyword, setKeyword] = useState(''); //검색어
     const [searching, setSearching] = useState(false); //검색여부
     const [bookList, setBookList] = useState([]); //도서전체목록
 
@@ -17,8 +18,17 @@ function BookList(){
 
 
     useEffect(() => {
-        getBooks();
+        scrollTop();
+        if(searching){
+            searchKeyword();
+        }else{
+            getBooks();
+        }
     },[currentPage]);
+
+    const scrollTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     //목록호출
     const getBooks = async() => {
@@ -42,23 +52,25 @@ function BookList(){
 
     //검색
     const searchKeyword = async(e) => {
-        const keyword = e.target.value.trim();
         console.log("검색어: ", keyword);
 
-        if (e.type === "keypress" && e.key !== "Enter") {
-            return;
-        }
         if(!keyword){
             alert('검색어를 입력해주세요.');
             return;
         }
+        setSearching(true);
 
         try{
             const resp = await axios.get('/api/adminBook/searchResult',{
-                params: {keyword}
+                params: {
+                    page : currentPage+1,
+                    pageSize : bookPerPage,
+                    keyword
+                }
             });
-            setBookList(resp.data);
-            setSearching(true);
+
+            setBookList(resp.data.books);
+            setPageCount(Math.ceil(resp.data.totalCount/bookPerPage));
         }catch (error){
             console.log("검색결과 호출 중 error ", error);
         }
@@ -87,8 +99,10 @@ function BookList(){
                 <p><i className="bi bi-search"></i></p>
                 <div className="search-box">
                     <input type="text"
-                        onKeyPress={(e) => searchKeyword(e)}
-                        placeholder="도서명, 작가명, 장르"
+                        value={keyword}
+                        onChange={(e)=>setKeyword(e.target.value.trim())}
+                        onKeyDown={(e) => e.key === 'Enter' && searchKeyword(e) && setCurrentPage(0)}
+                        placeholder="도서명, 저자, 장르, 출판사"
                     />
                 </div>
             </div>
@@ -112,25 +126,27 @@ function BookList(){
                     bookList.map((list, index)=>(
                         <div className="book-box" key={index}>
                             <div className="book-title">
-                                <div className="book-no">{currentPage*bookPerPage + index + 1}</div>
-                                    <p>{list.title}</p>
+                                <div className="book-no">{currentPage*bookPerPage + index + 1} | </div>
+                                <p>{list.title}</p>
+                            </div>
+                            <div className="info">
+                                <div className="book-img">
+                                    <img src={list.image} alt="이미지"/>
                                 </div>
-                                <div className="info">
-                                    <div className="book-img">
-                                        <img src={list.image} alt="이미지"/>
-                                    </div>
                                 <div className="book-info">
 
-                                <div className="info-title">
-                                    <p>작가명 </p>
-                                    <p>장르 </p>
-                                    <p>출간일 </p>
-                                </div>
-                                <div className="info-cont">
-                                    <p>{list.author}</p>
-                                    <p>소설</p>
-                                    <p>{list.pubdate}</p>
-                                </div>
+                                    <div className="info-title">
+                                        <p>저자 </p>
+                                        <p>장르 </p>
+                                        <p>출간일 </p>
+                                        <p>출판사 </p>
+                                    </div>
+                                    <div className="info-cont">
+                                        <p>{list.author}</p>
+                                        <p>{list.genreName}</p>
+                                        <p>{list.pubdate}</p>
+                                        <p>{list.publisher}</p>
+                                    </div>
                                 </div>
                                 <div className="book-review-cnt">
                                     <p>리뷰(231)</p>
@@ -160,6 +176,7 @@ function BookList(){
                 onPageChange={handlePageClick} // 페이지 클릭 이벤트
                 containerClassName={"pagination"} // 페이지네이션 컨테이너 클래스
                 activeClassName={"active"} // 활성화된 페이지 클래스
+                forcePage={pageCount > 0 ? currentPage : undefined} // 현재 페이지를 강제로 지정
             />
         </div>
     );

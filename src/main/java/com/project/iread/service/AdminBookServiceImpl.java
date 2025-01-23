@@ -31,13 +31,18 @@ public class AdminBookServiceImpl implements AdminBookService{
     }
 
     @Override
+    public Long searchTotalCount(String keyword) {
+        return adminBookMapper.searchTotalCount(keyword);
+    }
+
+    @Override
     public List<BookDTO> getAllBook(int offset, int pageSize) {
         return adminBookMapper.getAllBook(offset,pageSize);
     }
 
     @Override
-    public List<BookDTO> getSearchBook(String keyword) {
-        return adminBookMapper.getSearchBook(keyword);
+    public List<BookDTO> getSearchBook(String keyword, int offset, int pageSize) {
+        return adminBookMapper.getSearchBook(keyword, offset, pageSize);
     }
 
     @Override

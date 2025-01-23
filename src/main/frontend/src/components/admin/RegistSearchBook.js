@@ -46,9 +46,6 @@ function RegistSearchBook(){
     // 검색버튼
     const searchClick = async(e) => {
 
-//        if (e.type === "keypress" && e.key !== "Enter") {
-//            return;
-//        }
         if (!query.trim()) {
             alert("검색어를 입력하세요.");
             return;
@@ -162,7 +159,7 @@ function RegistSearchBook(){
                             <div className="search-list">
                                 {searchTerm ?(
                                 loading ? (
-                                    <div className="loading-indicator">
+                                    <div className="search-book">
                                         <p style={{width: "100%"}}>Loading...</p>
                                     </div>
                                 ) : searchList.length > 0 ? (

@@ -107,6 +107,9 @@ function BookList(){
                 </div>
             </div>
             <div className="book-regist">
+                <div className="list-cnt">
+                    <p>총 {bookList?.length || 0}개</p>
+                </div>
                 <button type="button">도서등록</button>
                 <div className="regist-way-container">
                     <div className="regist-way-box">

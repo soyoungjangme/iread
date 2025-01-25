@@ -48,8 +48,15 @@ width: 1000px; */
     width: 78%;
     margin: auto;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     position: relative;
+}
+
+.list-cnt {
+    display: flex;
+    align-items: center;
+    font-size: small;
+    margin-left: 10px;
 }
 
 .book-regist > button {

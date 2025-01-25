@@ -51,7 +51,6 @@ public class AdminBookServiceImpl implements AdminBookService{
         // 기존에 등록된 장르 가져오기
         List<GenreDTO> existingGenres = adminBookMapper.getGenre();
 
-
         // 새 장르 중에서 기존에 없는 장르만 필터링 (genreName 기준)
         List<GenreDTO> genresToAdd = newGenre.stream()
                 .filter(newItem -> existingGenres.stream()
@@ -69,8 +68,19 @@ public class AdminBookServiceImpl implements AdminBookService{
             adminBookMapper.registGenre(genresToAdd);
         }
 
+//        // 기존 장르 삭제
+//        if (!genresToDelete.isEmpty()) {
+//            adminBookMapper.deleteGenre(genresToDelete);
+//        }
         // 기존 장르 삭제
         if (!genresToDelete.isEmpty()) {
+            for (GenreDTO genre : genresToDelete) {
+                // 해당 장르에 등록된 도서가 있는지 확인
+                int bookCount = adminBookMapper.countBooksByGenreName(genre.getGenreName());
+                if (bookCount > 0) {
+                    throw new RuntimeException("해당 장르에 등록된 도서가 존재합니다. 삭제할 수 없습니다.");
+                }
+            }
             adminBookMapper.deleteGenre(genresToDelete);
         }
     }

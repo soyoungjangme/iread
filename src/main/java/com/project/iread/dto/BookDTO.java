@@ -3,6 +3,7 @@ package com.project.iread.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +25,7 @@ public class BookDTO {
     private Long bookLike; //default 0
     private String bookActivated; //default 'Y'
     private Long genreNo;
+    private LocalDateTime regDate; // current_timestamp
 
     private String genreName;
 }

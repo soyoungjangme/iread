@@ -51,8 +51,15 @@ function GenreManage(){
         try{
             const resp = await axios.post('/api/adminBook/registGenre',genreList);
             alert(resp.data);
+            window.location.reload();
         }catch(error){
-            console.log('장르등록 중 오류 ', error);
+            if(error.response){
+                console.error("Error status:", error.response.status);
+                alert(error.response.data);
+                window.location.reload();
+            }else {
+                console.error("Error message:", error.message);
+            }
         }
     }
 

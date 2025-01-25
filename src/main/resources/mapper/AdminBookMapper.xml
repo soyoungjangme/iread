@@ -39,6 +39,7 @@
     <select id="totalCount" resultType="long">
         select count(*)
         from books
+        where book_activated = 'Y'
     </select>
 
 <!--  모든 도서 목록 호출  -->
@@ -46,6 +47,7 @@
         select b.*, g.genre_name
         from books b
         left join genres g on g.genre_no = b.genre_no
+        where b.book_activated = 'Y'
         limit #{pageSize} offset #{offset}
     </select>
 
@@ -60,9 +62,9 @@
         <result property="publisher" column="publisher"/>
         <result property="pubdate" column="pubdate"/>
         <result property="description" column="description"/>
-        <result property="bookLike" column="bookLike"/>
-        <result property="bookActivated" column="bookActivated"/>
-        <result property="genreNo" column="genreNo"/>
+        <result property="bookLike" column="book_like"/>
+        <result property="bookActivated" column="book_activated"/>
+        <result property="genreNo" column="genre_no"/>
         <result property="genreName" column="genre_name"/>
     </resultMap>
 
@@ -70,18 +72,20 @@
 <!--  검색 도서 개수 호출  -->
     <select id="searchTotalCount" parameterType="string" resultType="long">
         select count(*) from books b
-        where b.title like concat ('%', #{keyword}, '%')
+        where (b.title like concat ('%', #{keyword}, '%')
         or b.author like concat ('%', #{keyword}, '%')
-        or b.publisher like concat ('%', #{keyword}, '%')
+        or b.publisher like concat ('%', #{keyword}, '%'))
+        and b.book_activated = 'Y'
     </select>
 
 <!--  도서목록_검색호출  -->
     <select id="getSearchBook" parameterType="map" resultMap="booksMap">
         select b.*, g.genre_name from books b
         left join genres g on g.genre_no = b.genre_no
-        where b.title like concat ('%', #{keyword}, '%')
+        where (b.title like concat ('%', #{keyword}, '%')
         or b.author like concat ('%', #{keyword}, '%')
-        or b.publisher like concat ('%', #{keyword}, '%')
+        or b.publisher like concat ('%', #{keyword}, '%'))
+        and b.book_activated = 'Y'
         limit #{pageSize} offset #{offset}
     </select>
 
@@ -113,6 +117,15 @@
     <select id="getGenre" resultType="com.project.iread.dto.GenreDTO">
         select *
         from genres
+    </select>
+
+<!--  삭제하려는 장르 중 등록된 도서가 있는지  -->
+    <select id="countBooksByGenreName" parameterType="string" resultType="int">
+        select count(*) from books
+        where genre_no = (
+            select genre_no from genres
+            where genre_name = #{genreName}
+        )
     </select>
 
 </mapper>

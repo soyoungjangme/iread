@@ -20,4 +20,5 @@ public interface AdminBookMapper {
     void deleteGenre(List<GenreDTO> newGenre);
     List<GenreDTO> getGenre();
     boolean deleteBook(Long bookNo);
+    int countBooksByGenreName(String genreName);
 }

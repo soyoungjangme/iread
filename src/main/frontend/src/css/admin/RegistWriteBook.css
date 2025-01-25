@@ -67,7 +67,7 @@ gap: 10px; */
     grid-row: span 5;
 }
 
-.img-regist button {
+/*.img-regist button {
     font-size: small;
     margin-bottom: 10px;
     background-color: #76886f38;
@@ -80,10 +80,15 @@ gap: 10px; */
 .img-regist button:hover {
     background-color: #76886fcb;
     color: white;
+}*/
+
+.img-box {
+    margin-top: 10px;
 }
 
 .img-box img {
     height: 200px;
+    border: 1px solid #666;
 }
 
 .input-group textarea {

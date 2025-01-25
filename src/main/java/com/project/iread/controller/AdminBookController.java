@@ -144,9 +144,12 @@ public class AdminBookController {
         try{
             adminBookService.registGenre(newGenre);
             return ResponseEntity.ok("성공적으로 등록되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());  // "해당 장르에 등록된 도서가 존재합니다." 메시지가 여기에 들어갑니다.
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("장르등록 중 오류 발생" + e.getMessage());
+                    .body("장르등록 중 오류 발생: " + e.getMessage());
         }
     }
 

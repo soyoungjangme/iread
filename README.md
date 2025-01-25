@@ -20,26 +20,30 @@ iread
 <br>
 
 ### 현황
-##### 1/14 : 개발환경구축(spring boot + react)
-🔗[블로그](https://soyoungjang.tistory.com/34)
+##### 1/14 : 개발환경구축
+🔗[spring boot + react](https://soyoungjang.tistory.com/34)
 
 ##### 1/15 : 레이아웃 설정
-🔗[블로그](https://soyoungjang.tistory.com/37)
+🔗[react router](https://soyoungjang.tistory.com/37)
 
 ##### 1/16 : 네이버 도서 검색 api 호출
-🔗[블로그](https://soyoungjang.tistory.com/38)
+🔗[네이버 검색 api](https://soyoungjang.tistory.com/38)
 
 ##### 1/17 : 도서등록(검색) 페이지 구현 + 서버전달
 
 ##### 1/18 : 도서등록기능 완료 + 유효성
-🔗[블로그](https://soyoungjang.tistory.com/40)
+🔗[등록 프로세스](https://soyoungjang.tistory.com/40)
 
 ##### 1/19 : 도서목록 페이지구현 + 서버호출 
 
 ##### 1/20 : 도서등록(직접)구현 + 도서목록 css수정 + 검색바 기능
 
 ##### 1/21 : 장르 리스트 관리
-🔗[블로그](https://soyoungjang.tistory.com/41)
+🔗[등록할 리스트 미리보기](https://soyoungjang.tistory.com/41)
 
 ##### 1/23 : 페이징
-🔗[블로그](https://soyoungjang.tistory.com/46)
+🔗[react-paginate](https://soyoungjang.tistory.com/46)
+
+##### 1/25 : 이미지 업로드 (cloudinary)
+🔗[base64](https://soyoungjang.tistory.com/50)
+🔗[cloudinary](https://soyoungjang.tistory.com/51)

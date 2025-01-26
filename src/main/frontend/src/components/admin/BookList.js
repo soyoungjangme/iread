@@ -94,18 +94,20 @@ function BookList(){
     };
 
     return(
+
         <div className="registed-book-list-container">
-            <div className="book-search">
-                <p><i className="bi bi-search"></i></p>
-                <div className="search-box">
-                    <input type="text"
-                        value={keyword}
-                        onChange={(e)=>setKeyword(e.target.value.trim())}
-                        onKeyDown={(e) => e.key === 'Enter' && searchKeyword(e) && setCurrentPage(0)}
-                        placeholder="도서명, 저자, 장르, 출판사"
-                    />
-                </div>
-            </div>
+
+    {/* <div className="search-box">
+    <input type="text"
+    onKeyPress={(e) => searchKeyword(e)}
+    placeholder="도서명, 작가명, 장르"
+    value={keyword}
+    onChange={(e)=>setKeyword(e.target.value.trim())}
+    onKeyDown={(e) => e.key === 'Enter' && searchKeyword(e) && setCurrentPage(0)}
+    placeholder="도서명, 저자, 장르, 출판사"
+    />
+    </div>*/}
+
             <div className="book-regist">
                 <div className="list-cnt">
                     <p>총 {bookList?.length || 0}개</p>
@@ -123,51 +125,48 @@ function BookList(){
                 </div>
             </div>
 
-            <div className="registed-book-list">
-
-                {bookList.length > 0 ? (
-                    bookList.map((list, index)=>(
-                        <div className="book-box" key={index}>
-                            <div className="book-title">
-                                <div className="book-no">{currentPage*bookPerPage + index + 1} | </div>
-                                <p>{list.title}</p>
+            {bookList.length > 0 ? (
+                bookList.map((list,index) => (
+                    <div className="book-list-container" key={index}>
+                        <div className="list-no">
+                            <p>{currentPage*bookPerPage + index + 1}</p>
+                        </div>
+                        <div className="book-img">
+                            <img src={list.image || "/null-img.png"} />
+                        </div>
+                        <div className="book-info">
+                            <div>
+                                <div className="info-title">
+                                    <p>{list.title}</p>
+                                </div>
+                                <div className="info-from">
+                                    <p>{list.genreName} | {list.author} | {list.publisher} | {list.pubdate}</p>
+                                </div>
                             </div>
-                            <div className="info">
-                                <div className="book-img">
-                                    <img src={list.image} alt="이미지"/>
+                            <div className="book-count">
+                                <div className="review-cnt">
+                                    <p>리뷰</p>
+                                    <p>201</p>
                                 </div>
-                                <div className="book-info">
-
-                                    <div className="info-title">
-                                        <p>저자 </p>
-                                        <p>장르 </p>
-                                        <p>출간일 </p>
-                                        <p>출판사 </p>
-                                    </div>
-                                    <div className="info-cont">
-                                        <p>{list.author}</p>
-                                        <p>{list.genreName}</p>
-                                        <p>{list.pubdate}</p>
-                                        <p>{list.publisher}</p>
-                                    </div>
-                                </div>
-                                <div className="book-review-cnt">
-                                    <p>리뷰(231)</p>
-                                </div>
-                                <div className="info-btn">
-                                    <button className="book-detail">상세보기</button>
-                                    <button className="book-modify">수정</button>
-                                    <button className="book-del" onClick={() => deleteBook(list.bookNo)}>삭제</button>
+                                <div className="like-cnt">
+                                    <p>관심</p>
+                                    <p>53</p>
                                 </div>
                             </div>
                         </div>
-                    ))
-                ):(
-                    <div className="book-box">
-                        <p style={{fontSize:"small"}}>등록된 도서가 존재하지 않습니다.</p>
+                        <div className="book-btn">
+                            <button className="book-detail">상세보기</button>
+                            <button className="book-del" onClick={() => deleteBook(list.bookNo)}>삭제</button>
+                        </div>
                     </div>
-                )}
-            </div>
+
+                ))
+            ):(
+                <div className="book-list-container no-book">
+                    <p style={{fontSize:"small"}}>등록된 도서가 존재하지 않습니다.</p>
+                </div>
+            )}
+
             {/* React Paginate 컴포넌트 */}
             <ReactPaginate
                 previousLabel={"이전"} // 이전 버튼 텍스트

@@ -1,79 +1,50 @@
 
 .registed-book-list-container{
-/* border: 1px solid black;
-width: 1000px; */
+/*    border: 1px solid black;*/
+/*    width: 1000px;*/
+/*    padding-top: 30px;*/
 }
 
 .registed-book-list-container p {
     margin: 0;
 }
 
-/* 도서검색창 */
-.book-search {
-/* border: 1px solid red; */
-    padding: 40px 0;
-    gap: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 75%;
-    margin: auto;
-}
-
-.book-search p {
-    background-color: #66785F;
-    padding: 7px 10px;
-    border-radius: 20px;
-}
-
-.book-search i {
-    color: white;
-}
-
-.search-box {
-    width: 70%;
-}
-
-.search-box > input {
-    border: 2px solid #66785F;
-    border-radius: 20px;
-    padding: 10px;
-    width: 100%;
-    /* display: flex; */
-    align-items: center;
-}
 
 /* 도서등록btn */
 .book-regist {
-    width: 78%;
-    margin: auto;
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+    width: 85%;
     position: relative;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #666;
 }
 
 .list-cnt {
     display: flex;
     align-items: center;
     font-size: small;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .book-regist > button {
-    font-size: small;
-    border: 1px solid #666;
-    color: #666;
     background-color: white;
+    border: none;
+    color: #66785F;
+    font-size: large;
+    font-weight: 600;
 }
 
 .regist-way-container {
     position: absolute;
-    top: 205%;
+    top: 90%;
     left: 100%;
     transform: translateY(-50%);
     padding: 10px;
     z-index: 10;
-    width: 90px; /* 드롭다운의 넓이를 조정 */
+    width: 150px; /* 드롭다운의 넓이를 조정 */
     display: none;
 }
 
@@ -107,92 +78,96 @@ width: 1000px; */
 
 
 /* 도서목록 */
-.registed-book-list {
+.book-list-container {
+    width: 83%;
+    padding: 20px 10px;
     display: flex;
-    flex-direction: column;
+    border-bottom: 1px solid #ddd;
 }
 
-.book-box {
-    padding: 10px;
-    text-align: center;
-    width: 76%;
-    margin: 5px auto;
-    font-size: small;
-    background-color: #66785f18;
-}
-
-.book-title {
+.list-no {
+    width: 5%;
+    /* border: 1px solid black; */
     display: flex;
-    gap: 10px;
-    padding: 5px 10px;
-    background-color: white;
-    border: 1px solid #66785f;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #66785f;
-}
-
-.info{
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
 }
 
 .book-img {
     width: 13%;
-     border-right: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* border: 1px solid black; */
 }
 
-.book-img img {
+.book-img img{
     width: 100%;
 }
 
 .book-info {
-    width: 40%;
-    display: flex;
-    gap: 10px;
-    border-right: 1px solid #ddd;
-    align-items: center;
-}
-
-.info-title {
-    text-align: right;
-}
-
-.info-cont {
-    text-align: left;
-}
-
-.book-review-cnt {
-    width: 20%;
-    border-right: 1px solid #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.info-btn {
+    width: 70%;
+    /* border: 1px solid black; */
+    padding: 5px 10px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    width: 20%;
+    justify-content: space-between;
+}
+
+.book-btn {
+    width: 12%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    font-size: small;
 }
 
-.info-btn button {
+/* book-info */
+.info-title {
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.info-from {
+    font-size: small;
+    color: #999;
+    display: flex;
+    gap: 10px;
+}
+
+.book-count {
+    display: flex;
+    gap: 10px;
+}
+
+.book-count > div {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 12%;
+    padding: 5px 0;
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-btn > button {
     all: unset;
-    font-size: x-small;
+    font-size: small;
+    cursor: pointer;
 }
 
-.info-btn button:active {
+.book-btn > button:active {
     font-weight: bold;
 }
 
-.info-btn button:nth-child(3) {
-    color: #ca1717
+.book-btn > button:nth-child(2) {
+    color: rgb(212, 34, 34);
+}
+
+.no-book {
+    display:flex;
+    justify-content:center;
 }
 
 /*페이지네이션*/
@@ -204,6 +179,7 @@ width: 1000px; */
     gap: 10px;
     font-size: small;
     margin: 30px 0 60px 0;
+    width: 85%;
 }
 
 .pagination li {

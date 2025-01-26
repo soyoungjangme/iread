@@ -48,6 +48,7 @@
         from books b
         left join genres g on g.genre_no = b.genre_no
         where b.book_activated = 'Y'
+        order by b.reg_date desc
         limit #{pageSize} offset #{offset}
     </select>
 
@@ -86,6 +87,7 @@
         or b.author like concat ('%', #{keyword}, '%')
         or b.publisher like concat ('%', #{keyword}, '%'))
         and b.book_activated = 'Y'
+        order by b.reg_date desc
         limit #{pageSize} offset #{offset}
     </select>
 

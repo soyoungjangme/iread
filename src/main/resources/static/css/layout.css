@@ -1,49 +1,95 @@
-body {
-    margin: 0;
-    padding: 0;
+p{ margin: 0;}
+
+/*.container {
+    display:flex;
+    justify-content: center;
 }
 
-.website-name {
-    margin-bottom: 20px;
-    height: 100px;
+.layout-container {
+    width: 80%;
+}*/
+
+/* 타이틀 */
+
+.layout-top-container {
+    margin: 30px 0;
+    display: flex;
+    gap: 40px;
     align-items: center;
+}
+
+.web-title {
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: 10px;
+    width: 15%;
+    display: flex;
     justify-content: center;
+    color: #66785F;
+}
+
+.search-bar {
+    width: 40%;
+    border: 3px solid #66785F;
+    border-radius: 20px;
+    padding: 5px 10px;
     display: flex;
 }
 
-.website-img p {
-    font-size: x-large;
+.search-bar > input {
+    width: 100%;
+    border: none;
+}
+
+.search-bar > i {
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+/* 상단메뉴 */
+.layout-bottom-container {
+    background-color: #66785F;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    height: 30px;
+}
+
+.top-menu {
+    width: 17%;
+}
+
+.top-menu > p {
+    color: white;
     font-weight: 600;
-    color: #91AC8E;
+    font-size: small;
+    text-align: center;
     margin: 0;
 }
 
+.top-menu > p:hover {
+    cursor: pointer;
+}
+
+/* main */
 .main-container {
     display: flex;
+    gap: 15px;
 }
 
-.side-left-container {
-/* border: 1px solid red; */
-/* width: 250px; */
-    width: 20%;
-    margin: 0 20px;
-
-}
-
-.side-profile-container {
-/* border: 1px solid blue; */
-}
-
+/* 유저정보 */
 .profile-box {
     border-radius: 15px;
     background-color: rgba(224, 224, 224, 0.25);
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    padding: 25px;
+    padding: 20px;
+    width: 15%;
+    height: 100%;
 }
 
 .username {
     font-weight: 600;
-    font-size: x-large;
+    font-size: large;
 }
 
 .username > span:nth-child(2) {
@@ -103,37 +149,9 @@ body {
     font-size: small;
 }
 
-.right-container {
-/* border: 1px solid red; */
-    width: 80%;
-    height: 100%;
-    margin-right: 20px;
-}
-
-.top-menu-box {
-    background-color: #66785F;
-    display: flex;
-    align-items: center;
-    /* margin-bottom: 20px; */
-    height: 30px;
-}
-
-.top-menu {
-    width: 17%;
-}
-
-.top-menu > p {
-    color: white;
-    font-weight: 600;
-    font-size: small;
-    text-align: center;
-    margin: 0;
-}
-
-.top-menu > p:hover {
-    cursor: pointer;
-}
-
-.root {
-    padding: 10px 0;
+/* root */
+#root {
+/*    border: 1px solid black;*/
+    width: 100%;
+    padding: 30px 0 0 30px;
 }

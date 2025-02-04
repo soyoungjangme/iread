@@ -1,27 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Main from './components/Main.js';
-import RegistSearchBook from './components/admin/RegistSearchBook.js';
-import RegistWriteBook from './components/admin/RegistWriteBook.js';
-import BookList from './components/admin/BookList.js';
-import GenreManage from './components/admin/GenreManage.js';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AdminRoutes from "./AppRoutes/AdminRoutes";
+import UserRoutes from "./AppRoutes/UserRoutes";
 
 function App() {
+    return (
+        <Router basename="/iread">
+            <Routes>
+                {/* 관리자 페이지 라우트 */}
+                {AdminRoutes()}
 
-  return (
-    <Router basename="/iread">
-      <Routes>
-        <Route path="/main" element={<Main />} />
-        <Route path="/admin/BookList" element={<BookList />} />
-        <Route path="/admin/RegistWriteBook" element={<RegistWriteBook />} />
-        <Route path="/admin/RegistSearchBook" element={<RegistSearchBook />} />
-        <Route path="/admin/GenreManage" element={<GenreManage />} />
-      </Routes>
-    </Router>
-);
+                {/* 유저 페이지 라우트 */}
+                {UserRoutes()}
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
-
-

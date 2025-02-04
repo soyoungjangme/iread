@@ -1,0 +1,126 @@
+p {margin:0;}
+
+.reading-manage-container {
+    padding: 10px;
+}
+
+.manage-top {
+    color: #949494;
+}
+
+.reading-info {
+    padding: 50px;
+}
+
+.reading {
+    margin-bottom: 30px;
+}
+
+.reading p {
+    font-size: small;
+    color: #949494;
+}
+
+.reading p:nth-child(1){
+    color: #666;
+    font-weight: bold;
+    font-size: medium;
+    margin-bottom: 10px;
+}
+
+.book-search {
+    display: flex;
+    gap: 10px;
+}
+
+.book-search button {
+    background-color: #666;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    color:white;
+    cursor: pointer;
+}
+
+.book-search input {
+    border: none;
+    border-bottom: 1px solid #666;
+    background-color: white;
+}
+
+.reading-count {
+    color: #949494;
+    font-weight: bold;
+    font-size: small;
+}
+
+.start-reading {
+    all: unset;
+    float: right;
+    color: #66785F;
+    padding: 5px 10px;
+    font-size: small;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.start-reading:hover {
+    background-color: #66785f50;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.start-reading-menu {
+    display: flex;
+    margin-top: 50px;
+    font-size: small;
+    border-bottom: 1px solid #bbbbbb;
+    color: #bbbbbb;
+}
+
+.menu-group {
+    border: 0.5px solid #bbbbbb;
+    border-bottom: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.active {
+    border: 0.5px solid #66785F;
+    background-color: #66785F;
+    color: white;
+}
+
+/* 챕터별기록 */
+.per-chapter-container {
+    margin: 50px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.per-chapter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.per-chapter-group p {
+    color: #666;
+    font-weight: bold;
+}
+
+.per-chapter-group input {
+    border: none;
+    border-bottom: 1px solid #bbbbbb;
+    padding: 5px;
+    width: 30%;
+}
+
+.per-chapter-group textarea {
+    resize: none;
+    height: 100px;
+    padding: 5px;
+    border-color: #bbbbbb;
+}

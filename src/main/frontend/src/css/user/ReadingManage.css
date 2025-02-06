@@ -16,12 +16,12 @@ p {margin:0;}
     margin-bottom: 30px;
 }
 
-.reading p {
+.reading > p {
     font-size: small;
     color: #949494;
 }
 
-.reading p:nth-child(1){
+.reading > p:nth-child(1){
     color: #666;
     font-weight: bold;
     font-size: medium;

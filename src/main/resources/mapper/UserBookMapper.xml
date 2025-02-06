@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.iread.mapper.UserBookMapper">
+    <select id="getSearchResult" parameterType="string" resultType="com.project.iread.dto.BookDTO">
+        select book_no, title, author, image from books
+        where title = #{keyword}
+            or author = #{keyword}
+    </select>
+</mapper>

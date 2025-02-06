@@ -74,9 +74,9 @@
     <select id="searchTotalCount" parameterType="string" resultType="long">
         select count(*) from books b
         where (b.title like concat ('%', #{keyword}, '%')
-        or b.author like concat ('%', #{keyword}, '%')
-        or b.publisher like concat ('%', #{keyword}, '%'))
-        and b.book_activated = 'Y'
+            or b.author like concat ('%', #{keyword}, '%')
+            or b.publisher like concat ('%', #{keyword}, '%'))
+            and b.book_activated = 'Y'
     </select>
 
 <!--  도서목록_검색호출  -->
@@ -84,9 +84,9 @@
         select b.*, g.genre_name from books b
         left join genres g on g.genre_no = b.genre_no
         where (b.title like concat ('%', #{keyword}, '%')
-        or b.author like concat ('%', #{keyword}, '%')
-        or b.publisher like concat ('%', #{keyword}, '%'))
-        and b.book_activated = 'Y'
+            or b.author like concat ('%', #{keyword}, '%')
+            or b.publisher like concat ('%', #{keyword}, '%'))
+            and b.book_activated = 'Y'
         order by b.reg_date desc
         limit #{pageSize} offset #{offset}
     </select>

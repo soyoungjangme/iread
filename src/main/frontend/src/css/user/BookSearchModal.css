@@ -1,3 +1,5 @@
+p {margin: 0;}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -13,7 +15,118 @@
 .modal-content {
     background: white;
     padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
+    border-radius: 3px;
+    width: 500px;
+}
+
+/* 닫기버튼 */
+.btn-close {
+    float: right;
+    margin-bottom: 20px;
+}
+
+.btn-close button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: none;
+}
+
+.btn-close button:hover {
+    background-color: #ddd;
+}
+
+/* 검색어입력 */
+.modal-input {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.modal-input input {
+    width: 90%;
+    border: none;
+    border-bottom: 1px solid #666;
+    padding: 5px;
+}
+
+.modal-input input:focus {
+    outline: none;
+}
+
+.modal-input button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.modal-input button:hover {
+    font-weight: bold;
+}
+
+
+/* 검색결과 */
+.list-content-group {
+    height: 400px;
+    overflow-y: auto;
+}
+
+.list-content {
+    display: flex;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: small;
+    justify-content: space-between;
+}
+
+.list-content img {
+    width: 17%;
+}
+
+.content-info {
+    width: 70%;
+    padding: 5px;
+}
+
+.content-info p:nth-child(1) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 5px;
+}
+
+.content-info p:nth-child(2) {
+    color: #999;
+}
+
+/* 선택버튼 */
+.select-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.select-btn button {
+    background-color: #66785F;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: small;
+    padding: 3px 10px;
+    cursor:pointer;
+}
+
+.select-btn button:hover {
+    background-color: #53634d;
+}
+
+.before-search {
+    display: flex;
+    justify-content: center;
+}
+
+.search-text {
+    font-size: small;
+    color: #666;
 }

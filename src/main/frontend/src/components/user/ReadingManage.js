@@ -28,7 +28,7 @@ function ReadingManage(){
                         <button onClick={()=>setIsModal(true)}>도서검색</button>
                         <input type="text" placeholder="도서명" disabled/>
                     </div>
-                    {/*도서검색팝업창*/}
+                    {/*도서검색모달창*/}
                     {isModal && <BookSearchModal onClose={()=>setIsModal(false)} />}
                 </div>
                 <div className="reading reading-start-date">

@@ -78,7 +78,6 @@ public class AdminBookController {
     //도서등록_직접등록
     @PostMapping("/registWriteBook")
     public ResponseEntity<String> registWriteBook(@RequestBody BookDTO bookInfo){
-        System.out.println("확인 " + bookInfo);
         try{
             adminBookService.registBook(bookInfo);
             return ResponseEntity.ok("성공적으로 등록되었습니다.");
@@ -101,7 +100,6 @@ public class AdminBookController {
         int offset = (page -1) * pageSize;
         List<BookDTO> bookList = adminBookService.getAllBook(offset, pageSize);
         Long totalCount = adminBookService.totalCount();
-        System.out.println("totalCount " + totalCount);
 
         Map<String, Object> response = new HashMap<>();
         response.put("books", bookList);

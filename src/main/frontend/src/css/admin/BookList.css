@@ -32,9 +32,8 @@
 .book-regist > button {
     background-color: white;
     border: none;
-    color: #66785F;
-    font-size: large;
-    font-weight: 600;
+    border: 1px solid #666;
+    cursor: pointer;
 }
 
 .regist-way-container {
@@ -94,8 +93,10 @@
 }
 
 .book-img {
-    width: 13%;
-    /* border: 1px solid black; */
+    width: 10%;
+    min-height: 130px;
+    display: flex;
+    align-items: center;
 }
 
 .book-img img{
@@ -123,13 +124,13 @@
 
 /* book-info */
 .info-title {
-    font-size: large;
+    font-size: small;
     margin-bottom: 5px;
 }
 
 .info-from {
     font-size: small;
-    color: #999;
+    color: #ccc;
     display: flex;
     gap: 10px;
 }

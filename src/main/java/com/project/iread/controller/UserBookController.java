@@ -22,10 +22,8 @@ public class UserBookController {
 
     @GetMapping("/searchResult")
     public ResponseEntity<List<BookDTO>> searchResult(@RequestParam("keyword") String keyword){
-        System.out.println("키워드 확인 "+keyword);
 
         List<BookDTO> booklist = userBookService.getSearchResult(keyword);
-
         return ResponseEntity.ok(booklist);
     }
 

@@ -9,7 +9,7 @@ p {margin:0;}
 }
 
 .reading-info {
-    padding: 50px;
+    padding: 40px 150px 40px 20px;
 }
 
 .reading {
@@ -44,8 +44,11 @@ p {margin:0;}
 
 .book-search input {
     border: none;
-    border-bottom: 1px solid #666;
     background-color: white;
+    color: #949494;
+    width: 50%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .reading-count {
@@ -86,7 +89,15 @@ p {margin:0;}
     cursor: pointer;
 }
 
-.active {
+.menu-group:first-child {
+    border-right: none;
+}
+
+.menu-group:last-child {
+    border-left: none;
+}
+
+.menu-active {
     border: 0.5px solid #66785F;
     background-color: #66785F;
     color: white;

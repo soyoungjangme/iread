@@ -5,7 +5,7 @@
 <mapper namespace="com.project.iread.mapper.UserBookMapper">
     <select id="getSearchResult" parameterType="string" resultType="com.project.iread.dto.BookDTO">
         select book_no, title, author, image from books
-        where title = #{keyword}
-            or author = #{keyword}
+        where title like concat('%', #{keyword}, '%')
+            or author like concat('%', #{keyword}, '%')
     </select>
 </mapper>

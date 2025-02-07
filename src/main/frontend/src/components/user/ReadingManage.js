@@ -7,16 +7,21 @@ import BookSearchModal from './BookSearchModal.js';
 
 function ReadingManage(){
 
-    const [activeMenu, setActiveMenu] = useState('chapter');
-    const [isModal, setIsModal] = useState(false);
+    const [activeMenu, setActiveMenu] = useState('chapter'); //기록메뉴
+    const [isModal, setIsModal] = useState(false); //도서검색모달
+    const [selectedBook, setSelectedBook] = useState(null); //선택한 도서
+    const [readingStart, setReadingStart] = useState(false); //독서시작상태
 
     const handleMenu = (menu) => {
         setActiveMenu(menu);
+    };
+
+    const handleSelectBook = (book) => {
+        setSelectedBook(book);
     }
 
     const today = new Date();
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-
 
     return(
         <div className="reading-manage-container">
@@ -24,42 +29,60 @@ function ReadingManage(){
             <div className="reading-info">
                 <div className="reading reading-what">
                     <p>어떤 책을 기록하시겠습니까?</p>
-                    <div className="book-search">
-                        <button onClick={()=>setIsModal(true)}>도서검색</button>
-                        <input type="text" placeholder="도서명" disabled/>
-                    </div>
+                    {(readingStart && selectedBook) ? (
+                        <div className="book-search">
+                            <input type="text" value={selectedBook?.title} disabled/>
+                        </div>
+                    ):(
+                        <div className="book-search">
+                            <button onClick={()=>setIsModal(true)}>도서검색</button>
+                            <input type="text" value={selectedBook?.title} disabled/>
+                        </div>
+                    )}
+
                     {/*도서검색모달창*/}
-                    {isModal && <BookSearchModal onClose={()=>setIsModal(false)} />}
+                    {isModal && <BookSearchModal onClose={()=>setIsModal(false)} onSelect={handleSelectBook} />}
                 </div>
                 <div className="reading reading-start-date">
                     <p>독서시작일</p>
                     <p>{formattedDate}</p>
                 </div>
-                <div className="reading-count">
+
+                {/*<div className="reading-count">
                     <p>다시 읽은 책입니다.</p>
-                </div>
-                <button type="button" className="start-reading">시작하기</button>
+                </div>*/}
+
+                {(!readingStart || !selectedBook) &&
+                    <button type="button" className="start-reading" onClick={()=>setReadingStart(true)}>시작하기</button>
+                }
             </div>
-            <div className="start-reading-menu">
-                <div className={`menu-group ${activeMenu === 'chapter' ? 'active':''}`}
-                    onClick={()=>handleMenu('chapter')}
-                >
-                    <p>챕터별 기록</p>
-                </div>
-                <div className={`menu-group ${activeMenu === 'page' ? 'active':''}`}
-                    onClick={()=>handleMenu('page')}
-                >
-                    <p>페이지별 기록</p>
-                </div>
-                <div className={`menu-group ${activeMenu === 'review' ? 'active':''}`}
-                    onClick={()=>handleMenu('review')}
-                >
-                    <p>독서록</p>
-                </div>
-            </div>
-            {/*챕터별 기록*/}
-            {activeMenu === 'chapter' && <PerChapter />}
-            {activeMenu === 'page' && <PerPage />}
+
+            {(readingStart && selectedBook) &&
+                <>
+                    <div className="start-reading-menu">
+                        <div className={`menu-group ${activeMenu === 'chapter' ? 'menu-active':''}`}
+                            onClick={()=>handleMenu('chapter')}
+                        >
+                            <p>챕터별 기록</p>
+                        </div>
+                        <div className={`menu-group ${activeMenu === 'page' ? 'menu-active':''}`}
+                            onClick={()=>handleMenu('page')}
+                        >
+                            <p>페이지별 기록</p>
+                        </div>
+                        <div className={`menu-group ${activeMenu === 'review' ? 'menu-active':''}`}
+                            onClick={()=>handleMenu('review')}
+                        >
+                            <p>독서록</p>
+                        </div>
+                    </div>
+
+                    {/*챕터별 기록*/}
+                    {activeMenu === 'chapter' && <PerChapter />}
+                    {activeMenu === 'page' && <PerPage />}
+                </>
+            }
+
         </div>
     )
 }

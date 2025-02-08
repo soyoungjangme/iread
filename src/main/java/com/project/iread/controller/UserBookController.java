@@ -1,14 +1,13 @@
 package com.project.iread.controller;
 
 import com.project.iread.dto.BookDTO;
+import com.project.iread.dto.BookNoteDTO;
+import com.project.iread.dto.ChapterDTO;
 import com.project.iread.service.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,18 @@ public class UserBookController {
 
         List<BookDTO> booklist = userBookService.getSearchResult(keyword);
         return ResponseEntity.ok(booklist);
+    }
+
+    @PostMapping("/readingStart")
+    public void readingStart(@RequestBody BookNoteDTO date){
+        System.out.println("독서시작일: "+date.getStartDate());
+    }
+
+    @PostMapping("/storeChapter")
+    public ResponseEntity<String> storeChapter(@RequestBody List<ChapterDTO> chapters){
+        System.out.println("챕터별 내용: " + chapters.toString());
+
+        return ResponseEntity.ok("챕터별 기록이 저장되었습니다.");
     }
 
 }

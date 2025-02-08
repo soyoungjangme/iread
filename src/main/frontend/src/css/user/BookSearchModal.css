@@ -105,6 +105,7 @@ p {margin: 0;}
 .select-btn {
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .select-btn button {

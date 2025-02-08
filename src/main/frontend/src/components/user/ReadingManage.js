@@ -12,6 +12,10 @@ function ReadingManage(){
     const [selectedBook, setSelectedBook] = useState(null); //선택한 도서
     const [readingStart, setReadingStart] = useState(false); //독서시작상태
 
+    //날짜 포맷
+    const today = new Date();
+    const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+
     const handleMenu = (menu) => {
         setActiveMenu(menu);
     };
@@ -20,8 +24,17 @@ function ReadingManage(){
         setSelectedBook(book);
     }
 
-    const today = new Date();
-    const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+    //시작하기
+    const start = async() => {
+        if(selectedBook){
+            setReadingStart(true);
+            try{
+                await axios.post('/api/userBook/readingStart',{startDate: formattedDate});
+            } catch (error){
+                console.error('독서시작 api 에러', error);
+            }
+        }
+    };
 
     return(
         <div className="reading-manage-container">
@@ -53,7 +66,7 @@ function ReadingManage(){
                 </div>*/}
 
                 {(!readingStart || !selectedBook) &&
-                    <button type="button" className="start-reading" onClick={()=>setReadingStart(true)}>시작하기</button>
+                    <button type="button" className="start-reading" onClick={start}>시작하기</button>
                 }
             </div>
 

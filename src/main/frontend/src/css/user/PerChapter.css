@@ -22,7 +22,11 @@
     border: none;
     border-bottom: 1px solid #bbbbbb;
     padding: 5px;
-    width: 30%;
+    width: 35%;
+}
+
+.per-chapter-group input:focus {
+    outline: none;
 }
 
 .per-chapter-group textarea {
@@ -30,4 +34,25 @@
     height: 100px;
     padding: 5px;
     border-color: #bbbbbb;
+}
+
+/*추가버튼*/
+.bi-plus-square{
+    text-align: right;
+    color: #bbbbbb;
+    cursor: pointer;
+}
+
+/*저장버튼*/
+.store-btn {
+    text-align: right;
+}
+
+.store-btn button {
+    background-color: #666;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    color:white;
+    cursor: pointer;
 }

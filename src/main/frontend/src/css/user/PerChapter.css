@@ -49,10 +49,14 @@
 }
 
 .store-btn button {
-    background-color: #666;
+    background-color: #66785f;
     border: none;
     border-radius: 5px;
     padding: 3px 10px;
     color:white;
     cursor: pointer;
+}
+
+.store-btn button:hover {
+    background-color: #666;
 }

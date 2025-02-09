@@ -4,11 +4,17 @@ import '../../css/user/PerChapter.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function PerChapter(){
+function PerChapter({bookNoteNo}){
 
-    const [chapters, setChapters] = useState([
-        {chapterNo: 1, chapterTitle: "", chapterContent: ""}
-    ]);
+    const [chapters, setChapters] = useState([]);
+
+    useEffect(() => {
+        if (bookNoteNo) {
+            setChapters([
+                { chapterNo: 1, chapterTitle: "", chapterContent: "", bookNoteNo }
+            ]);
+        }
+    }, [bookNoteNo]);
 
     const handleChangeInput = (index, e) => {
         const { name, value } = e.target;
@@ -26,7 +32,8 @@ function PerChapter(){
         const newChapter = {
             chapterNo: chapters.length + 1,
             chapterTitle: "",
-            chapterContent: ""
+            chapterContent: "",
+            bookNoteNo
         };
         setChapters([...chapters, newChapter]);
     };

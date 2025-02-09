@@ -9,9 +9,13 @@ import lombok.*;
 @Setter
 public class BookNoteDTO {
 
-    private String bookNoteNo;
+    private Long bookNoteNo;
     private String startDate;
     private String endDate;
     private Long bookNo;
     private Long userNo;
+
+    // books테이블의 property
+    private String title;
+    private String image;
 }

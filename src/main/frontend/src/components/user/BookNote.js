@@ -1,20 +1,21 @@
 import React, { useEffect, useState }  from 'react';
 import axios from 'axios';
-import '../../css/user/ReadingManage.css';
+import '../../css/user/BookNote.css';
 import PerChapter from './PerChapter.js';
 import PerPage from './PerPage.js';
 import BookSearchModal from './BookSearchModal.js';
 
 function ReadingManage(){
-
     const [activeMenu, setActiveMenu] = useState('chapter'); //기록메뉴
     const [isModal, setIsModal] = useState(false); //도서검색모달
     const [selectedBook, setSelectedBook] = useState(null); //선택한 도서
     const [readingStart, setReadingStart] = useState(false); //독서시작상태
+    const [bookNoteNo, setBookNoteNo] = useState(null); //생성된 북노트 key값
 
     //날짜 포맷
     const today = new Date();
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+    const formattedDate2 = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
 
     const handleMenu = (menu) => {
         setActiveMenu(menu);
@@ -29,7 +30,13 @@ function ReadingManage(){
         if(selectedBook){
             setReadingStart(true);
             try{
-                await axios.post('/api/userBook/readingStart',{startDate: formattedDate});
+                const resp = await axios.post('/api/userBook/readingStart',
+                    {
+                        startDate: formattedDate2,
+                        bookNo: selectedBook.bookNo
+                    }
+                );
+                setBookNoteNo(resp.data);
             } catch (error){
                 console.error('독서시작 api 에러', error);
             }
@@ -54,7 +61,12 @@ function ReadingManage(){
                     )}
 
                     {/*도서검색모달창*/}
-                    {isModal && <BookSearchModal onClose={()=>setIsModal(false)} onSelect={handleSelectBook} />}
+                    {isModal &&
+                        <BookSearchModal
+                            onClose={()=>setIsModal(false)}
+                            onSelect={handleSelectBook}
+                        />
+                    }
                 </div>
                 <div className="reading reading-start-date">
                     <p>독서시작일</p>
@@ -91,7 +103,7 @@ function ReadingManage(){
                     </div>
 
                     {/*챕터별 기록*/}
-                    {activeMenu === 'chapter' && <PerChapter />}
+                    {activeMenu === 'chapter' && <PerChapter bookNoteNo={bookNoteNo}/>}
                     {activeMenu === 'page' && <PerPage />}
                 </>
             }

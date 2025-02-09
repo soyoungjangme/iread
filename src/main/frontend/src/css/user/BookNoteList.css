@@ -1,0 +1,56 @@
+p {margin: 0;}
+
+.my-book-note {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #666;
+}
+
+.my-book-note-box {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    column-gap: 70px;
+    row-gap: 40px;
+    padding: 0 20px;
+}
+
+.my-book {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.my-book > img {
+    width: 100%;
+}
+
+.book-status {
+
+    border-radius: 3px;
+    font-size: small;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    width: 40%;
+}
+
+.reading-status{
+    border: 1px solid #819e7b;
+    background-color: #819e7b;
+}
+
+.done-status {
+    border: 1px solid #cfcfcf;
+    background-color: #cfcfcf;
+    color: #666;
+}
+
+.book-title {
+    font-size: small;
+}
+
+.book-reading-period {
+    font-size: x-small;
+    color: #999;
+}

@@ -13,5 +13,6 @@ public interface UserBookService {
     Long readingStart(BookNoteDTO dto);
     void insertChapter(ChapterDTO chapterDTO);
     void updateChapter(ChapterDTO chapterDTO);
-
+    BookNoteDTO bookNoteDetail(Long bookNoteNo, Long bookNo);
+    List<ChapterDTO> getChapterData(Long bookNoteNo);
 }

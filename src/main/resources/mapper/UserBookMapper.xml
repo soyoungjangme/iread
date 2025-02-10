@@ -22,7 +22,7 @@
         <result property="image" column="image" />
     </resultMap>
 
-<!--  북노트 작성  -->
+<!--  북노트 도서검색  -->
     <select id="getSearchResult" parameterType="string" resultType="com.project.iread.dto.BookDTO">
         select book_no, title, author, image from books
         where title like concat('%', #{keyword}, '%')
@@ -48,10 +48,25 @@
     </insert>
 
 <!--  기존챕터 업데이트 -->
-    <!--<update id="updateChapter" parameterType="com.project.iread.dto.ChapterDTO">
+    <update id="updateChapter" parameterType="com.project.iread.dto.ChapterDTO">
         update per_chapter
         set (chapter_title = #{chapterTitle},
             chapter_content = #{chapterContent})
-        where
-    </update>-->
+        where per_chapter_no = #{perChapterNo}
+    </update>
+
+<!--  기존BookNote 호출  -->
+    <select id="bookNoteDetail" parameterType="long" resultMap="BookNoteMap">
+        select bn.*, b.title
+        from book_note bn
+        join books b on b.book_no = bn.book_no
+        where bn.book_no = #{bookNo}
+            and bn.book_note_no = #{bookNoteNo}
+    </select>
+
+<!--  기존북노트 chapter호출  -->
+    <select id="getChapterData" parameterType="long" resultType="com.project.iread.dto.ChapterDTO">
+        select * from per_chapter
+        where book_note_no = #{bookNoteNo}
+    </select>
 </mapper>

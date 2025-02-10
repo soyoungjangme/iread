@@ -40,4 +40,14 @@ public class UserBookServiceImpl implements UserBookService{
     public void updateChapter(ChapterDTO chapterDTO) {
         userBookMapper.updateChapter(chapterDTO);
     }
+
+    @Override
+    public BookNoteDTO bookNoteDetail(Long bookNoteNo, Long bookNo) {
+        return userBookMapper.bookNoteDetail(bookNoteNo, bookNo);
+    }
+
+    @Override
+    public List<ChapterDTO> getChapterData(Long bookNoteNo) {
+        return userBookMapper.getChapterData(bookNoteNo);
+    }
 }

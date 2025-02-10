@@ -4,17 +4,35 @@ import '../../css/user/PerChapter.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function PerChapter({bookNoteNo}){
+function PerChapter({bookNoteNo, bookNo}){
 
     const [chapters, setChapters] = useState([]);
 
     useEffect(() => {
-        if (bookNoteNo) {
+        if(bookNo && bookNoteNo){
+            getChapterData();
+        } else {
             setChapters([
-                { chapterNo: 1, chapterTitle: "", chapterContent: "", bookNoteNo }
+                { perChapterNo: null, chapterNo: 1, chapterTitle: "", chapterContent: "", bookNoteNo }
             ]);
         }
-    }, [bookNoteNo]);
+    }, [bookNoteNo, bookNo]);
+
+    //기존 데이터 호출
+    const getChapterData = async() => {
+        const resp = await axios.get('/api/userBook/chapterData',{
+          params:{bookNoteNo}
+        });
+        console.log(resp.data);
+        const dataList = resp.data;
+        setChapters(dataList.map((data)=>({
+            perChapterNo: data.perChapterNo,
+            chapterNo: data.chapterNo,
+            chapterTitle: data.chapterTitle,
+            chapterContent: data.chapterContent,
+            bookNoteNo: data.bookNoteNo
+        })));
+    };
 
     const handleChangeInput = (index, e) => {
         const { name, value } = e.target;
@@ -42,6 +60,7 @@ function PerChapter({bookNoteNo}){
     const storeChapter = async() => {
         const resp = await axios.post('/api/userBook/storeChapter',chapters);
         alert(resp.data);
+        window.location.reload(); //새로고침
     };
 
     useEffect(()=>{

@@ -10,7 +10,7 @@ p {margin: 0;}
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: auto;
-    column-gap: 70px;
+    column-gap: 80px;
     row-gap: 40px;
     padding: 0 20px;
 }
@@ -53,4 +53,10 @@ p {margin: 0;}
 .book-reading-period {
     font-size: x-small;
     color: #999;
+}
+
+/*도서없음*/
+.no-my-book {
+    text-align: center;
+    font-size: small;
 }

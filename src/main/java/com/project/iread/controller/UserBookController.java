@@ -50,11 +50,25 @@ public class UserBookController {
                 userBookService.insertChapter(chapter);
             }else{
                 //update
-                System.out.println("update");
+                userBookService.updateChapter(chapter);
             }
         }
 
         return ResponseEntity.ok("챕터별 기록이 저장되었습니다.");
     }
 
+    //북노트 상세보기
+    @GetMapping("/bookNoteDetail")
+    public BookNoteDTO bookNoteDetail(@RequestParam("bookNoteNo") Long bookNoteNo, @RequestParam("bookNo") Long bookNo){
+        BookNoteDTO bookNoteDTO = userBookService.bookNoteDetail(bookNoteNo, bookNo);
+        return bookNoteDTO;
+    }
+
+    //북노트 chapter 호출
+    @GetMapping("/chapterData")
+    public List<ChapterDTO> getChapterData(@RequestParam("bookNoteNo") Long bookNoteNo){
+        List<ChapterDTO> chapterDTOS = userBookService.getChapterData(bookNoteNo);
+        System.out.println("챕터 데이터 확인: " + chapterDTOS);
+        return chapterDTOS;
+    }
 }

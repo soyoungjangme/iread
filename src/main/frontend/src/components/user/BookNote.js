@@ -1,4 +1,5 @@
 import React, { useEffect, useState }  from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookNote.css';
 import PerChapter from './PerChapter.js';
@@ -6,16 +7,53 @@ import PerPage from './PerPage.js';
 import BookSearchModal from './BookSearchModal.js';
 
 function ReadingManage(){
-    const [activeMenu, setActiveMenu] = useState('chapter'); //기록메뉴
-    const [isModal, setIsModal] = useState(false); //도서검색모달
-    const [selectedBook, setSelectedBook] = useState(null); //선택한 도서
+
+    const [searchParams] = useSearchParams();
+
+    // 북노트목록에서 클릭한 북노트정보
+    const bookNoteNo = searchParams.get("no");
+    const bookNo = searchParams.get("book");
+
+    const [activeMenu, setActiveMenu] = useState('chapter'); //메뉴상태
+    const [isModal, setIsModal] = useState(false); //도서검색모달상태
     const [readingStart, setReadingStart] = useState(false); //독서시작상태
-    const [bookNoteNo, setBookNoteNo] = useState(null); //생성된 북노트 key값
+    const [selectedBook, setSelectedBook] = useState(null); //선택한 도서
+    const [newBookNoteNo, setNewBookNoteNo] = useState(null); //생성된 북노트 key값
+    const [existBookNote, setExistBookNote] = useState(null); //호출된 북노트 데이터
 
     //날짜 포맷
     const today = new Date();
-    const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-    const formattedDate2 = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
+    const formattedDate = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
+
+    //북노트 데이터 호출
+    const getBookNote = async() => {
+        if (!bookNoteNo || !bookNo) {
+            console.warn("북노트 정보가 비어있습니다.");
+            return;
+        }
+
+        const resp = await axios.get('/api/userBook/bookNoteDetail',{
+            params : {
+                bookNoteNo, bookNo
+            }
+        });
+        console.log(resp.data);
+        const data = resp.data;
+        setSelectedBook({
+            bookNo: data.bookNo,
+            title: data.title
+        });
+        setExistBookNote(data);
+        setReadingStart(true);
+    };
+
+
+    //북노트 상세페이지
+    useEffect(()=>{
+        if(bookNoteNo && bookNo){
+            getBookNote();
+        }
+    },[]);
 
     const handleMenu = (menu) => {
         setActiveMenu(menu);
@@ -32,11 +70,11 @@ function ReadingManage(){
             try{
                 const resp = await axios.post('/api/userBook/readingStart',
                     {
-                        startDate: formattedDate2,
+                        startDate: formattedDate,
                         bookNo: selectedBook.bookNo
                     }
                 );
-                setBookNoteNo(resp.data);
+                setNewBookNoteNo(resp.data);
             } catch (error){
                 console.error('독서시작 api 에러', error);
             }
@@ -70,12 +108,12 @@ function ReadingManage(){
                 </div>
                 <div className="reading reading-start-date">
                     <p>독서시작일</p>
-                    <p>{formattedDate}</p>
+                    {existBookNote ? (
+                        <p>{existBookNote.startDate}</p>
+                    ):(
+                        <p>{formattedDate}</p>
+                    )}
                 </div>
-
-                {/*<div className="reading-count">
-                    <p>다시 읽은 책입니다.</p>
-                </div>*/}
 
                 {(!readingStart || !selectedBook) &&
                     <button type="button" className="start-reading" onClick={start}>시작하기</button>
@@ -103,7 +141,7 @@ function ReadingManage(){
                     </div>
 
                     {/*챕터별 기록*/}
-                    {activeMenu === 'chapter' && <PerChapter bookNoteNo={bookNoteNo}/>}
+                    {activeMenu === 'chapter' && <PerChapter bookNoteNo={newBookNoteNo || bookNoteNo} bookNo={bookNo || null}/>}
                     {activeMenu === 'page' && <PerPage />}
                 </>
             }

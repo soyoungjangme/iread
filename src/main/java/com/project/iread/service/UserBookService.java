@@ -11,8 +11,9 @@ public interface UserBookService {
     List<BookNoteDTO> getMyBookNote();
     List<BookDTO> getSearchResult(String keyword);
     Long readingStart(BookNoteDTO dto);
-    void insertChapter(ChapterDTO chapterDTO);
-    void updateChapter(ChapterDTO chapterDTO);
+    void storeChapters(List<ChapterDTO> chapterDTOS);
+//    void insertChapter(ChapterDTO chapterDTO);
+//    void updateChapter(ChapterDTO chapterDTO);
     BookNoteDTO bookNoteDetail(Long bookNoteNo, Long bookNo);
     List<ChapterDTO> getChapterData(Long bookNoteNo);
 }

@@ -17,11 +17,6 @@ function BookNoteList(){
         setBookNoteList(resp.data);
         console.log('확인: ', resp.data);
     }
-
-    //북노트 상세
-    const handleClickBook = () => {
-        navigate(`./BookNote?`);
-    }
     
     return(
         <div className="book-note-list-container">
@@ -70,7 +65,7 @@ function BookNoteList(){
                 ):(
                     <div className="no-my-book">
                         <p>북노트 작성하기</p>
-                        <a href="/user/BookNote">Go</a>
+                        <a href="./BookNote">Go</a>
                     </div>
                 )}
             </div>

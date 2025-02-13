@@ -59,4 +59,14 @@ p {margin: 0;}
 .no-my-book {
     text-align: center;
     font-size: small;
+    grid-column: span 5;
+}
+
+.no-my-book > a {
+    text-decoration: none;
+    color: black;
+}
+
+.no-my-book > a:hover {
+    color: #4242ff;
 }

@@ -43,17 +43,7 @@ public class UserBookController {
     @PostMapping("/storeChapter")
     public ResponseEntity<String> storeChapter(@RequestBody List<ChapterDTO> chapters){
         System.out.println("챕터별 내용: " + chapters.toString());
-
-        for(ChapterDTO chapter : chapters){
-            if(chapter.getPerChapterNo() == null){
-                //insert
-                userBookService.insertChapter(chapter);
-            }else{
-                //update
-                userBookService.updateChapter(chapter);
-            }
-        }
-
+        userBookService.storeChapters(chapters);
         return ResponseEntity.ok("챕터별 기록이 저장되었습니다.");
     }
 

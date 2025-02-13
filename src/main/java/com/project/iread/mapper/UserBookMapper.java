@@ -16,6 +16,8 @@ public interface UserBookMapper {
     void createBookTable(BookNoteDTO dto);
     void insertChapter(ChapterDTO chapterDTO);
     void updateChapter(ChapterDTO chapterDTO);
+    void deleteChapter(Long perChapterNo);
+    List<ChapterDTO> checkChapter();
     BookNoteDTO bookNoteDetail(@Param("bookNoteNo") Long bookNoteNo, @Param("bookNo") Long bookNo);
     List<ChapterDTO> getChapterData(Long bookNoteNo);
 

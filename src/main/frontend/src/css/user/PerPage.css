@@ -1,30 +1,30 @@
 /* 챕터별기록 */
-.per-chapter-container {
+.per-page-container {
     margin: 50px 0;
     display: flex;
     flex-direction: column;
     gap: 40px;
 }
 
-.per-chapter-group {
+.per-page-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.per-chapter-group p {
+.per-page-group p {
     color: #666;
     font-weight: bold;
 }
 
-.per-chapter-group input {
+.per-page-group input {
     border: none;
     border-bottom: 1px solid #bbbbbb;
     padding: 5px;
     width: 30%;
 }
 
-.per-chapter-group textarea {
+.per-page-group textarea {
     resize: none;
     height: 100px;
     padding: 5px;

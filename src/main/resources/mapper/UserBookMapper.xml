@@ -50,10 +50,22 @@
 <!--  기존챕터 업데이트 -->
     <update id="updateChapter" parameterType="com.project.iread.dto.ChapterDTO">
         update per_chapter
-        set (chapter_title = #{chapterTitle},
-            chapter_content = #{chapterContent})
+        set chapter_title = #{chapterTitle},
+            chapter_content = #{chapterContent}
         where per_chapter_no = #{perChapterNo}
     </update>
+
+<!--  챕터 삭제  -->
+    <delete id="deleteChapter" parameterType="long">
+        delete from per_chapter
+        where per_chapter_no = #{perChapterNo}
+    </delete>
+
+<!--  챕터유무 확인  -->
+    <select id="checkChapter" resultType="com.project.iread.dto.ChapterDTO">
+        select per_chapter_no
+        from per_chapter
+    </select>
 
 <!--  기존BookNote 호출  -->
     <select id="bookNoteDetail" parameterType="long" resultMap="BookNoteMap">

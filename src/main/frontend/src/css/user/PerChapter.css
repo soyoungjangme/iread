@@ -18,15 +18,31 @@
     font-weight: bold;
 }
 
-.per-chapter-group input {
+/*소제목*/
+.ch-input-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ch-input-group input {
     border: none;
     border-bottom: 1px solid #bbbbbb;
     padding: 5px;
-    width: 35%;
+    width: 40%;
 }
 
-.per-chapter-group input:focus {
+.ch-input-group input:focus {
     outline: none;
+}
+
+/*삭제icon*/
+.bi-dash {
+    color: #bbbbbb;
+    cursor: pointer;
+}
+
+.bi-dash:hover {
+    color: black;
 }
 
 .per-chapter-group textarea {
@@ -43,12 +59,27 @@
     cursor: pointer;
 }
 
-/*저장버튼*/
-.store-btn {
-    text-align: right;
+/*버튼*/
+.last-btn {
+    display: flex;
+    justify-content: space-between;
 }
 
-.store-btn button {
+/*목록버튼*/
+.list-btn {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    padding: 3px 10px;
+}
+
+.list-btn:hover {
+    border-bottom: 1px solid #999;
+}
+
+/*저장버튼*/
+.store-btn {
     background-color: #66785f;
     border: none;
     border-radius: 5px;
@@ -57,6 +88,6 @@
     cursor: pointer;
 }
 
-.store-btn button:hover {
+.store-btn:hover {
     background-color: #666;
 }

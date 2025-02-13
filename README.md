@@ -56,4 +56,6 @@ iread
 ✏️[base64](https://soyoungjang.tistory.com/50)
 ✏️[cloudinary](https://soyoungjang.tistory.com/51)
 
-##### 2/9 : 북노트 작성 구현 (독서록 관리 페이지)
+##### 2/9 : 북노트 챕터별 작성 구현 (유저 독서록 관리 페이지)
+
+##### 2/13 : 북노트 챕터별(insert,update,delete) + 페이지별 UI/UX

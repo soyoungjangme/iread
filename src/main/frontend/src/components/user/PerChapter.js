@@ -10,12 +10,13 @@ function PerChapter({bookNoteNo, bookNo}){
     const navigate =useNavigate();
 
     const [chapters, setChapters] = useState([]);
-    const [storeStatus, setStoreStatus] = useState(false); //저장상태
+    const [storeStatus, setStoreStatus] = useState(true); //저장상태
 
     useEffect(() => {
         if(bookNo && bookNoteNo){
             getChapterData();
         } else {
+            setStoreStatus(false);
             setChapters([
                 { perChapterNo: null, chapterNo: 1, chapterTitle: "", chapterContent: "", bookNoteNo }
             ]);
@@ -68,13 +69,13 @@ function PerChapter({bookNoteNo, bookNo}){
             //filter()가 true인 것들만 남긴다.
             setChapters((prev)=>prev.filter((chapter)=>chapter.chapterNo !== chNo));
         }
+        setStoreStatus(false);
     };
 
     //저장버튼
     const storeChapter = async() => {
         const resp = await axios.post('/api/userBook/storeChapter',chapters);
         alert(resp.data);
-        setStoreStatus(true);
         navigate("/user/BookNoteList"); //목록이동
     };
 

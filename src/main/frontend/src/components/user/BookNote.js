@@ -142,7 +142,7 @@ function ReadingManage(){
 
                     {/*챕터별 기록*/}
                     {activeMenu === 'chapter' && <PerChapter bookNoteNo={newBookNoteNo || bookNoteNo} bookNo={bookNo || null}/>}
-                    {activeMenu === 'page' && <PerPage />}
+                    {activeMenu === 'page' && <PerPage bookNoteNo={newBookNoteNo || bookNoteNo} bookNo={bookNo || null}/>}
                 </>
             }
 

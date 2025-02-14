@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 public class BookNoteDTO {
 
-    private Long bookNoteNo;
+    private Integer bookNoteNo;
     private String startDate;
     private String endDate;
     private Long bookNo;

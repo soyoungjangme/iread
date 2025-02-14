@@ -1,9 +1,6 @@
 package com.project.iread.service;
 
-import com.project.iread.dto.BookDTO;
-import com.project.iread.dto.BookNoteDTO;
-import com.project.iread.dto.ChapterDTO;
-import com.project.iread.dto.GenreDTO;
+import com.project.iread.dto.*;
 import com.project.iread.mapper.UserBookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,15 +28,15 @@ public class UserBookServiceImpl implements UserBookService{
     }
 
     @Override
-    public Long readingStart(BookNoteDTO dto) {
+    public Integer readingStart(BookNoteDTO dto) {
         userBookMapper.createBookTable(dto);
         return dto.getBookNoteNo();
     }
 
     @Override
-    public void storeChapters(List<ChapterDTO> chapters) {
+    public void storeChapters(List<ChapterDTO> chapters, Integer bookNoteNo) {
         // 1. 현재 DB에 저장된 챕터 목록 조회
-        List<ChapterDTO> existingChapters = userBookMapper.checkChapter();
+        List<ChapterDTO> existingChapters = userBookMapper.getChapterData(bookNoteNo);
 
         // 2. 현재 DB에 저장된 챕터들의 perChapterNo 목록 저장
         Set<Long> existingPerChapterNos = existingChapters.stream()
@@ -70,12 +67,49 @@ public class UserBookServiceImpl implements UserBookService{
     }
 
     @Override
-    public BookNoteDTO bookNoteDetail(Long bookNoteNo, Long bookNo) {
+    public BookNoteDTO bookNoteDetail(Integer bookNoteNo, Long bookNo) {
         return userBookMapper.bookNoteDetail(bookNoteNo, bookNo);
     }
 
     @Override
-    public List<ChapterDTO> getChapterData(Long bookNoteNo) {
+    public List<ChapterDTO> getChapterData(Integer bookNoteNo) {
         return userBookMapper.getChapterData(bookNoteNo);
+    }
+
+    @Override
+    public List<PageDTO> getPageData(Integer bookNoteNo) {
+        return userBookMapper.getPageData(bookNoteNo);
+    }
+
+    @Override
+    public void storePages(List<PageDTO> pageDTOS, Integer bookNoteNo) {
+        //챕터 저장 방식과 동일 (insert & update & delete)
+
+        List<PageDTO> existingPages = userBookMapper.getPageData(bookNoteNo);
+
+        Set<Long> existingPerPageNos = existingPages.stream()
+                .map(PageDTO::getPerPageNo)
+                .collect(Collectors.toSet());
+
+        Set<Long> receivedPerPageNos = pageDTOS.stream()
+                .map(PageDTO::getPerPageNo)
+                .filter(Objects::nonNull) // null 값 제외
+                .collect(Collectors.toSet());
+
+        for (Long perPageNo : existingPerPageNos) {
+            if (!receivedPerPageNos.contains(perPageNo)) {
+                userBookMapper.deletePage(perPageNo); // 삭제 실행
+            }
+        }
+
+        for (PageDTO page : pageDTOS) {
+            if (page.getPerPageNo() == null) {
+                // Insert 실행
+                userBookMapper.insertPage(page);
+            } else {
+                // Update 실행
+                userBookMapper.updatePage(page);
+            }
+        }
     }
 }

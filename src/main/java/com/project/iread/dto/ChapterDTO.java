@@ -13,5 +13,5 @@ public class ChapterDTO {
     private String chapterNo;
     private String chapterTitle;
     private String chapterContent;
-    private Long bookNoteNo;
+    private Integer bookNoteNo;
 }

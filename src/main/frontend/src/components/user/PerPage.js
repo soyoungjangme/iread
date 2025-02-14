@@ -4,17 +4,37 @@ import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/user/PerPage.css';
 
-function PerPage({bookNoteNo, bookNo}){
+function PerPage({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
+    const bookNoteNo = Number(bookNoteNoStr);
 
+    const navigate = useNavigate();
     const [pages, setPages] = useState([]);
-    const [storeStatus, setStoreStatus] = useState(true); //저장상태
 
+    useEffect(()=>{
+        console.log("페이지저장상태: ", storeStatus);
+    },[storeStatus]);
 
     useEffect(() => {
-        setPages([
-            {perPageNo: null, pageIndex: 0, startPage: "0", endPage: "", pageContent: "", bookNoteNo}
-        ]);
-    },[]);
+        if (!bookNoteNo) {
+            console.log("bookNoteNo가 아직 없습니다. API 호출하지 않음");
+            return;
+        }
+        getPageData();
+    }, [bookNoteNo]);  // bookNoteNo가 변경될 때마다 실행
+
+
+    //기존 데이터 호출
+    const getPageData = async() => {
+        const resp = await axios.get('/api/userBook/pageData',{
+            params:{bookNoteNo}
+        });
+        console.log(resp.data);
+        const dataList = resp.data;
+
+        setPages(dataList.length === 0 ? [{
+            perPageNo: null, pageIndex: 0, startPage: "0", endPage: "", pageContent: "", bookNoteNo
+        }] : dataList);
+    };
 
     const handleChangeInput = (index, e) => {
         const { name, value } = e.target;
@@ -65,6 +85,26 @@ function PerPage({bookNoteNo, bookNo}){
         setStoreStatus(false);
     };
 
+    //저장버튼
+    const storePage = async() => {
+        const resp = await axios.post('/api/userBook/storePage',{
+            pages: pages,
+            bookNoteNo: bookNoteNo
+        });
+        alert(resp.data);
+        window.location.reload();
+    };
+
+    //목록버튼
+    const moveToList = () => {
+        if (storeStatus) {
+            navigate("/user/BookNoteList");
+        } else {
+            if (window.confirm("저장되지 않았습니다. 목록으로 이동하시겠습니까?")) {
+                navigate("/user/BookNoteList");
+            }
+        }
+    };
 
     useEffect(()=>{
         console.log("page: ", pages);
@@ -102,8 +142,8 @@ function PerPage({bookNoteNo, bookNo}){
                 </div>
             ))}
             <div className="page-btn-box">
-                <button type="button" className="list-btn" >목록</button>
-                <button type="button" className="store-btn" >저장</button>
+                <button type="button" className="list-btn" onClick={moveToList}>목록</button>
+                <button type="button" className="store-btn" onClick={storePage}>저장</button>
             </div>
         </div>
     );

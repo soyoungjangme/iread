@@ -9,7 +9,6 @@ function UserRoutes(){
         <>
             <Route path="/user/BookNote" element={<BookNote />} />
             <Route path="/user/BookNoteList" element={<BookNoteList />} />
-            <Route path="/user/PerPage" element={<PerPage />} />
         </>
     )
 }

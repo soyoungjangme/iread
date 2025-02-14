@@ -20,6 +20,7 @@ function ReadingManage(){
     const [selectedBook, setSelectedBook] = useState(null); //선택한 도서
     const [newBookNoteNo, setNewBookNoteNo] = useState(null); //생성된 북노트 key값
     const [existBookNote, setExistBookNote] = useState(null); //호출된 북노트 데이터
+    const [storeStatus, setStoreStatus] = useState(true); //저장상태
 
     //날짜 포맷
     const today = new Date();
@@ -55,7 +56,13 @@ function ReadingManage(){
         }
     },[]);
 
-    const handleMenu = (menu) => {
+    const handleMenuChange = (menu) => {
+        if (!storeStatus) {
+            if (!window.confirm('저장되지 않았습니다. 메뉴 이동하시겠습니까?')) {
+                return;
+            }
+        }
+        setStoreStatus(true);
         setActiveMenu(menu);
     };
 
@@ -68,7 +75,7 @@ function ReadingManage(){
         if(selectedBook){
             setReadingStart(true);
             try{
-                const resp = await axios.post('/api/userBook/readingStart',
+                const resp = await axios.post('/api/userBook/readingStart', // book_note 생성
                     {
                         startDate: formattedDate,
                         bookNo: selectedBook.bookNo
@@ -80,6 +87,7 @@ function ReadingManage(){
             }
         }
     };
+
 
     return(
         <div className="reading-manage-container">
@@ -124,25 +132,33 @@ function ReadingManage(){
                 <>
                     <div className="start-reading-menu">
                         <div className={`menu-group ${activeMenu === 'chapter' ? 'menu-active':''}`}
-                            onClick={()=>handleMenu('chapter')}
+                            onClick={()=>handleMenuChange('chapter')}
                         >
                             <p>챕터별 기록</p>
                         </div>
                         <div className={`menu-group ${activeMenu === 'page' ? 'menu-active':''}`}
-                            onClick={()=>handleMenu('page')}
+                            onClick={()=>handleMenuChange('page')}
                         >
                             <p>페이지별 기록</p>
                         </div>
                         <div className={`menu-group ${activeMenu === 'review' ? 'menu-active':''}`}
-                            onClick={()=>handleMenu('review')}
+                            onClick={()=>handleMenuChange('review')}
                         >
                             <p>독서록</p>
                         </div>
                     </div>
 
                     {/*챕터별 기록*/}
-                    {activeMenu === 'chapter' && <PerChapter bookNoteNo={newBookNoteNo || bookNoteNo} bookNo={bookNo || null}/>}
-                    {activeMenu === 'page' && <PerPage bookNoteNo={newBookNoteNo || bookNoteNo} bookNo={bookNo || null}/>}
+                    {activeMenu === 'chapter' && <PerChapter bookNoteNoStr={newBookNoteNo || bookNoteNo}
+                                                    bookNo={bookNo || null}
+                                                    storeStatus={storeStatus}
+                                                    setStoreStatus={setStoreStatus}
+                                                />}
+                    {activeMenu === 'page' && <PerPage bookNoteNoStr={newBookNoteNo || bookNoteNo}
+                                                    bookNo={bookNo || null}
+                                                    storeStatus={storeStatus}
+                                                    setStoreStatus={setStoreStatus}
+                                                />}
                 </>
             }
 

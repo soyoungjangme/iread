@@ -5,23 +5,24 @@ import '../../css/user/PerChapter.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function PerChapter({bookNoteNo, bookNo}){
-
+function PerChapter({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
+    const bookNoteNo = Number(bookNoteNoStr);
     const navigate =useNavigate();
 
     const [chapters, setChapters] = useState([]);
-    const [storeStatus, setStoreStatus] = useState(true); //저장상태
+
+    useEffect(()=>{
+        console.log("챕터저장상태: ", storeStatus);
+    },[storeStatus]);
 
     useEffect(() => {
-        if(bookNo && bookNoteNo){
-            getChapterData();
-        } else {
-            setStoreStatus(false);
-            setChapters([
-                { perChapterNo: null, chapterNo: 1, chapterTitle: "", chapterContent: "", bookNoteNo }
-            ]);
+        if (!bookNoteNo) {
+            console.log("bookNoteNo가 아직 없습니다. API 호출하지 않음");
+            return;
         }
-    }, [bookNoteNo, bookNo]);
+        getChapterData();
+    }, [bookNoteNo]);  // bookNoteNo가 변경될 때마다 실행
+
 
     //기존 데이터 호출
     const getChapterData = async() => {
@@ -30,13 +31,10 @@ function PerChapter({bookNoteNo, bookNo}){
         });
         console.log(resp.data);
         const dataList = resp.data;
-        setChapters(dataList.map((data)=>({
-            perChapterNo: data.perChapterNo,
-            chapterNo: data.chapterNo,
-            chapterTitle: data.chapterTitle,
-            chapterContent: data.chapterContent,
-            bookNoteNo: data.bookNoteNo
-        })));
+
+        setChapters(dataList.length === 0 ? [{
+            perChapterNo: null, chapterNo: 1, chapterTitle: "", chapterContent: "", bookNoteNo
+        }] : dataList);
     };
 
     const handleChangeInput = (index, e) => {
@@ -74,9 +72,12 @@ function PerChapter({bookNoteNo, bookNo}){
 
     //저장버튼
     const storeChapter = async() => {
-        const resp = await axios.post('/api/userBook/storeChapter',chapters);
+        const resp = await axios.post('/api/userBook/storeChapter',{
+            chapters: chapters,
+            bookNoteNo: bookNoteNo
+        });
         alert(resp.data);
-        navigate("/user/BookNoteList"); //목록이동
+        window.location.reload();
     };
 
     //목록버튼
@@ -84,7 +85,7 @@ function PerChapter({bookNoteNo, bookNo}){
         if (storeStatus) {
             navigate("/user/BookNoteList");
         } else {
-            if (window.confirm("저장되지 않았습니다. 페이지를 이동하시겠습니까?")) {
+            if (window.confirm("저장되지 않았습니다. 목록으로 이동하시겠습니까?")) {
                 navigate("/user/BookNoteList");
             }
         }

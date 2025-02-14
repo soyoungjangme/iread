@@ -1,8 +1,11 @@
 package com.project.iread.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.BookNoteDTO;
 import com.project.iread.dto.ChapterDTO;
+import com.project.iread.dto.PageDTO;
 import com.project.iread.service.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/userBook")
@@ -34,31 +38,53 @@ public class UserBookController {
     }
 
     @PostMapping("/readingStart")
-    public Long readingStart(@RequestBody BookNoteDTO dto){
-        Long createNo = userBookService.readingStart(dto);
+    public Integer readingStart(@RequestBody BookNoteDTO dto){
+        Integer createNo = userBookService.readingStart(dto);
         System.out.println("생성된 bookNoteNo: " + createNo);
         return createNo;
     }
 
+    //chapter저장
     @PostMapping("/storeChapter")
-    public ResponseEntity<String> storeChapter(@RequestBody List<ChapterDTO> chapters){
-        System.out.println("챕터별 내용: " + chapters.toString());
-        userBookService.storeChapters(chapters);
+    public ResponseEntity<String> storeChapter(@RequestBody Map<String, Object> data){
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<ChapterDTO> chapters = objectMapper.convertValue(data.get("chapters"), new TypeReference<List<ChapterDTO>>() {});
+        Integer bookNoteNo = (Integer) data.get("bookNoteNo");
+
+        userBookService.storeChapters(chapters, bookNoteNo);
         return ResponseEntity.ok("챕터별 기록이 저장되었습니다.");
     }
 
     //북노트 상세보기
     @GetMapping("/bookNoteDetail")
-    public BookNoteDTO bookNoteDetail(@RequestParam("bookNoteNo") Long bookNoteNo, @RequestParam("bookNo") Long bookNo){
+    public BookNoteDTO bookNoteDetail(@RequestParam("bookNoteNo") Integer bookNoteNo, @RequestParam("bookNo") Long bookNo){
         BookNoteDTO bookNoteDTO = userBookService.bookNoteDetail(bookNoteNo, bookNo);
         return bookNoteDTO;
     }
 
     //북노트 chapter 호출
     @GetMapping("/chapterData")
-    public List<ChapterDTO> getChapterData(@RequestParam("bookNoteNo") Long bookNoteNo){
+    public List<ChapterDTO> getChapterData(@RequestParam("bookNoteNo") Integer bookNoteNo){
         List<ChapterDTO> chapterDTOS = userBookService.getChapterData(bookNoteNo);
-        System.out.println("챕터 데이터 확인: " + chapterDTOS);
         return chapterDTOS;
+    }
+
+    //page저장
+    @PostMapping("/storePage")
+    public ResponseEntity<String> storePage(@RequestBody Map<String, Object> data){
+        // ObjectMapper를 사용하여 pages를 List<PageDTO>로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<PageDTO> pages = objectMapper.convertValue(data.get("pages"), new TypeReference<List<PageDTO>>() {});
+        Integer bookNoteNo = (Integer) data.get("bookNoteNo");
+
+        userBookService.storePages(pages, bookNoteNo);
+        return ResponseEntity.ok("페이지별 기록이 저장되었습니다.");
+    }
+
+    //page 데이터 호출
+    @GetMapping("/pageData")
+    public List<PageDTO> getPageData(@RequestParam("bookNoteNo") Integer bookNoteNo){
+        List<PageDTO> pageDTOS = userBookService.getPageData(bookNoteNo);
+        return pageDTOS;
     }
 }

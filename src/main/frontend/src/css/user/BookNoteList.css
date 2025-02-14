@@ -23,10 +23,10 @@ p {margin: 0;}
 
 .my-book > img {
     width: 100%;
+    height: 180px;
 }
 
 .book-status {
-
     border-radius: 3px;
     font-size: small;
     font-weight: bold;
@@ -48,6 +48,11 @@ p {margin: 0;}
 
 .book-title {
     font-size: small;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /*최대 2줄*/
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.2em; /*줄간격*/
 }
 
 .book-reading-period {

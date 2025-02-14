@@ -62,13 +62,13 @@
     </delete>
 
 <!--  챕터유무 확인  -->
-    <select id="checkChapter" resultType="com.project.iread.dto.ChapterDTO">
-        select per_chapter_no
-        from per_chapter
-    </select>
+    <!--<select id="checkChapter" parameterType="long" resultType="com.project.iread.dto.ChapterDTO">
+        select per_chapter_no from per_chapter
+        where book_note_no = #{bookNoteNo}
+    </select>-->
 
 <!--  기존BookNote 호출  -->
-    <select id="bookNoteDetail" parameterType="long" resultMap="BookNoteMap">
+    <select id="bookNoteDetail" parameterType="map" resultMap="BookNoteMap">
         select bn.*, b.title
         from book_note bn
         join books b on b.book_no = bn.book_no
@@ -76,9 +76,41 @@
             and bn.book_note_no = #{bookNoteNo}
     </select>
 
-<!--  기존북노트 chapter호출  -->
-    <select id="getChapterData" parameterType="long" resultType="com.project.iread.dto.ChapterDTO">
+<!--  기존북노트 per_chapter호출  -->
+    <select id="getChapterData" parameterType="int" resultType="com.project.iread.dto.ChapterDTO">
         select * from per_chapter
         where book_note_no = #{bookNoteNo}
     </select>
+
+<!--  기존북노트 per_page호출  -->
+    <select id="getPageData" parameterType="int" resultType="com.project.iread.dto.PageDTO">
+        select * from per_page
+        where book_note_no =#{bookNoteNo}
+    </select>
+
+    <insert id="insertPage" parameterType="com.project.iread.dto.PageDTO">
+        insert into per_page(page_index,
+                            start_page,
+                            end_page,
+                            page_content,
+                            book_note_no)
+        values (#{pageIndex},
+                #{startPage},
+                #{endPage},
+                #{pageContent},
+                #{bookNoteNo})
+    </insert>
+
+    <update id="updatePage" parameterType="com.project.iread.dto.PageDTO">
+        update per_page
+        set start_page = #{startPage},
+            end_page = #{endPage},
+            page_content = #{pageContent}
+        where per_page_no = #{perPageNo}
+    </update>
+
+    <delete id="deletePage" parameterType="long">
+        delete from per_page
+        where per_page_no = #{perPageNo}
+    </delete>
 </mapper>

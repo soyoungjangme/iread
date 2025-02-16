@@ -11,7 +11,23 @@
     gap: 5px;
 }
 
-.book-review-group textarea {
+.simple-input-group > span {
+    color: #999;
+}
+
+.simple-review {
+    border: none;
+    border-bottom: 1px solid #bbbbbb;
+    padding: 5px;
+    width: 280px;
+    margin-right: 10px;
+}
+
+.simple-review:focus {
+    outline: none;
+}
+
+.text-review {
     resize: none;
     height: 100px;
     padding: 5px;
@@ -76,4 +92,32 @@
     height: 18px;
     font-size: x-small;
     text-align: center;
+}
+
+/*공개여부 & 저장버튼*/
+.store-review {
+    text-align: end;
+}
+
+.visibility-options {
+    font-size: small;
+    margin-bottom: 15px;
+}
+
+.visibility-options label:first-child {
+    margin-right: 10px;
+}
+
+/*저장버튼*/
+.review-store-btn {
+    background-color: #66785f;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    color:white;
+    cursor: pointer;
+}
+
+.review-store-btn:hover {
+    background-color: #666;
 }

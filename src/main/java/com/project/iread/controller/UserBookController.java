@@ -2,10 +2,7 @@ package com.project.iread.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.iread.dto.BookDTO;
-import com.project.iread.dto.BookNoteDTO;
-import com.project.iread.dto.ChapterDTO;
-import com.project.iread.dto.PageDTO;
+import com.project.iread.dto.*;
 import com.project.iread.service.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,7 +49,7 @@ public class UserBookController {
         Integer bookNoteNo = (Integer) data.get("bookNoteNo");
 
         userBookService.storeChapters(chapters, bookNoteNo);
-        return ResponseEntity.ok("챕터별 기록이 저장되었습니다.");
+        return ResponseEntity.ok("북노트 기록이 정상적으로 저장되었습니다.");
     }
 
     //북노트 상세보기
@@ -78,7 +75,7 @@ public class UserBookController {
         Integer bookNoteNo = (Integer) data.get("bookNoteNo");
 
         userBookService.storePages(pages, bookNoteNo);
-        return ResponseEntity.ok("페이지별 기록이 저장되었습니다.");
+        return ResponseEntity.ok("북노트 기록이 정상적으로 저장되었습니다.");
     }
 
     //page 데이터 호출
@@ -86,5 +83,19 @@ public class UserBookController {
     public List<PageDTO> getPageData(@RequestParam("bookNoteNo") Integer bookNoteNo){
         List<PageDTO> pageDTOS = userBookService.getPageData(bookNoteNo);
         return pageDTOS;
+    }
+
+    //리뷰등록
+    @PostMapping("/storeReview")
+    public ResponseEntity<String> storeReview(@RequestBody Map<String, Object> data){
+        System.out.println("리뷰등록 확인: " + data.toString());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReviewDTO reviewDTO = objectMapper.convertValue(data.get("review"), new TypeReference<ReviewDTO>() {});
+        List<ReviewImgDTO> reviewImgDTOS = objectMapper.convertValue(data.get("images"), new TypeReference<List<ReviewImgDTO>>() {});
+
+        System.out.println("리뷰내용: " + reviewDTO + " & 이미지링크: " + reviewImgDTOS);
+
+        return ResponseEntity.ok("도서리뷰가 정상적으로 저장되었습니다.");
     }
 }

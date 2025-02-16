@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../css/user/BookNote.css';
 import PerChapter from './PerChapter.js';
 import PerPage from './PerPage.js';
+import BookNoteReview from './BookNoteReview.js';
 import BookSearchModal from './BookSearchModal.js';
 
 function ReadingManage(){
@@ -155,6 +156,11 @@ function ReadingManage(){
                                                     setStoreStatus={setStoreStatus}
                                                 />}
                     {activeMenu === 'page' && <PerPage bookNoteNoStr={newBookNoteNo || bookNoteNo}
+                                                    bookNo={bookNo || null}
+                                                    storeStatus={storeStatus}
+                                                    setStoreStatus={setStoreStatus}
+                                                />}
+                    {activeMenu === 'review' && <BookNoteReview bookNoteNoStr={newBookNoteNo || bookNoteNo}
                                                     bookNo={bookNo || null}
                                                     storeStatus={storeStatus}
                                                     setStoreStatus={setStoreStatus}

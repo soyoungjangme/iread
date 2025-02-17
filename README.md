@@ -56,8 +56,10 @@ iread
 ✏️[base64](https://soyoungjang.tistory.com/50)
 ✏️[cloudinary](https://soyoungjang.tistory.com/51)
 
-##### 2/9 : 북노트 챕터별 작성 구현 (유저 독서록 관리 페이지)
+##### 2/9 : 북노트 챕터메뉴 작성 구현 (유저 독서록 관리 페이지)
 
-##### 2/13 : 북노트 챕터별(insert,update,delete) + 페이지별 UI/UX
+##### 2/13 : 북노트 챕터메뉴(insert,update,delete) + 페이지메뉴 UI/UX
 
-##### 2/14 : 북노트 페이지별 기능 구현 + 저장상태 관리(storeStatus)
+##### 2/14 : 북노트 페이지메뉴 기능 구현 + 저장상태 관리(storeStatus)
+
+##### 2/17 : 북노트 리뷰메뉴 구현완료(등록,수정,삭제) + 다중이미지 등록

@@ -5,10 +5,7 @@ import com.project.iread.mapper.UserBookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("userBookService")
@@ -111,5 +108,68 @@ public class UserBookServiceImpl implements UserBookService{
                 userBookMapper.updatePage(page);
             }
         }
+    }
+
+    @Override
+    public void storeReview(ReviewDTO reviewDTO, List<ReviewImgDTO> reviewImgDTOS) {
+        if(reviewDTO.getReviewNo() == null){ //review 첫등록
+            userBookMapper.insertReview(reviewDTO); //review 내용 저장
+            Long getNo = reviewDTO.getReviewNo();
+
+            if(!reviewImgDTOS.isEmpty()){ //review 이미지 저장
+                userBookMapper.insertReviewImg(reviewImgDTOS, getNo);
+            }
+        }else{
+            Long getNo = reviewDTO.getReviewNo();
+
+            //리뷰내용 update
+            userBookMapper.updateReview(reviewDTO);
+
+            //img select > delete > insert
+            List<ReviewImgDTO> existingImgs = userBookMapper.getReviewImgData(getNo);
+
+            //기존 리뷰이미지 key값 저장
+            Set<Long> existingReviewImgNos = existingImgs.stream()
+                    .map(ReviewImgDTO::getReviewImgNo)
+                    .collect(Collectors.toSet());
+
+            Set<Long> receivedReviewImgNos = reviewImgDTOS.stream()
+                    .map(ReviewImgDTO::getReviewImgNo)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            //이미지 삭제
+            for(Long existingReviewImgNo : existingReviewImgNos){
+                if(!receivedReviewImgNos.contains(existingReviewImgNo)){
+                    //delete
+                    userBookMapper.deleteReviewImg(existingReviewImgNo);
+                }
+            }
+
+            //새로 등록할 이미지
+            List<ReviewImgDTO> newImgs = reviewImgDTOS.stream()
+                    .filter(img -> img.getReviewImgNo() == null)
+                    .collect(Collectors.toList());
+
+            if(!newImgs.isEmpty()){
+                userBookMapper.insertReviewImg(newImgs, getNo);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getBookNoteReview(Integer bookNoteNo) {
+        //review 내용 호출
+        ReviewDTO reviewData = userBookMapper.getReviewData(bookNoteNo);
+        Long getReviewNo = reviewData.getReviewNo();
+
+        //review 이미지 호출
+        List<ReviewImgDTO> reviewImgData = userBookMapper.getReviewImgData(getReviewNo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("reviewData", reviewData);
+        response.put("reviewImgData", reviewImgData);
+
+        return response;
     }
 }

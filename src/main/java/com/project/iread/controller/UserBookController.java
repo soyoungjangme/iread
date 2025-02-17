@@ -88,14 +88,22 @@ public class UserBookController {
     //리뷰등록
     @PostMapping("/storeReview")
     public ResponseEntity<String> storeReview(@RequestBody Map<String, Object> data){
-        System.out.println("리뷰등록 확인: " + data.toString());
-
         ObjectMapper objectMapper = new ObjectMapper();
         ReviewDTO reviewDTO = objectMapper.convertValue(data.get("review"), new TypeReference<ReviewDTO>() {});
         List<ReviewImgDTO> reviewImgDTOS = objectMapper.convertValue(data.get("images"), new TypeReference<List<ReviewImgDTO>>() {});
 
         System.out.println("리뷰내용: " + reviewDTO + " & 이미지링크: " + reviewImgDTOS);
 
+        userBookService.storeReview(reviewDTO, reviewImgDTOS);
+
         return ResponseEntity.ok("도서리뷰가 정상적으로 저장되었습니다.");
+    }
+
+    //리뷰호출_북노트
+    @GetMapping("/getBookNoteReview")
+    public ResponseEntity<Map<String, Object>> getBookNoteReview(@RequestParam("bookNoteNo") Integer bookNoteNo){
+        Map<String, Object> bookNoteReview = userBookService.getBookNoteReview(bookNoteNo);
+        System.out.println("리뷰 호출: " + bookNoteReview);
+        return ResponseEntity.ok(bookNoteReview);
     }
 }

@@ -5,7 +5,7 @@ import '../../css/user/PerChapter.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function PerChapter({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
+function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus}){
     const bookNoteNo = Number(bookNoteNoStr);
     const navigate =useNavigate();
 

@@ -1,11 +1,9 @@
 package com.project.iread.service;
 
-import com.project.iread.dto.BookDTO;
-import com.project.iread.dto.BookNoteDTO;
-import com.project.iread.dto.ChapterDTO;
-import com.project.iread.dto.PageDTO;
+import com.project.iread.dto.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserBookService {
 
@@ -20,4 +18,7 @@ public interface UserBookService {
 
     List<PageDTO> getPageData(Integer bookNoteNo);
     void storePages(List<PageDTO> pageDTOS, Integer bookNoteNo);
+
+    void storeReview(ReviewDTO reviewDTO, List<ReviewImgDTO> reviewImgDTOS);
+    Map<String, Object> getBookNoteReview(Integer bookNoteNo);
 }

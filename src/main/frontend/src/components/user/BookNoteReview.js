@@ -3,7 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookNoteReview.css';
 
-function BookNoteReview({bookNoteNo, bookNo, storeStatus, setStoreStatus}){
+function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
+    const bookNoteNo = Number(bookNoteNoStr);
 
     const imgRef = useRef();
 
@@ -13,7 +14,8 @@ function BookNoteReview({bookNoteNo, bookNo, storeStatus, setStoreStatus}){
         reviewRegDate:"",
         reviewShort: "",
         reviewText: "",
-        reviewOpenStatus: "public"
+        reviewOpenStatus: "public",
+        bookNoteNo
     });
     const maxLength = 20; //한줄평 최대 글자수
 
@@ -27,11 +29,38 @@ function BookNoteReview({bookNoteNo, bookNo, storeStatus, setStoreStatus}){
     },[review, images]);
 
     useEffect(() => {
-        setReview((prev)=>({
-            ...prev,
-            reviewRegDate: formattedDate
-        }));
+        getReviewData(); //데이터 호출
     },[]);
+
+    //데이터 호출
+    const getReviewData = async() => {
+        const resp = await axios.get('/api/userBook/getBookNoteReview',{
+            params: {bookNoteNo}
+        });
+        console.log('리뷰 호출: ', resp.data.reviewData);
+        console.log('이미지 호출: ', resp.data.reviewImgData);
+
+        const data = resp.data;
+        if (data.reviewData) {
+            setReview(data.reviewData);
+        } else {
+            setReview(prev => ({
+                ...prev,
+                reviewRegDate: formattedDate
+            }));
+        }
+
+        if (data.reviewImgData) {
+            setImages(data.reviewImgData.map(img => ({
+                reviewImgNo: img.reviewImgNo, // 기존 이미지 번호 유지
+                reviewImgURL: img.reviewImgURL,
+                reviewNo: img.reviewNo
+            })));
+
+        } else {
+            setImages([]); // 이미지가 없으면 빈 배열로 설정
+        }
+    };
 
     //입력값 저장
     const handleReviewChange = useCallback((e) => {

@@ -151,7 +151,6 @@ function ReadingManage(){
 
                     {/*챕터별 기록*/}
                     {activeMenu === 'chapter' && <PerChapter bookNoteNoStr={newBookNoteNo || bookNoteNo}
-                                                    bookNo={bookNo || null}
                                                     storeStatus={storeStatus}
                                                     setStoreStatus={setStoreStatus}
                                                 />}
@@ -161,7 +160,7 @@ function ReadingManage(){
                                                     setStoreStatus={setStoreStatus}
                                                 />}
                     {activeMenu === 'review' && <BookNoteReview bookNoteNoStr={newBookNoteNo || bookNoteNo}
-                                                    bookNo={bookNo || null}
+                                                    bookNo={selectedBook.bookNo || bookNo}
                                                     storeStatus={storeStatus}
                                                     setStoreStatus={setStoreStatus}
                                                 />}

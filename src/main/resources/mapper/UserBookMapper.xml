@@ -61,12 +61,6 @@
         where per_chapter_no = #{perChapterNo}
     </delete>
 
-<!--  챕터유무 확인  -->
-    <!--<select id="checkChapter" parameterType="long" resultType="com.project.iread.dto.ChapterDTO">
-        select per_chapter_no from per_chapter
-        where book_note_no = #{bookNoteNo}
-    </select>-->
-
 <!--  기존BookNote 호출  -->
     <select id="bookNoteDetail" parameterType="map" resultMap="BookNoteMap">
         select bn.*, b.title
@@ -113,4 +107,57 @@
         delete from per_page
         where per_page_no = #{perPageNo}
     </delete>
+
+<!--  리뷰등록&key반환  -->
+    <insert id="insertReview" parameterType="com.project.iread.dto.ReviewDTO" useGeneratedKeys="true" keyProperty="reviewNo">
+        insert into reviews(review_short,
+                            review_text,
+                            review_reg_date,
+                            review_open_status,
+                            book_no,
+                            book_note_no)
+        values (#{reviewShort},
+                #{reviewText},
+                #{reviewRegDate},
+                #{reviewOpenStatus},
+                #{bookNo},
+                #{bookNoteNo})
+    </insert>
+
+<!--  리뷰이미지 등록  -->
+    <insert id="insertReviewImg" parameterType="map">
+        insert into review_img(review_img_url, review_no)
+        values
+        <foreach collection="reviewImgs" item="img" separator=",">
+            (#{img.reviewImgURL}, #{reviewNo})
+        </foreach>
+    </insert>
+
+<!--  리뷰이미지 삭제  -->
+    <delete id="deleteReviewImg" parameterType="long">
+        delete from review_img
+        where review_img_no = #{reviewImgNo}
+    </delete>
+
+<!--  리뷰호출_북노트  -->
+    <select id="getReviewData" parameterType="int" resultType="com.project.iread.dto.ReviewDTO">
+        select * from reviews
+        where book_note_no = #{bookNoteNo}
+    </select>
+
+    <select id="getReviewImgData" parameterType="long" resultType="com.project.iread.dto.ReviewImgDTO">
+        select * from review_img
+        where review_no = #{reviewNo}
+    </select>
+
+<!--  리뷰내용 수정  -->
+    <update id="updateReview" parameterType="com.project.iread.dto.ReviewDTO">
+        update reviews
+        set review_short = #{reviewShort},
+            review_text = #{reviewText},
+            review_open_status = #{reviewOpenStatus}
+        where review_no = #{reviewNo}
+    </update>
+
+
 </mapper>

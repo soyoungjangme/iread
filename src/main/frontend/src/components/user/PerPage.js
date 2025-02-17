@@ -4,7 +4,7 @@ import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/user/PerPage.css';
 
-function PerPage({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
+function PerPage({bookNoteNoStr, storeStatus, setStoreStatus}){
     const bookNoteNo = Number(bookNoteNoStr);
 
     const navigate = useNavigate();

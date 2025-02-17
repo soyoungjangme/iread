@@ -18,4 +18,5 @@ public class ReviewDTO {
     private String reviewOpenStatus;
     private Long bookNo;
     private Long userNo;
+    private Integer bookNoteNo;
 }

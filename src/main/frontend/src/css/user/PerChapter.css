@@ -60,7 +60,7 @@
 }
 
 /*버튼*/
-.last-btn {
+.page-btn-box {
     display: flex;
     justify-content: space-between;
 }
@@ -89,4 +89,9 @@
 
 .store-btn:hover {
     background-color: #666;
+}
+
+/*북노트 종료시 textarea*/
+.done-reading {
+    border: none;
 }

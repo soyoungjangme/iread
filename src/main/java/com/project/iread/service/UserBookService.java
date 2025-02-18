@@ -21,4 +21,6 @@ public interface UserBookService {
 
     void storeReview(ReviewDTO reviewDTO, List<ReviewImgDTO> reviewImgDTOS);
     Map<String, Object> getBookNoteReview(Integer bookNoteNo);
+
+    void endBookNote(BookNoteDTO bookNoteDTO);
 }

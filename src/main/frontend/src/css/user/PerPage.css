@@ -93,3 +93,12 @@
 .store-btn:hover {
     background-color: #666;
 }
+
+/*북노트 종료시 textarea*/
+.done-reading {
+    border: none;
+}
+
+.done-reading-page {
+    all: unset;
+}

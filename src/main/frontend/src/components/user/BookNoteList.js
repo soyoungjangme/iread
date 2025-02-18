@@ -22,6 +22,9 @@ function BookNoteList(){
         <div className="book-note-list-container">
             <div className="my-book-note">
                 <p>나의 북노트</p>
+                <div className="done-reading-cnt">
+                    <p>완독도서 10권</p>
+                </div>
             </div>
             <div className="my-book-note-box">
                 {bookNoteList.length > 0 ? (

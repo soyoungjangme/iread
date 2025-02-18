@@ -161,15 +161,24 @@ public class UserBookServiceImpl implements UserBookService{
     public Map<String, Object> getBookNoteReview(Integer bookNoteNo) {
         //review 내용 호출
         ReviewDTO reviewData = userBookMapper.getReviewData(bookNoteNo);
-        Long getReviewNo = reviewData.getReviewNo();
+        if(reviewData != null){
+            Long getReviewNo = reviewData.getReviewNo();
 
-        //review 이미지 호출
-        List<ReviewImgDTO> reviewImgData = userBookMapper.getReviewImgData(getReviewNo);
+            //review 이미지 호출
+            List<ReviewImgDTO> reviewImgData = userBookMapper.getReviewImgData(getReviewNo);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("reviewData", reviewData);
-        response.put("reviewImgData", reviewImgData);
+            Map<String, Object> response = new HashMap<>();
+            response.put("reviewData", reviewData);
+            response.put("reviewImgData", reviewImgData);
 
-        return response;
+            return response;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public void endBookNote(BookNoteDTO bookNoteDTO) {
+        userBookMapper.endBookNote(bookNoteDTO);
     }
 }

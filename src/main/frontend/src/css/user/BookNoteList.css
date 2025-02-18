@@ -4,6 +4,8 @@ p {margin: 0;}
     margin-bottom: 30px;
     padding-bottom: 10px;
     border-bottom: 1px solid #666;
+    display: flex;
+    justify-content: space-between;
 }
 
 .my-book-note-box {

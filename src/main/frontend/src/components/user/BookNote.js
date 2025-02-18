@@ -22,6 +22,9 @@ function ReadingManage(){
     const [newBookNoteNo, setNewBookNoteNo] = useState(null); //생성된 북노트 key값
     const [existBookNote, setExistBookNote] = useState(null); //호출된 북노트 데이터
     const [storeStatus, setStoreStatus] = useState(true); //저장상태
+    const [endStatus, setEndStatus] = useState(false); //완독상태
+    const [endDate, setEndDate] = useState(""); //독서종료일입력값
+
 
     //날짜 포맷
     const today = new Date();
@@ -32,14 +35,14 @@ function ReadingManage(){
         if (!bookNoteNo || !bookNo) {
             console.warn("북노트 정보가 비어있습니다.");
             return;
-        }
-
+        };
         const resp = await axios.get('/api/userBook/bookNoteDetail',{
             params : {
                 bookNoteNo, bookNo
             }
         });
         console.log(resp.data);
+
         const data = resp.data;
         setSelectedBook({
             bookNo: data.bookNo,
@@ -47,10 +50,12 @@ function ReadingManage(){
         });
         setExistBookNote(data);
         setReadingStart(true);
+
+        if(data.endDate != null){
+            setEndStatus(true);
+        }
     };
 
-
-    //북노트 상세페이지
     useEffect(()=>{
         if(bookNoteNo && bookNo){
             getBookNote();
@@ -69,7 +74,11 @@ function ReadingManage(){
 
     const handleSelectBook = (book) => {
         setSelectedBook(book);
-    }
+    };
+
+    const handleEndDateChange = (e) => {
+        setEndDate(e.target.value);
+    };
 
     //시작하기
     const start = async() => {
@@ -89,10 +98,36 @@ function ReadingManage(){
         }
     };
 
+    //독서완료
+    const end = async () => {
+        if(!window.confirm('더이상 수정이 불가합니다. 기록을 종료하시겠습니까?')){
+            return;
+        }
+
+        if (storeStatus) {
+            if (endDate) {
+                const date = new Date(endDate);
+                const formattedEndDate = `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
+
+                try {
+                    await axios.post('/api/userBook/readingEnd', {
+                        endDate: formattedEndDate,
+                        bookNoteNo: bookNoteNo
+                    });
+                    setEndStatus(true);
+                    window.location.reload();
+                } catch (error) {
+                    console.error("독서 종료 API 에러", error);
+                }
+            } else {
+                alert("독서 종료일을 선택하세요.");
+            }
+        }
+    };
+
 
     return(
         <div className="reading-manage-container">
-            <div className="manage-top">> 나의 n번째 독서기록</div>
             <div className="reading-info">
                 <div className="reading reading-what">
                     <p>어떤 책을 기록하시겠습니까?</p>
@@ -115,18 +150,35 @@ function ReadingManage(){
                         />
                     }
                 </div>
-                <div className="reading reading-start-date">
-                    <p>독서시작일</p>
-                    {existBookNote ? (
-                        <p>{existBookNote.startDate}</p>
+                <div className="reading date-group">
+                    <div className="date reading-start-date">
+                        <p>독서시작일</p>
+                        {existBookNote ? (
+                            <p className="reading-date">{existBookNote.startDate}</p>
+                        ):(
+                            <p className="reading-date">{formattedDate}</p>
+                        )}
+                    </div>
+                    {(newBookNoteNo || bookNoteNo) ? (
+                        <div className="date reading-end-date">
+                            <p>독서종료일</p>
+                            {existBookNote?.endDate ? (
+                                <p className="reading-date">{existBookNote.endDate}</p>
+                            ):(
+                                <input type="date" value={endDate || ""} onChange={handleEndDateChange}/>
+                            )}
+                        </div>
                     ):(
-                        <p>{formattedDate}</p>
+                        null
                     )}
                 </div>
 
-                {(!readingStart || !selectedBook) &&
+                {(!readingStart || !selectedBook) ?(
                     <button type="button" className="start-reading" onClick={start}>시작하기</button>
-                }
+                ):(
+                    !endStatus &&
+                        <button type="button" className="end-reading" onClick={end}>독서완료</button>
+                )}
             </div>
 
             {(readingStart && selectedBook) &&
@@ -153,16 +205,19 @@ function ReadingManage(){
                     {activeMenu === 'chapter' && <PerChapter bookNoteNoStr={newBookNoteNo || bookNoteNo}
                                                     storeStatus={storeStatus}
                                                     setStoreStatus={setStoreStatus}
+                                                    endStatus={endStatus}
                                                 />}
                     {activeMenu === 'page' && <PerPage bookNoteNoStr={newBookNoteNo || bookNoteNo}
                                                     bookNo={bookNo || null}
                                                     storeStatus={storeStatus}
                                                     setStoreStatus={setStoreStatus}
+                                                    endStatus={endStatus}
                                                 />}
                     {activeMenu === 'review' && <BookNoteReview bookNoteNoStr={newBookNoteNo || bookNoteNo}
                                                     bookNo={selectedBook.bookNo || bookNo}
                                                     storeStatus={storeStatus}
                                                     setStoreStatus={setStoreStatus}
+                                                    endStatus={endStatus}
                                                 />}
                 </>
             }

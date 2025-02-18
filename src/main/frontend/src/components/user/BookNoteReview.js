@@ -3,10 +3,11 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookNoteReview.css';
 
-function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
+function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, endStatus}){
     const bookNoteNo = Number(bookNoteNoStr);
 
     const imgRef = useRef();
+    const navigate = useNavigate();
 
     const [images, setImages] = useState([]);
     const [review, setReview] = useState({
@@ -24,9 +25,10 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
     const formattedDate = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
 
     useEffect(()=>{
-        console.log('리뷰: ', review);
-        console.log('images: ', images);
-    },[review, images]);
+        if(storeStatus){ //저장시 데이터호출
+            getReviewData();
+        };
+    },[storeStatus]);
 
     useEffect(() => {
         getReviewData(); //데이터 호출
@@ -37,8 +39,6 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
         const resp = await axios.get('/api/userBook/getBookNoteReview',{
             params: {bookNoteNo}
         });
-        console.log('리뷰 호출: ', resp.data.reviewData);
-        console.log('이미지 호출: ', resp.data.reviewImgData);
 
         const data = resp.data;
         if (data.reviewData) {
@@ -114,8 +114,10 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
 
     // 이미지 삭제 핸들러
     const handleRemoveImage = (index) => {
-        setStoreStatus(false);
-        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        if(!endStatus){
+            setStoreStatus(false);
+            setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        };
     };
 
     //공개여부
@@ -134,11 +136,27 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
             images: images
         });
         alert(resp.data);
-        window.location.reload();
+        setStoreStatus(true);
+    };
+
+    //목록버튼
+    const moveToList = () => {
+        if (storeStatus) {
+            navigate("/user/BookNoteList");
+        } else {
+            if (window.confirm("저장되지 않았습니다. 목록으로 이동하시겠습니까?")) {
+                navigate("/user/BookNoteList");
+            }
+        }
     };
 
     return(
         <div className="book-review-container">
+            {endStatus &&
+                <div className="noti-review">
+                    <span>리뷰 목록에서 수정하실 수 있습니다.</span>
+                </div>
+            }
             <div className="book-review-group">
                 <p>어떤 책이었나요?</p>
                 <div className="simple-input-group">
@@ -154,9 +172,10 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
                 <textarea
                     placeholder="내용입력"
                     id="reviewText"
-                    className="text-review"
+                    className={`text-review ${endStatus ? 'done-reading' : ''}`}
                     onChange={handleReviewChange}
                     value={review.reviewText}
+                    disabled={endStatus}
                 ></textarea>
             </div>
             <div className="book-img-group">
@@ -174,33 +193,48 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus}){
                     {images.map((img, index) => (
                         <div key={index} className="image-preview">
                             <img src={img.reviewImgURL || "/null-img.png"} alt={`preview-${index}`} />
-                            <button onClick={() => handleRemoveImage(index)}>X</button>
+                            {!endStatus &&
+                                <button onClick={() => handleRemoveImage(index)}>X</button>
+                            }
                         </div>
                     ))}
                 </div>
             </div>
             <div className="store-review">
-                <div className="visibility-options">
-                    <label>
-                        <input
-                            type="radio"
-                            value="public"
-                            checked={review.reviewOpenStatus === "public"}
-                            onChange={handleVisibilityChange}
-                        />
-                        공개
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="private"
-                            checked={review.reviewOpenStatus === "private"}
-                            onChange={handleVisibilityChange}
-                        />
-                        비공개
-                    </label>
+                {(!endStatus) ? (
+                    <div className="visibility-options">
+                        <label>
+                            <input
+                                type="radio"
+                                value="public"
+                                checked={review.reviewOpenStatus === "public"}
+                                onChange={handleVisibilityChange}
+                            />
+                            공개
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                value="private"
+                                checked={review.reviewOpenStatus === "private"}
+                                onChange={handleVisibilityChange}
+                            />
+                            비공개
+                        </label>
+                    </div>
+                ):(
+                    <div className="visibility-options">
+                        <span style={{fontSize: "small", color: "#999"}}>{review.reviewOpenStatus === "public" ? "공개상태" : "비공개상태"}</span>
+                    </div>
+                )}
+
+                <div className="page-btn-box">
+                    <button type="button" className="list-btn" onClick={moveToList}>목록</button>
+                    {!endStatus &&
+                        <button className="store-btn" onClick={storeReview}>저장</button>
+                    }
                 </div>
-                <button className="review-store-btn" onClick={storeReview}>저장</button>
+
             </div>
         </div>
     );

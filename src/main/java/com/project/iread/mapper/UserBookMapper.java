@@ -32,4 +32,5 @@ public interface UserBookMapper {
     void updateReview(ReviewDTO reviewDTO);
     void deleteReviewImg(Long reviewImgNo);
 
+    void endBookNote(BookNoteDTO bookNoteDTO);
 }

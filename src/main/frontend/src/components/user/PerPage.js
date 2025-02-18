@@ -4,14 +4,16 @@ import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/user/PerPage.css';
 
-function PerPage({bookNoteNoStr, storeStatus, setStoreStatus}){
+function PerPage({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
     const bookNoteNo = Number(bookNoteNoStr);
 
     const navigate = useNavigate();
     const [pages, setPages] = useState([]);
 
     useEffect(()=>{
-        console.log("페이지저장상태: ", storeStatus);
+        if(storeStatus){ //저장시 데이터호출
+            getPageData();
+        };
     },[storeStatus]);
 
     useEffect(() => {
@@ -92,7 +94,7 @@ function PerPage({bookNoteNoStr, storeStatus, setStoreStatus}){
             bookNoteNo: bookNoteNo
         });
         alert(resp.data);
-        window.location.reload();
+        setStoreStatus(true);
     };
 
     //목록버튼
@@ -116,35 +118,39 @@ function PerPage({bookNoteNoStr, storeStatus, setStoreStatus}){
                 <div className="per-page-group" key={index}>
                     <div className="page-input-group">
                         <div className="page-input">
-                            <span>{page.startPage}P</span>
+                            <span>Page. {page.startPage}</span>
                             <span>~</span>
                             <input type="text"
                                 name="endPage"
-                                className="last-page"
+                                className={`last-page ${endStatus ? 'done-reading-page' : ''}`}
                                 value={page.endPage}
                                 onChange={(e)=>handleChangeInput(index, e)}
                             />
-                            <span>P</span>
                         </div>
 
-                        {(index === pages.length - 1 && pages.length > 1) &&
+                        {(index === pages.length - 1 && pages.length > 1) && (!endStatus) &&
                             <i className="bi bi-dash" onClick={()=>removeChapter(page.pageIndex)}></i>
                         }
                     </div>
                     <textarea placeholder="내용입력"
                         name="pageContent"
+                        className={`text-page ${endStatus ? 'done-reading' : ''}`}
                         value={page.pageContent}
                         onChange={(e)=>handleChangeInput(index, e)}
+                        disabled={endStatus}
                     ></textarea>
-                    {(index === pages.length - 1) &&
+                    {(index === pages.length - 1) && (!endStatus) &&
                         <i className="bi bi-plus-square" onClick={handleAddChapter}></i>
                     }
                 </div>
             ))}
-            <div className="page-btn-box">
-                <button type="button" className="list-btn" onClick={moveToList}>목록</button>
-                <button type="button" className="store-btn" onClick={storePage}>저장</button>
-            </div>
+                <div className="page-btn-box">
+                    <button type="button" className="list-btn" onClick={moveToList}>목록</button>
+                    {!endStatus &&
+                        <button type="button" className="store-btn" onClick={storePage}>저장</button>
+                    }
+                </div>
+
         </div>
     );
 }

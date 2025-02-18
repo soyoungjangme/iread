@@ -92,8 +92,6 @@ public class UserBookController {
         ReviewDTO reviewDTO = objectMapper.convertValue(data.get("review"), new TypeReference<ReviewDTO>() {});
         List<ReviewImgDTO> reviewImgDTOS = objectMapper.convertValue(data.get("images"), new TypeReference<List<ReviewImgDTO>>() {});
 
-        System.out.println("리뷰내용: " + reviewDTO + " & 이미지링크: " + reviewImgDTOS);
-
         userBookService.storeReview(reviewDTO, reviewImgDTOS);
 
         return ResponseEntity.ok("도서리뷰가 정상적으로 저장되었습니다.");
@@ -103,7 +101,13 @@ public class UserBookController {
     @GetMapping("/getBookNoteReview")
     public ResponseEntity<Map<String, Object>> getBookNoteReview(@RequestParam("bookNoteNo") Integer bookNoteNo){
         Map<String, Object> bookNoteReview = userBookService.getBookNoteReview(bookNoteNo);
-        System.out.println("리뷰 호출: " + bookNoteReview);
         return ResponseEntity.ok(bookNoteReview);
+    }
+
+    //독서종료
+    @PostMapping("/readingEnd")
+    public void readingEnd(@RequestBody BookNoteDTO dto){
+        System.out.println("dd "+dto.toString());
+        userBookService.endBookNote(dto);
     }
 }

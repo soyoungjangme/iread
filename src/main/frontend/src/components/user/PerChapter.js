@@ -5,14 +5,16 @@ import '../../css/user/PerChapter.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus}){
+function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
     const bookNoteNo = Number(bookNoteNoStr);
     const navigate =useNavigate();
 
     const [chapters, setChapters] = useState([]);
 
     useEffect(()=>{
-        console.log("챕터저장상태: ", storeStatus);
+        if(storeStatus){ //저장시 데이터호출
+            getChapterData();
+        };
     },[storeStatus]);
 
     useEffect(() => {
@@ -21,8 +23,7 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus}){
             return;
         }
         getChapterData();
-    }, [bookNoteNo]);  // bookNoteNo가 변경될 때마다 실행
-
+    }, [bookNoteNo]);
 
     //기존 데이터 호출
     const getChapterData = async() => {
@@ -77,7 +78,7 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus}){
             bookNoteNo: bookNoteNo
         });
         alert(resp.data);
-        window.location.reload();
+        setStoreStatus(true);
     };
 
     //목록버튼
@@ -108,25 +109,28 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus}){
                             value={chapter.chapterTitle}
                             onChange={(e)=>handleChangeInput(index, e)}
                         />
-                        {(index === chapters.length - 1 && chapters.length > 1) &&
+                        {(index === chapters.length - 1 && chapters.length > 1) && (!endStatus) &&
                             <i className="bi bi-dash" onClick={()=>removeChapter(chapter.chapterNo)}></i>
                         }
                     </div>
                     <textarea placeholder="내용입력"
                         name="chapterContent"
+                        className={`text-chapter ${endStatus ? 'done-reading' : ''}`}
                         value={chapter.chapterContent}
                         onChange={(e)=>handleChangeInput(index, e)}
+                        disabled={endStatus}
                     ></textarea>
-                    {(index === chapters.length - 1) &&
+                    {(index === chapters.length - 1) && (!endStatus) &&
                         <i className="bi bi-plus-square" onClick={handleAddChapter}></i>
                     }
                 </div>
             ))}
-            <div className="last-btn">
-                <button type="button" className="list-btn" onClick={moveToList}>목록</button>
-                <button type="button" className="store-btn" onClick={storeChapter}>저장</button>
-            </div>
-
+                <div className="page-btn-box">
+                    <button type="button" className="list-btn" onClick={moveToList}>목록</button>
+                    {!endStatus &&
+                        <button type="button" className="store-btn" onClick={storeChapter}>저장</button>
+                    }
+                </div>
         </div>
     )
 }

@@ -9,6 +9,13 @@
         select bn.*, b.title, b.image
         from book_note bn
         join books b on b.book_no = bn.book_no
+        order by
+            case
+                when bn.end_date is null then 0
+                else 1
+            end,
+            bn.start_date desc,
+            bn.end_date desc
     </select>
 
     <resultMap id="BookNoteMap" type="com.project.iread.dto.BookNoteDTO">
@@ -159,5 +166,10 @@
         where review_no = #{reviewNo}
     </update>
 
-
+<!-- 북노트종료일 입력 -->
+    <insert id="endBookNote" parameterType="com.project.iread.dto.BookNoteDTO">
+        update book_note
+        set end_date = #{endDate}
+        where book_note_no = #{bookNoteNo}
+    </insert>
 </mapper>

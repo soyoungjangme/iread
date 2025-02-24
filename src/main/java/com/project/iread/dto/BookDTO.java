@@ -28,4 +28,5 @@ public class BookDTO {
     private LocalDateTime regDate; // current_timestamp
 
     private String genreName;
+    private Integer reviewCnt;
 }

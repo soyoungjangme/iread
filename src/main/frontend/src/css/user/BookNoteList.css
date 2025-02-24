@@ -29,6 +29,13 @@ p {margin: 0;}
 }
 
 .book-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+}
+
+.book-status > p{
     border-radius: 3px;
     font-size: small;
     font-weight: bold;
@@ -37,16 +44,32 @@ p {margin: 0;}
     width: 40%;
 }
 
-.reading-status{
+.reading-status > p {
     border: 1px solid #819e7b;
     background-color: #819e7b;
 }
 
-.done-status {
+.done-status > p {
     border: 1px solid #cfcfcf;
     background-color: #cfcfcf;
     color: #666;
 }
+
+.del-book-note {
+    color: #666;
+    display: none;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.del-book-note:hover {
+    color: rgb(212, 34, 34);
+}
+
+.my-book:hover .del-book-note {
+    display: block;
+}
+
 
 .book-title {
     font-size: small;
@@ -76,4 +99,9 @@ p {margin: 0;}
 
 .no-my-book > a:hover {
     color: #4242ff;
+}
+
+.done-reading-cnt {
+    font-size: small;
+    color: #666;
 }

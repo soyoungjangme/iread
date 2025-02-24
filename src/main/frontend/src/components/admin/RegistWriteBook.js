@@ -64,7 +64,7 @@ function RegistWriteBook(){
             const resp = await axios.post('/api/adminBook/registWriteBook', bookInfo);
             alert(resp.data);
             if(resp.status){
-                window.location.href="/iread/admin/booklist";
+                window.location.href="/iread/admin/adminbooklist";
             }
         }catch (error){
             console.log("도서등록실패 ", error);

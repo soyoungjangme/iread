@@ -27,7 +27,7 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
 
     //기존 데이터 호출
     const getChapterData = async() => {
-        const resp = await axios.get('/api/userBook/chapterData',{
+        const resp = await axios.get('/api/userBookNote/chapterData',{
           params:{bookNoteNo}
         });
         console.log(resp.data);
@@ -73,7 +73,7 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
 
     //저장버튼
     const storeChapter = async() => {
-        const resp = await axios.post('/api/userBook/storeChapter',{
+        const resp = await axios.post('/api/userBookNote/storeChapter',{
             chapters: chapters,
             bookNoteNo: bookNoteNo
         });
@@ -91,10 +91,6 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
             }
         }
     };
-
-    useEffect(()=>{
-        console.log('chapters: ', chapters);
-    },[chapters]);
 
     return(
         <div className="per-chapter-container">

@@ -17,6 +17,10 @@ function RegistSearchBook(){
     const [genre, setGenre] = useState([]); // 장르 호출
 
     useEffect(() => {
+        console.log('목록: ', addedList);
+    },[addedList]);
+
+    useEffect(() => {
         checkSameBook();
         getGenre();
     },[]);
@@ -72,12 +76,20 @@ function RegistSearchBook(){
 
     //목록에 도서 추가
     const addList = (list) => {
+        const date = new Date(
+            list.pubdate.slice(0, 4),
+            Number(list.pubdate.slice(4, 6)) - 1,
+            Number(list.pubdate.slice(6, 8))
+        );
+
+        const formattedDate = `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
+
         setAddedList((prevList) => {
             if (prevList.some((prev) => prev.isbn === list.isbn)) {
-                alert('이미 존재');
+                alert('목록에 존재하는 도서입니다.');
                 return prevList;
             }
-            return [...prevList, { ...list, genreNo: "" }];
+            return [...prevList, { ...list, pubdate: formattedDate, genreNo: "" }];
         });
     };
 
@@ -100,7 +112,7 @@ function RegistSearchBook(){
             alert(response.data); // "등록성공"
 
             if(response.status){
-                window.location.href="/iread/admin/booklist";
+                window.location.href="/iread/admin/adminbooklist";
             }
         } catch (error) {
             console.error(error.response ? error.response.data : error.message);

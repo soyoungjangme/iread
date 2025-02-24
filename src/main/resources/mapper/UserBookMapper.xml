@@ -5,10 +5,11 @@
 <mapper namespace="com.project.iread.mapper.UserBookMapper">
 
 <!--  북노트 목록  -->
-    <select id="getMyBookNote" resultMap="BookNoteMap">
+    <select id="getMyBookNote" parameterType="long" resultMap="BookNoteMap">
         select bn.*, b.title, b.image
         from book_note bn
         join books b on b.book_no = bn.book_no
+        where bn.user_no = #{userNo}
         order by
             case
                 when bn.end_date is null then 0
@@ -29,6 +30,20 @@
         <result property="image" column="image" />
     </resultMap>
 
+<!--  완독도서 카운트  -->
+    <select id="endReadingCnt" parameterType="long" resultType="int">
+        select count(*) from book_note
+        where user_no = #{userNo}
+            and end_date is not null
+    </select>
+
+<!--  북노트 삭제  -->
+    <delete id="deleteBookNote" parameterType="int">
+        delete from book_note
+        where book_note_no = #{bookNoteNo}
+    </delete>
+
+
 <!--  북노트 도서검색  -->
     <select id="getSearchResult" parameterType="string" resultType="com.project.iread.dto.BookDTO">
         select book_no, title, author, image from books
@@ -38,8 +53,8 @@
 
 <!--  독서기록 시작하기  -->
     <insert id="createBookTable" parameterType="com.project.iread.dto.BookNoteDTO" useGeneratedKeys="true" keyProperty="bookNoteNo">
-        insert into book_note(start_date, book_no)
-        values(#{startDate}, #{bookNo})
+        insert into book_note(start_date, book_no, user_no)
+        values(#{startDate}, #{bookNo}, #{userNo})
     </insert>
 
 <!--  독서기록 저장하기  -->
@@ -122,12 +137,14 @@
                             review_reg_date,
                             review_open_status,
                             book_no,
+                            user_no,
                             book_note_no)
         values (#{reviewShort},
                 #{reviewText},
                 #{reviewRegDate},
                 #{reviewOpenStatus},
                 #{bookNo},
+                #{userNo},
                 #{bookNoteNo})
     </insert>
 
@@ -172,4 +189,33 @@
         set end_date = #{endDate}
         where book_note_no = #{bookNoteNo}
     </insert>
+
+<!--  모든 도서 목록 호출  -->
+    <select id="getAllBook" resultMap="booksMap">
+        select b.*, g.genre_name, count(r.book_no) as review_cnt
+        from books b
+        left join genres g on g.genre_no = b.genre_no
+        left join reviews r on r.book_no = b.book_no
+        where b.book_activated = 'Y'
+        group by b.book_no
+        order by b.reg_date desc
+    </select>
+
+    <resultMap id="booksMap" type="com.project.iread.dto.BookDTO">
+        <id property="bookNo" column="book_no"/>
+        <result property="isbn" column="isbn"/>
+        <result property="title" column="title"/>
+        <result property="link" column="link"/>
+        <result property="image" column="image"/>
+        <result property="author" column="author"/>
+        <result property="discount" column="discount"/>
+        <result property="publisher" column="publisher"/>
+        <result property="pubdate" column="pubdate"/>
+        <result property="description" column="description"/>
+        <result property="bookLike" column="book_like"/>
+        <result property="bookActivated" column="book_activated"/>
+        <result property="genreNo" column="genre_no"/>
+        <result property="genreName" column="genre_name"/>
+        <result property="reviewCnt" column="review_cnt"/>
+    </resultMap>
 </mapper>

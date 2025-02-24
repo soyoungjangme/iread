@@ -14,9 +14,20 @@ public class UserBookServiceImpl implements UserBookService{
     @Autowired
     private UserBookMapper userBookMapper;
 
+// userBookNote
     @Override
-    public List<BookNoteDTO> getMyBookNote() {
-        return userBookMapper.getMyBookNote();
+    public List<BookNoteDTO> getMyBookNote(Long userNo) {
+        return userBookMapper.getMyBookNote(userNo);
+    }
+
+    @Override
+    public Integer endReadingCnt(Long userNo) {
+        return userBookMapper.endReadingCnt(userNo);
+    }
+
+    @Override
+    public boolean deleteBookNote(Integer bookNoteNo) {
+        return userBookMapper.deleteBookNote(bookNoteNo);
     }
 
     @Override
@@ -181,4 +192,13 @@ public class UserBookServiceImpl implements UserBookService{
     public void endBookNote(BookNoteDTO bookNoteDTO) {
         userBookMapper.endBookNote(bookNoteDTO);
     }
+
+    @Override
+    public List<BookDTO> getAllBook() {
+        return userBookMapper.getAllBook();
+    }
+
+// userBook
+
+
 }

@@ -27,7 +27,7 @@ function PerPage({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
 
     //기존 데이터 호출
     const getPageData = async() => {
-        const resp = await axios.get('/api/userBook/pageData',{
+        const resp = await axios.get('/api/userBookNote/pageData',{
             params:{bookNoteNo}
         });
         console.log(resp.data);
@@ -89,7 +89,7 @@ function PerPage({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
 
     //저장버튼
     const storePage = async() => {
-        const resp = await axios.post('/api/userBook/storePage',{
+        const resp = await axios.post('/api/userBookNote/storePage',{
             pages: pages,
             bookNoteNo: bookNoteNo
         });
@@ -107,10 +107,6 @@ function PerPage({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
             }
         }
     };
-
-    useEffect(()=>{
-        console.log("page: ", pages);
-    });
 
     return(
         <div className="per-page-container">

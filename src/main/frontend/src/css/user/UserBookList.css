@@ -1,0 +1,150 @@
+.registed-book-list-container p {
+    margin: 0;
+}
+
+/* top */
+.book-list-top {
+    border-bottom: 1px solid #999;
+    color: #66785f;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+/* 도서목록 */
+.user-book-list-container {
+/* width: 85%; */
+    padding: 20px 10px;
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.book-none-list {
+    padding: 20px 10px;
+    font-size: small;
+    color: #666;
+    text-align: center;
+}
+
+.list-no {
+    width: 5%;
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-img {
+    width: 11%;
+    /* border: 1px solid black; */
+}
+
+.book-img img{
+    width: 100%;
+}
+
+.book-info {
+    width: 70%;
+    /* border: 1px solid black; */
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-btn {
+    width: 12%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+}
+
+/* book-info */
+.info-title {
+    font-size: medium;
+    margin-bottom: 5px;
+}
+
+.info-from {
+    font-size: small;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.info-review {
+    font-size: small;
+    color: #999;
+}
+
+/* 버튼 */
+.btns {
+    position: relative;
+    width: 85px;
+    height: 30px; /* 고정 높이 설정 */
+}
+
+.book-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+}
+
+.btns > button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: small;
+    padding: 3px;
+    border-radius: 7px;
+    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.write-review {
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 7px;
+    height: 30px;
+    font-size: small;
+    padding: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.like-text {
+    background-color: #F9C4C2;
+    border: 1px solid #F9C4C2;
+}
+
+.like-icon {
+    background-color: #fa8581;
+    border: 1px solid #fa8581;
+    color: white;
+    opacity: 0;
+}
+
+.reading-text {
+    background-color: #B2C9AD;
+    border: 1px solid #B2C9AD;
+}
+
+.reading-icon {
+    background-color: #819e7b;
+    border: 1px solid #819e7b;
+    color: white;
+    opacity: 0;
+}
+
+.like-btn:hover .like-text,
+.reading-btn:hover .reading-text {
+    opacity: 0;
+}
+
+.like-btn:hover .like-icon,
+.reading-btn:hover .reading-icon {
+    opacity: 1;
+}

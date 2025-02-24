@@ -63,6 +63,8 @@ p {margin:0;}
 .end-reading {
     all: unset;
     float: right;
+    border: 1px solid #66785fab;
+    border-radius: 3px;
     color: #66785F;
     padding: 5px 10px;
     font-size: small;
@@ -74,8 +76,6 @@ p {margin:0;}
 .start-reading:hover,
 .end-reading:hover {
     background-color: #66785f50;
-    border-radius: 5px;
-    padding: 5px 10px;
 }
 
 .start-reading-menu {

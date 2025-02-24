@@ -2,7 +2,7 @@ import React, { useEffect, useState }  from 'react';
 import ReactPaginate from 'react-paginate';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import '../../css/admin/BookList.css';
+import '../../css/admin/AdminBookList.css';
 
 function BookList(){
     const [keyword, setKeyword] = useState(''); //검색어
@@ -14,8 +14,6 @@ function BookList(){
     const [currentPage, setCurrentPage] = useState(0); //현재 페이지번호
 
     const bookPerPage = 10; //페이지당 도서 개수
-
-
 
     useEffect(() => {
         scrollTop();

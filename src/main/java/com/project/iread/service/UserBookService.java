@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserBookService {
-
-    List<BookNoteDTO> getMyBookNote();
+// userBookNote
+    List<BookNoteDTO> getMyBookNote(Long userNo);
+    Integer endReadingCnt(Long userNo);
+    boolean deleteBookNote(Integer bookNoteNo);
 
     List<BookDTO> getSearchResult(String keyword);
     Integer readingStart(BookNoteDTO dto);
@@ -23,4 +25,8 @@ public interface UserBookService {
     Map<String, Object> getBookNoteReview(Integer bookNoteNo);
 
     void endBookNote(BookNoteDTO bookNoteDTO);
+
+// userBook
+    List<BookDTO> getAllBook();
+
 }

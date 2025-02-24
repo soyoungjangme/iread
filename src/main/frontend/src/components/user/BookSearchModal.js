@@ -19,7 +19,7 @@ function BookSearchModal({onClose, onSelect}){
             return;
         }
 
-        const resp = await axios.get('/api/userBook/searchResult',{
+        const resp = await axios.get('/api/userBookNote/searchResult',{
             params: {keyword}
         });
         setSearchResult(resp.data);

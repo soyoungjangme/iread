@@ -36,7 +36,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
 
     //데이터 호출
     const getReviewData = async() => {
-        const resp = await axios.get('/api/userBook/getBookNoteReview',{
+        const resp = await axios.get('/api/userBookNote/getBookNoteReview',{
             params: {bookNoteNo}
         });
 
@@ -131,7 +131,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
 
     //저장하기
     const storeReview = async() => {
-        const resp = await axios.post('/api/userBook/storeReview',{
+        const resp = await axios.post('/api/userBookNote/storeReview',{
             review: review,
             images: images
         });

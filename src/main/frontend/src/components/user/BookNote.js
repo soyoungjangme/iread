@@ -36,7 +36,7 @@ function ReadingManage(){
             console.warn("북노트 정보가 비어있습니다.");
             return;
         };
-        const resp = await axios.get('/api/userBook/bookNoteDetail',{
+        const resp = await axios.get('/api/userBookNote/bookNoteDetail',{
             params : {
                 bookNoteNo, bookNo
             }
@@ -85,7 +85,7 @@ function ReadingManage(){
         if(selectedBook){
             setReadingStart(true);
             try{
-                const resp = await axios.post('/api/userBook/readingStart', // book_note 생성
+                const resp = await axios.post('/api/userBookNote/readingStart', // book_note 생성
                     {
                         startDate: formattedDate,
                         bookNo: selectedBook.bookNo
@@ -110,7 +110,7 @@ function ReadingManage(){
                 const formattedEndDate = `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
 
                 try {
-                    await axios.post('/api/userBook/readingEnd', {
+                    await axios.post('/api/userBookNote/readingEnd', {
                         endDate: formattedEndDate,
                         bookNoteNo: bookNoteNo
                     });

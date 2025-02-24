@@ -8,8 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface UserBookMapper {
-
-    List<BookNoteDTO> getMyBookNote();
+// userBookNote
+    List<BookNoteDTO> getMyBookNote(Long userNo);
+    Integer endReadingCnt(Long userNo);
+    boolean deleteBookNote(Integer bookNoteNo);
 
     List<BookDTO> getSearchResult(String keyword);
     void createBookTable(BookNoteDTO dto);
@@ -33,4 +35,7 @@ public interface UserBookMapper {
     void deleteReviewImg(Long reviewImgNo);
 
     void endBookNote(BookNoteDTO bookNoteDTO);
+
+// userBook
+    List<BookDTO> getAllBook();
 }

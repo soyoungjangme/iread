@@ -194,8 +194,8 @@ public class UserBookServiceImpl implements UserBookService{
     }
 
     @Override
-    public List<BookDTO> getAllBook() {
-        return userBookMapper.getAllBook();
+    public List<BookDTO> getAllBook(int offset, int limit) {
+        return userBookMapper.getAllBook(offset, limit);
     }
 
 // userBook

@@ -1,25 +1,63 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/UserBookList.css';
 
 function UserBookList(){
+    const navigate = useNavigate();
 
-    const [books, setBooks] = useState([]);
+    const [books, setBooks] = useState([]); //도서목록
+    const [page, setPage] = useState(1); //현재페이지
+    const [loading, setLoading] = useState(false); //로딩상태
+    const [hasMore, setHasMore] = useState(true); //추가데이터여부
+    const observerRef = useRef(null); //감지할 요소 ref
 
-    useEffect(()=>{
-       getAllBook();
-    },[]);
+    // 도서 목록 호출
+    const getAllBook = async () => {
+        if (!hasMore || loading) return;
+        setLoading(true);
 
-    //모든 책 호출
-    const getAllBook = async() => {
-        try{
-            const resp = await axios.get('/api/userBook/getAllBook');
-            setBooks(resp.data);
-            console.log(resp.data);
-        } catch (error){
-            console.error('도서호출 중 에러발생 ', error);
+        try {
+            const resp = await axios.get('/api/userBook/getAllBook', {
+                params: { page, limit: 15 }
+            });
+            const data = resp.data;
+
+            setBooks((prev) => [...prev, ...data]);
+            setHasMore(data.length === 15);
+            console.log(data);
+        } catch (error) {
+            console.error('도서 호출 중 에러 발생', error);
+        } finally {
+            setLoading(false);
         }
+    };
 
+    // 페이지 변경 시 도서 목록 호출
+    useEffect(() => {
+        getAllBook();
+    }, [page]);
+
+    // Intersection Observer 설정
+    const observerCallback = useCallback((entries) => {
+        if (entries[0].isIntersecting) {
+            setPage((prevPage) => (!loading && hasMore ? prevPage + 1 : prevPage));
+        }
+    }, [loading, hasMore]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(observerCallback, { threshold: 0.1 });
+
+        if (observerRef.current) observer.observe(observerRef.current);
+
+        return () => {
+            if (observerRef.current) observer.unobserve(observerRef.current);
+        };
+    }, [observerCallback]);
+
+    //독서할래
+    const handleBookNote = (bookNo, title) => {
+        navigate('/user/BookNote', { state : {bookNo, title}});
     };
 
     return(
@@ -42,7 +80,7 @@ function UserBookList(){
                                     <p>{book.title}</p>
                                 </div>
                                 <div className="info-from">
-                                    <p>{book.author} | {book.publisher} | {book.pubdate}</p>
+                                    <p>{book.genreName} | {book.author} | {book.publisher} | {book.pubdate}</p>
                                 </div>
                                 <div className="info-review">
                                     <p>리뷰 {book.reviewCnt}건</p>
@@ -56,7 +94,7 @@ function UserBookList(){
                             </div>
                             <div className="reading-btn btns">
                                 <button type="button" className="reading-text">독서할래?</button>
-                                <button type="button" className="reading-icon"><i className="bi bi-pencil-fill"></i></button>
+                                <button type="button" className="reading-icon" onClick={() => handleBookNote(book.bookNo, book.title)}><i className="bi bi-pencil-fill"></i></button>
                             </div>
                             <button type="button" className="write-review">리뷰쓸래</button>
                         </div>
@@ -67,6 +105,11 @@ function UserBookList(){
                     <p>도서가 존재하지 않습니다.</p>
                 </div>
             )}
+
+            {/*무한스크롤 감지영역*/}
+            <div ref={observerRef} style={{ height: "20px" }} />
+            {/*로딩메시지*/}
+            {/*{ loading && <p className="loading-text">Loading...</p> }*/}
         </div>
     );
 }

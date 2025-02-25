@@ -191,7 +191,7 @@
     </insert>
 
 <!--  모든 도서 목록 호출  -->
-    <select id="getAllBook" resultMap="booksMap">
+    <select id="getAllBook" parameterType="int" resultMap="booksMap">
         select b.*, g.genre_name, count(r.book_no) as review_cnt
         from books b
         left join genres g on g.genre_no = b.genre_no
@@ -199,6 +199,7 @@
         where b.book_activated = 'Y'
         group by b.book_no
         order by b.reg_date desc
+        limit #{limit} offset #{offset}
     </select>
 
     <resultMap id="booksMap" type="com.project.iread.dto.BookDTO">

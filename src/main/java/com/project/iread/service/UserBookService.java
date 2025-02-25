@@ -27,6 +27,6 @@ public interface UserBookService {
     void endBookNote(BookNoteDTO bookNoteDTO);
 
 // userBook
-    List<BookDTO> getAllBook();
+    List<BookDTO> getAllBook(int offset, int limit);
 
 }

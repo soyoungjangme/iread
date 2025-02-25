@@ -37,5 +37,5 @@ public interface UserBookMapper {
     void endBookNote(BookNoteDTO bookNoteDTO);
 
 // userBook
-    List<BookDTO> getAllBook();
+    List<BookDTO> getAllBook(@Param("offset") int offset, @Param("limit") int limit);
 }

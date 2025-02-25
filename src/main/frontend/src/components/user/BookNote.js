@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookNote.css';
 import PerChapter from './PerChapter.js';
@@ -10,6 +10,8 @@ import BookSearchModal from './BookSearchModal.js';
 function ReadingManage(){
 
     const [searchParams] = useSearchParams();
+    const location = useLocation();
+
 
     // 북노트목록에서 클릭한 북노트정보
     const bookNoteNo = searchParams.get("no");
@@ -25,6 +27,15 @@ function ReadingManage(){
     const [endStatus, setEndStatus] = useState(false); //완독상태
     const [endDate, setEndDate] = useState(""); //독서종료일입력값
 
+    //도서목록에서 가져온 책정보
+    useEffect(() => {
+        if (location.state?.bookNo && location.state?.title) {
+            setSelectedBook({
+                bookNo: location.state.bookNo,
+                title: location.state.title
+            });
+        }
+    }, [location.state]);
 
     //날짜 포맷
     const today = new Date();

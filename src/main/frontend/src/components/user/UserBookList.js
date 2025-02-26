@@ -60,6 +60,11 @@ function UserBookList(){
         navigate('/user/BookNote', { state : {bookNo, title}});
     };
 
+    //도서상세보기(더블클릭)
+    const handleClickBook = (bookNo) => {
+        navigate(`/user/BookDetail?no=${bookNo}`);
+    };
+
     return(
         <div className="registed-book-list-container">
             <div className="book-list-top">
@@ -71,10 +76,10 @@ function UserBookList(){
                         <div className="list-no">
                             <p>{index+1}</p>
                         </div>
-                        <div className="book-img">
+                        <div className="book-img" onDoubleClick={() => handleClickBook(book.bookNo)}>
                             <img src={book.image || "/null-img.png"} />
                         </div>
-                        <div className="book-info">
+                        <div className="book-info" onDoubleClick={() => handleClickBook(book.bookNo)}>
                             <div>
                                 <div className="info-title">
                                     <p>{book.title}</p>
@@ -92,9 +97,9 @@ function UserBookList(){
                                 <button type="button" className="like-text">관심있어?</button>
                                 <button type="button" className="like-icon"><i className="bi bi-suit-heart-fill"></i></button>
                             </div>
-                            <div className="reading-btn btns">
+                            <div className="reading-btn btns" onClick={() => handleBookNote(book.bookNo, book.title)}>
                                 <button type="button" className="reading-text">독서할래?</button>
-                                <button type="button" className="reading-icon" onClick={() => handleBookNote(book.bookNo, book.title)}><i className="bi bi-pencil-fill"></i></button>
+                                <button type="button" className="reading-icon"><i className="bi bi-pencil-fill"></i></button>
                             </div>
                             <button type="button" className="write-review">리뷰쓸래</button>
                         </div>

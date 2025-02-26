@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookNote.css';
 import PerChapter from './PerChapter.js';
@@ -11,7 +11,7 @@ function ReadingManage(){
 
     const [searchParams] = useSearchParams();
     const location = useLocation();
-
+    const navigate = useNavigate();
 
     // 북노트목록에서 클릭한 북노트정보
     const bookNoteNo = searchParams.get("no");
@@ -126,7 +126,7 @@ function ReadingManage(){
                         bookNoteNo: bookNoteNo
                     });
                     setEndStatus(true);
-                    window.location.reload();
+                    navigate('/user/BookNoteList');
                 } catch (error) {
                     console.error("독서 종료 API 에러", error);
                 }
@@ -136,6 +136,13 @@ function ReadingManage(){
         }
     };
 
+    //뒤로가기
+    const cancelReading = () => {
+        if(!storeStatus){
+            return;
+        };
+        navigate(-1);
+    };
 
     return(
         <div className="reading-manage-container">
@@ -184,12 +191,16 @@ function ReadingManage(){
                     )}
                 </div>
 
-                {(!readingStart || !selectedBook) ?(
-                    <button type="button" className="start-reading" onClick={start}>시작하기</button>
-                ):(
-                    !endStatus &&
-                        <button type="button" className="end-reading" onClick={end}>독서완료</button>
-                )}
+                <div className="reading-btn-group">
+                    {(!readingStart || !selectedBook) ?(
+                        <button type="button" className="start-reading" onClick={start}>시작하기</button>
+                    ):(
+                        !endStatus &&
+                            <button type="button" className="end-reading" onClick={end}>독서완료</button>
+                    )}
+
+                    <button type="button" className="cancel-reading" onClick={cancelReading}>뒤로</button>
+                </div>
             </div>
 
             {(readingStart && selectedBook) &&
@@ -208,7 +219,7 @@ function ReadingManage(){
                         <div className={`menu-group ${activeMenu === 'review' ? 'menu-active':''}`}
                             onClick={()=>handleMenuChange('review')}
                         >
-                            <p>독서록</p>
+                            <p>리뷰/한줄평</p>
                         </div>
                     </div>
 

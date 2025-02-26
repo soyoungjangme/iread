@@ -2,6 +2,8 @@ package com.project.iread.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -19,4 +21,8 @@ public class ReviewDTO {
     private Long bookNo;
     private Long userNo;
     private Integer bookNoteNo;
+
+    private String userNick;
+
+    private List<ReviewImgDTO> reviewImgDTOS;
 }

@@ -1,0 +1,194 @@
+p {
+    margin: 0;
+}
+
+.book-info-box {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+}
+
+.book-img-box {
+    width: 20%;
+}
+
+.book-img-box img {
+    width: 100%;
+}
+
+.book-text-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.book-detail-title {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.book-from {
+    font-size: small;
+    color: #999;
+}
+
+/* 버튼 */
+.btns {
+    position: relative;
+    width: 80px;
+    height: 30px;
+}
+
+.book-detail-btns {
+    display: flex;
+    gap: 10px;
+/*    flex-direction: row;*/
+/*    justify-content: start;*/
+}
+
+.btns > button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: small;
+    padding: 3px;
+    border-radius: 7px;
+    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.write-review {
+    background-color: white;
+    border: 1px solid #999;
+    font-size: small;
+    padding: 3px;
+    border-radius: 7px;
+    text-align: center;
+    cursor: pointer;
+    width: 80px;
+}
+
+.like-text {
+    background-color: #F9C4C2;
+    border: 1px solid #F9C4C2;
+}
+
+.like-icon {
+    background-color: #fa8581;
+    border: 1px solid #fa8581;
+    color: white;
+    opacity: 0;
+}
+
+.reading-text {
+    background-color: #B2C9AD;
+    border: 1px solid #B2C9AD;
+}
+
+.reading-icon {
+    background-color: #819e7b;
+    border: 1px solid #819e7b;
+    color: white;
+    opacity: 0;
+}
+
+.like-btn:hover .like-text,
+.reading-btn:hover .reading-text {
+    opacity: 0;
+}
+
+.like-btn:hover .like-icon,
+.reading-btn:hover .reading-icon {
+    opacity: 1;
+}
+
+
+.book-publish-info {
+    display: flex;
+    margin-top: 20px;
+}
+
+.publish-group {
+    width: 33%;
+    text-align: center;
+    font-size: small;
+}
+
+.publish-group p:nth-child(1){
+    background-color: #eee;
+    color:#444;
+    border: 0.5px solid #ddd;
+    padding: 3px;
+}
+
+.publish-group p:nth-child(2){
+    color:#444;
+    padding: 3px;
+    border-bottom: 0.5px solid #ddd;
+}
+
+.publish-group:nth-child(2) p:nth-child(1){
+    border-left: none;
+    border-right: none;
+}
+
+.publish-group:nth-child(1) p:nth-child(2){
+    border-right: 0.5px solid #ddd;
+}
+
+.publish-group:nth-child(3) p:nth-child(2){
+    border-left: 0.5px solid #ddd;
+}
+
+.book-detail-menu {
+    display: flex;
+    margin-top: 30px;
+    font-size: small;
+    border-bottom: 1px solid #bbbbbb;
+}
+
+.detail-menu-group {
+    border: 0.5px solid #bbbbbb;
+    border-bottom: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.menu-active {
+    border: 0.5px solid #66785F;
+    background-color: #66785F;
+    color: white;
+}
+
+.book-detail-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-review {
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+}
+
+.review-one {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.review-real {
+    font-size: small;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.review-imgs > img {
+    width: 70px;
+}
+
+.review-writer {
+    font-size: small;
+    color: #ccc;
+}

@@ -34,8 +34,9 @@
 }
 
 .book-img {
-    width: 11%;
+    width: 9%;
     /* border: 1px solid black; */
+    cursor: pointer;
 }
 
 .book-img img{
@@ -49,6 +50,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .book-btn {

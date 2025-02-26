@@ -53,16 +53,27 @@ p {margin:0;}
     text-overflow: ellipsis;
 }
 
-.reading-count {
-    color: #949494;
-    font-weight: bold;
+/*시작,종료,뒤로 버튼*/
+.reading-btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.cancel-reading {
+    all: unset;
+    color: #666;
     font-size: small;
+    cursor: pointer;
+}
+
+.cancel-reading:hover {
+    border-bottom: 1px solid #666;
 }
 
 .start-reading,
 .end-reading {
     all: unset;
-    float: right;
     border: 1px solid #66785fab;
     border-radius: 3px;
     color: #66785F;
@@ -70,7 +81,6 @@ p {margin:0;}
     font-size: small;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 .start-reading:hover,

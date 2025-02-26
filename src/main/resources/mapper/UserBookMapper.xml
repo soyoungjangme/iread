@@ -219,4 +219,42 @@
         <result property="genreName" column="genre_name"/>
         <result property="reviewCnt" column="review_cnt"/>
     </resultMap>
+
+    <!--도서상세보기-->
+    <select id="getBookInfo" parameterType="long" resultType="com.project.iread.dto.BookDTO">
+        select * from books
+        where book_no = #{bookNo}
+    </select>
+
+    <!--도서리뷰호출-->
+    <select id="getReviews" parameterType="long" resultMap="reviewMap">
+        select r.*, ri.*, u.user_nick
+        from reviews r
+        left join review_img ri on ri.review_no = r.review_no
+        left join users u on u.user_no = r.user_no
+        where r.book_no = #{bookNo} and r.review_open_status = 'public'
+    </select>
+
+    <resultMap id="reviewMap" type="com.project.iread.dto.ReviewDTO">
+        <id property="reviewNo" column="review_no" />
+        <result property="reviewText" column="review_text" />
+        <result property="reviewShort" column="review_short" />
+        <result property="reviewRegDate" column="review_reg_date" />
+        <result property="reviewLikeCnt" column="review_like_cnt" />
+        <result property="reviewComplaintCnt" column="review_complaint_cnt" />
+        <result property="reviewOpenStatus" column="review_open_status" />
+        <result property="bookNo" column="book_no" />
+        <result property="userNo" column="user_no" />
+        <result property="bookNoteNo" column="book_note_no" />
+
+        <result property="userNick" column="user_nick" />
+        <collection property="reviewImgDTOS"  resultMap=""/>
+    </resultMap>
+
+    <resultMap id="reviewImgMap" type="com.project.iread.dto.ReviewImgDTO">
+        <id property="reviewImgNo" column="review_img_no" />
+        <result property="reviewImgURL" column="review_img_url" />
+        <result property="reviewNo" column="review_no" />
+    </resultMap>
+
 </mapper>

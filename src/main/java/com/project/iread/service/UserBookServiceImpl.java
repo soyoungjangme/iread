@@ -198,6 +198,16 @@ public class UserBookServiceImpl implements UserBookService{
         return userBookMapper.getAllBook(offset, limit);
     }
 
+    @Override
+    public BookDTO getBookInfo(Long bookNo) {
+        return userBookMapper.getBookInfo(bookNo);
+    }
+
+    @Override
+    public List<ReviewDTO> getReviews(Long bookNo) {
+        return userBookMapper.getReviews(bookNo);
+    }
+
 // userBook
 
 

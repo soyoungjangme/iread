@@ -116,6 +116,9 @@ public class UserBookNoteController {
         ReviewDTO reviewDTO = objectMapper.convertValue(data.get("review"), new TypeReference<ReviewDTO>() {});
         List<ReviewImgDTO> reviewImgDTOS = objectMapper.convertValue(data.get("images"), new TypeReference<List<ReviewImgDTO>>() {});
 
+        Long userNo = UserContext.userNo;
+        reviewDTO.setUserNo(userNo);
+
         userBookService.storeReview(reviewDTO, reviewImgDTOS);
 
         return ResponseEntity.ok("도서리뷰가 정상적으로 저장되었습니다.");

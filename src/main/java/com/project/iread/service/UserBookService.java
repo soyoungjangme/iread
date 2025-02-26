@@ -28,5 +28,6 @@ public interface UserBookService {
 
 // userBook
     List<BookDTO> getAllBook(int offset, int limit);
-
+    BookDTO getBookInfo(Long bookNo);
+    List<ReviewDTO> getReviews(Long bookNo);
 }

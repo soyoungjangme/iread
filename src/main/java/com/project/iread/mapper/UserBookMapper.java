@@ -38,4 +38,7 @@ public interface UserBookMapper {
 
 // userBook
     List<BookDTO> getAllBook(@Param("offset") int offset, @Param("limit") int limit);
+    BookDTO getBookInfo(Long bookNo);
+    List<ReviewDTO> getReviews(Long bookNo);
+
 }

@@ -135,14 +135,14 @@
         insert into reviews(review_short,
                             review_text,
                             review_reg_date,
-                            review_open_status,
+<!--                            review_open_status,-->
                             book_no,
                             user_no,
                             book_note_no)
         values (#{reviewShort},
                 #{reviewText},
                 #{reviewRegDate},
-                #{reviewOpenStatus},
+<!--                #{reviewOpenStatus},-->
                 #{bookNo},
                 #{userNo},
                 #{bookNoteNo})
@@ -179,7 +179,7 @@
         update reviews
         set review_short = #{reviewShort},
             review_text = #{reviewText},
-            review_open_status = #{reviewOpenStatus}
+<!--            review_open_status = #{reviewOpenStatus}-->
         where review_no = #{reviewNo}
     </update>
 
@@ -232,7 +232,8 @@
         from reviews r
         left join review_img ri on ri.review_no = r.review_no
         left join users u on u.user_no = r.user_no
-        where r.book_no = #{bookNo} and r.review_open_status = 'public'
+        where r.book_no = #{bookNo}
+<!--        and r.review_open_status = 'public'-->
     </select>
 
     <resultMap id="reviewMap" type="com.project.iread.dto.ReviewDTO">
@@ -242,13 +243,13 @@
         <result property="reviewRegDate" column="review_reg_date" />
         <result property="reviewLikeCnt" column="review_like_cnt" />
         <result property="reviewComplaintCnt" column="review_complaint_cnt" />
-        <result property="reviewOpenStatus" column="review_open_status" />
+<!--        <result property="reviewOpenStatus" column="review_open_status" />-->
         <result property="bookNo" column="book_no" />
         <result property="userNo" column="user_no" />
         <result property="bookNoteNo" column="book_note_no" />
 
         <result property="userNick" column="user_nick" />
-        <collection property="reviewImgDTOS"  resultMap=""/>
+        <collection property="reviewImgDTOS"  resultMap="reviewImgMap"/>
     </resultMap>
 
     <resultMap id="reviewImgMap" type="com.project.iread.dto.ReviewImgDTO">

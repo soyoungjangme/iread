@@ -15,7 +15,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
         reviewRegDate:"",
         reviewShort: "",
         reviewText: "",
-        reviewOpenStatus: "public",
+//        reviewOpenStatus: "public",
         bookNoteNo
     });
     const maxLength = 20; //한줄평 최대 글자수
@@ -121,13 +121,13 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
     };
 
     //공개여부
-    const handleVisibilityChange = (e) => {
+    /*const handleVisibilityChange = (e) => {
         setStoreStatus(false);
         setReview((prevReview) => ({
             ...prevReview,
             reviewOpenStatus: e.target.value
         }));
-    };
+    };*/
 
     //저장하기
     const storeReview = async() => {
@@ -201,7 +201,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
                 </div>
             </div>
             <div className="store-review">
-                {(!endStatus) ? (
+                {/*{(!endStatus) ? (
                     <div className="visibility-options">
                         <label>
                             <input
@@ -226,7 +226,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
                     <div className="visibility-options">
                         <span style={{fontSize: "small", color: "#999"}}>{review.reviewOpenStatus === "public" ? "공개상태" : "비공개상태"}</span>
                     </div>
-                )}
+                )}*/}
 
                 <div className="page-btn-box">
                     <button type="button" className="list-btn" onClick={moveToList}>목록</button>

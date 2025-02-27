@@ -22,8 +22,6 @@ public class UserBookController {
 
     @GetMapping("/getAllBook")
     public List<BookDTO> getAllBook (@RequestParam("page") int page, @RequestParam("limit") int limit){
-        System.out.println("page: "+page+" limit: "+limit);
-
         int offset = (page - 1) * limit;
         List<BookDTO> allBook = userBookService.getAllBook(offset, limit);
         return allBook;

@@ -106,7 +106,7 @@
     transition: opacity 0.2s ease-in-out;
 }
 
-.write-review {
+/*.write-review {
     background-color: white;
     border: 1px solid #999;
     border-radius: 7px;
@@ -115,7 +115,7 @@
     padding: 3px;
     text-align: center;
     cursor: pointer;
-}
+}*/
 
 .like-text {
     background-color: #F9C4C2;

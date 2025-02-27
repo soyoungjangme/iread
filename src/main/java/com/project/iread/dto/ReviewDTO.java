@@ -17,7 +17,7 @@ public class ReviewDTO {
     private String reviewRegDate;
     private Integer reviewLikeCnt;
     private Integer reviewComplaintCnt;
-    private String reviewOpenStatus;
+//    private String reviewOpenStatus;
     private Long bookNo;
     private Long userNo;
     private Integer bookNoteNo;

@@ -101,7 +101,7 @@ function UserBookList(){
                                 <button type="button" className="reading-text">독서할래?</button>
                                 <button type="button" className="reading-icon"><i className="bi bi-pencil-fill"></i></button>
                             </div>
-                            <button type="button" className="write-review">리뷰쓸래</button>
+                            {/*<button type="button" className="write-review">리뷰쓸래</button>*/}
                         </div>
                     </div>
                 ))

@@ -121,7 +121,7 @@ public class UserBookNoteController {
 
         userBookService.storeReview(reviewDTO, reviewImgDTOS);
 
-        return ResponseEntity.ok("도서리뷰가 정상적으로 저장되었습니다.");
+        return ResponseEntity.ok("리뷰가 정상적으로 저장되었습니다.");
     }
 
     //리뷰호출_북노트

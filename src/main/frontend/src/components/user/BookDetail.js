@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookDetail.css';
@@ -13,8 +13,21 @@ function BookDetail(){
     const [book, setBook] = useState({}); //도서정보
     const [reviews, setReviews] = useState([]); //리뷰정보
 
+    const [images, setImages] = useState([]); //이미지
+    const [review, setReview] = useState({ //리뷰작성내용
+        bookNo,
+        reviewRegDate:"",
+        reviewShort: "",
+        reviewText: ""
+    });
+    const maxLength = 20; //한줄평 최대 글자수
+
+    //오늘날짜포맷
+    const today = new Date();
+    const formattedDate = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
+
     //발행일 날짜 포맷
-    const formattedDate = (pubdate) => {
+    const formattedPubDate = (pubdate) => {
         if(!pubdate) return "";
         const [year, month, day] = pubdate.split(". ").map(Number);
         return `${year}년 ${month}월 ${day}일`;
@@ -53,6 +66,101 @@ function BookDetail(){
         setActiveMenu(menu);
     };
 
+    //목록버튼
+    const moveToList = () => {
+        navigate("/user/UserBookList");
+    };
+
+
+    /*리뷰작성이벤트*/
+    //리뷰값 저장
+    const handleReviewChange = useCallback((e) => {
+        const { id, value } = e.target;
+        setReview((prev) => ({
+            ...prev,
+            [id]: value
+        }));
+    }, []);
+
+    //이미지등록
+    const handleFileChange = async(e) => {
+        const files = Array.from(e.target.files);
+
+        // 현재 등록된 이미지 개수
+        const currentImageCount = images.length;
+
+        // 추가하려는 이미지 개수
+        if (currentImageCount + files.length > 5) {
+            alert("최대 5개까지만 등록할 수 있습니다.");
+            return;
+        };
+
+        const uploadPromises = files.map(async (file) => {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "czw3v2c2");
+            formData.append("cloud_name", "dpyihadmu");
+
+            try {
+                const response = await axios.post(
+                    "https://api.cloudinary.com/v1_1/dpyihadmu/image/upload",
+                    formData
+                );
+                return {reviewImgURL: response.data.secure_url}; //객체반환
+            } catch (error) {
+                console.error("업로드 실패:", error);
+                return null;
+            }
+        });
+
+        //promise.all() : 배열 속 모든 promise가 완료될 때까지 기다린 후, 배열결과 반환
+        // filter(Boolean) : false값 제거
+        const uploadedImages = (await Promise.all(uploadPromises)).filter(Boolean);
+        setImages((prevImages) => [...prevImages, ...uploadedImages]);
+    }
+
+    // 이미지 삭제 핸들러
+    const handleRemoveImage = (index) => {
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+
+    //리뷰등록
+    const registReview = async () => {
+        const updatedReview = {
+            ...review,
+            reviewRegDate: formattedDate
+        };
+
+        setReview(updatedReview);
+
+        try {
+            const resp = await axios.post('/api/userBookNote/storeReview', {
+                review: updatedReview,
+                images: images
+            });
+
+            alert(resp.data);
+
+            // 리뷰 목록 새로고침
+            getReview();
+            // 상태 초기화
+            setImages([]); // 이미지 리스트 초기화
+            setReview({
+                bookNo, // bookNo는 유지
+                reviewRegDate: "",
+                reviewShort: "",
+                reviewText: ""
+            });
+
+            // 파일 입력 필드 초기화
+            document.getElementById("reviewImg").value = "";
+        } catch (error) {
+            console.error("리뷰 등록 실패:", error);
+            alert("리뷰 등록에 실패했습니다.");
+        }
+    };
+
+
     return(
         <div className="book-detail-container">
             <div className="book-info-box">
@@ -77,7 +185,7 @@ function BookDetail(){
                             <button type="button" className="reading-text">독서할래?</button>
                             <button type="button" className="reading-icon"><i className="bi bi-pencil-fill"></i></button>
                         </div>
-                        <button type="button" className="write-review">리뷰쓸래</button>
+                        {/*<button type="button" className="write-review">리뷰쓸래</button>*/}
                     </div>
                 </div>
             </div>
@@ -88,7 +196,7 @@ function BookDetail(){
                 </div>
                 <div className="publish-group">
                     <p>발행일</p>
-                    <p>{formattedDate(book?.pubdate)}</p>
+                    <p>{formattedPubDate(book?.pubdate)}</p>
                 </div>
                 <div className="publish-group">
                     <p>ISBN 13</p>
@@ -110,27 +218,87 @@ function BookDetail(){
 
             {/*책설명*/}
             {activeMenu === 'descript' &&
-                <div className="book-detail-content">
-                    <p>{book.description}</p>
-                </div>
+                <>
+                    <div className="book-detail-descript">
+                        <p>{book.description}</p>
+                    </div>
+                    <button type="button" className="book-detail-btn" onClick={moveToList}>목록</button>
+                </>
             }
 
             {/*리뷰 및 한줄평*/}
             {activeMenu === 'review' &&
                 <div className="book-detail-content">
-                    <div className="detail-review">
-                        <p className="review-one">한줄평</p>
-                        <p className="review-real">부처의 가르침을 현대적인 언어로 풀어낸 책입니다. 깊고 철학적인 내용을 쉽게 이해할 수 있도록 설명하며, 삶에 대한 통찰과 깨달음을 제공합니다. 인간의 고통, 행복, 인생의 의미 등을 다룬 부처의 가르침은 독자들에게 마음의 평화와 지혜를 선사합니다. 불교에 대한 이해를 넓히고 싶은 독자에게 적합한 책입니다.</p>
-                        <div className="review-imgs">
-                            <img src="/null-img.png" />
-                            <img src="/null-img.png" />
-                            <img src="/null-img.png" />
-                        </div>
-                        <div className="review-bottom-group">
-                            <p className="review-writer">작성자 닉네임</p>
-                            <p className="review-reg-date">2024. 1. 13</p>
+                    {/*리뷰작성*/}
+                    <div className="review-write-box">
+                        <div className="review-write">
+
+                            <div className="book-img-group">
+                                <label htmlFor="reviewImg" className="custom-file-label">이미지 업로드</label>
+                                <input type="file"
+                                    id="reviewImg"
+                                    className="file-input"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handleFileChange}
+                                />
+
+                                <div className="book-review-img">
+                                    {images.map((img, index) => (
+                                        <div key={index} className="image-preview">
+                                            <img src={img.reviewImgURL || "/null-img.png"} alt={`preview-${index}`} />
+                                            <button onClick={() => handleRemoveImage(index)}>X</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="simple-review-group">
+                                <input placeholder="한줄평"
+                                    id="reviewShort"
+                                    className="simple-review"
+                                    maxLength={maxLength}
+                                    onChange={handleReviewChange}
+                                    value={review.reviewShort}
+                                />
+                                <span>{review.reviewShort?.length || 0}/{maxLength}</span>
+                                <button type="button" className="review-regist-btn" onClick={registReview}>등록</button>
+                            </div>
+                            <textarea placeholder="내용입력"
+                                id="reviewText"
+                                onChange={handleReviewChange}
+                                value={review.reviewText}
+                            ></textarea>
                         </div>
                     </div>
+
+                    {/*리뷰목록*/}
+                    {reviews.length > 0 ? (
+                        reviews.map((review, index)=>(
+                            <div className="detail-review" key={index}>
+                                <p className="review-one">{review.reviewShort}</p>
+                                <p className="review-real">{review.reviewText}</p>
+                                <div className="review-imgs">
+                                    {review.reviewImgDTOS &&
+                                        review.reviewImgDTOS.map((reviewImg, index)=>
+                                            reviewImg && reviewImg.reviewImgURL ? (
+                                                <img src={reviewImg.reviewImgURL} key={index} />
+                                            ) : null
+                                        )
+                                    }
+                                </div>
+                                <div className="review-bottom-group">
+                                    <p className="review-writer">{review.userNick}</p>
+                                    <p className="review-reg-date">{review.reviewRegDate}</p>
+                                </div>
+                            </div>
+                        ))
+                    ):(
+                        <div className="none-review">
+                            <p>리뷰가 존재하지 않습니다.</p>
+                        </div>
+                    )}
+                    <button type="button" className="book-detail-btn" onClick={moveToList}>목록</button>
                 </div>
             }
         </div>

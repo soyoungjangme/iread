@@ -60,7 +60,7 @@ p {
     transition: opacity 0.2s ease-in-out;
 }
 
-.write-review {
+/*.write-review {
     background-color: white;
     border: 1px solid #999;
     font-size: small;
@@ -69,7 +69,7 @@ p {
     text-align: center;
     cursor: pointer;
     width: 80px;
-}
+}*/
 
 .like-text {
     background-color: #F9C4C2;
@@ -163,11 +163,134 @@ p {
     color: white;
 }
 
-.book-detail-content {
-    display: flex;
-    flex-direction: column;
+.book-detail-descript {
+    font-size: small;
+    color: #666;
+    padding: 20px 10px;
+    border-bottom: 1px solid #bbb;
 }
 
+
+/* 리뷰작성 */
+.review-write-box {
+/* border: 1px solid black; */
+    font-size: small;
+    padding: 20px;
+}
+
+.review-write-box > p {
+    margin-bottom: 5px;
+    font-size: medium;
+    font-weight: bold;
+    color: #66785F;
+}
+
+.review-write {
+    padding: 15px 0;
+}
+
+.simple-review-group {
+    margin: 5px 0;
+}
+
+.simple-review-group > span {
+    color: #999;
+}
+
+.review-regist-btn {
+    float: right;
+    font-size: small;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.review-regist-btn:hover {
+    font-weight: bold;
+    color: #66785f;
+}
+
+.simple-review {
+    border: none;
+    border-bottom: 1px solid #bbbbbb;
+    padding: 5px;
+    width: 280px;
+    margin-right: 10px;
+}
+
+.simple-review:focus {
+    outline: none;
+}
+
+.review-write > textarea {
+    width: 100%;
+    resize: none;
+    height: 100px;
+    padding: 5px;
+    border-color: #bbbbbb;
+    box-sizing: border-box;
+}
+
+.review-write > textarea:focus {
+    outline: none;
+}
+
+/* 리뷰이미지등록 */
+.book-img-group label {
+    font-size: small;
+    border: none;
+    border-radius: 10px;
+    padding: 2px 10px;
+    text-align: center;
+    background-color: #ddd;
+    color: #333;
+    cursor: pointer;
+}
+
+.book-img-group label:hover {
+    background-color: #ccc;
+}
+
+.book-img-group input {
+    display: none;
+}
+
+.book-review-img {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.image-preview {
+    position: relative;
+    display: inline-block;
+}
+
+.image-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    /* border-radius: 5px; */
+    border: 1px solid #ddd;
+}
+
+.image-preview button {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    background: #66666642;
+    color: #333;
+    border: none;
+    /* border-radius: 50%; */
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    font-size: x-small;
+    text-align: center;
+}
+
+/*리뷰목록*/
 .detail-review {
     border-bottom: 1px solid #ddd;
     padding: 20px;
@@ -184,11 +307,40 @@ p {
     margin-bottom: 10px;
 }
 
-.review-imgs > img {
-    width: 70px;
+.review-imgs {
+    display: flex;
+    gap: 10px;
 }
 
-.review-writer {
+.review-imgs > img {
+    height: 100px;
+}
+
+.review-bottom-group {
     font-size: small;
     color: #ccc;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.none-review {
+    text-align: center;
+    font-size: small;
+    color: #999;
+    margin: 20px;
+}
+
+/*목록버튼*/
+.book-detail-btn {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    margin: 30px 0;
+    float: right;
+}
+
+.book-detail-btn:hover {
+    border-bottom: 1px solid #999;
 }

@@ -41,4 +41,9 @@ public interface UserBookMapper {
     BookDTO getBookInfo(Long bookNo);
     List<ReviewDTO> getReviews(Long bookNo);
 
+    Integer checkBookLike(@Param("bookNo") Long bookNo, @Param("userNo") Long userNo);
+    void bookLikeOn(@Param("bookNo") Long bookNo, @Param("userNo") Long userNo);
+    void bookLikeOff(@Param("bookNo") Long bookNo, @Param("userNo") Long userNo);
+    List<Long> getMyBookLikes(Long userNo);
+
 }

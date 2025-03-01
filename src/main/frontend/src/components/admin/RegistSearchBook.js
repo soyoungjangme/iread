@@ -82,7 +82,7 @@ function RegistSearchBook(){
             Number(list.pubdate.slice(6, 8))
         );
 
-        const formattedDate = `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
+        const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
         setAddedList((prevList) => {
             if (prevList.some((prev) => prev.isbn === list.isbn)) {

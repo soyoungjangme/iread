@@ -178,28 +178,30 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
                     disabled={endStatus}
                 ></textarea>
             </div>
-            <div className="book-img-group">
-                <label htmlFor="reviewImg" className="custom-file-label">이미지 업로드</label>
-                <input type="file"
-                    id="reviewImg"
-                    className="file-input"
-                    accept="image/*"
-                    multiple
-                    onChange={handleFileChange}
-                    ref={imgRef}
-                />
+            {(!endStatus) &&
+                <div className="book-img-group">
+                    <label htmlFor="reviewImg" className="custom-file-label">이미지 업로드</label>
+                    <input type="file"
+                        id="reviewImg"
+                        className="file-input"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileChange}
+                        ref={imgRef}
+                    />
 
-                <div className="book-review-img">
-                    {images.map((img, index) => (
-                        <div key={index} className="image-preview">
-                            <img src={img.reviewImgURL || "/null-img.png"} alt={`preview-${index}`} />
-                            {!endStatus &&
-                                <button onClick={() => handleRemoveImage(index)}>X</button>
-                            }
-                        </div>
-                    ))}
+                    <div className="book-review-img">
+                        {images.map((img, index) => (
+                            <div key={index} className="image-preview">
+                                <img src={img.reviewImgURL || "/null-img.png"} alt={`preview-${index}`} />
+                                {!endStatus &&
+                                    <button onClick={() => handleRemoveImage(index)}>X</button>
+                                }
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            }
             <div className="store-review">
                 {/*{(!endStatus) ? (
                     <div className="visibility-options">

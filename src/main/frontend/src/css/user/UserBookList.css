@@ -150,3 +150,10 @@
 .reading-btn:hover .reading-icon {
     opacity: 1;
 }
+
+/*관심도서*/
+.like-book {
+    background-color: #fa8581;
+    border: 1px solid #fa8581;
+    color: white;
+}

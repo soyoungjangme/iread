@@ -60,8 +60,14 @@ function RegistWriteBook(){
 
     const registBook = async() => {
         console.log('bookInfo ',bookInfo);
+        const date = new Date(bookInfo.pubdate);
+        const formattedPubDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+
+        const updatedBookInfo = {...bookInfo, pubdate: formattedPubDate};
+        setBookInfo(updatedBookInfo);
+
         try{
-            const resp = await axios.post('/api/adminBook/registWriteBook', bookInfo);
+            const resp = await axios.post('/api/adminBook/registWriteBook', updatedBookInfo);
             alert(resp.data);
             if(resp.status){
                 window.location.href="/iread/admin/adminbooklist";
@@ -69,7 +75,7 @@ function RegistWriteBook(){
         }catch (error){
             console.log("도서등록실패 ", error);
         }
-    }
+    };
 
     const genreChange = (e) => {
         const genreNo = e.target.value;

@@ -12,6 +12,7 @@ function BookDetail(){
     const [activeMenu, setActiveMenu] = useState('descript'); //메뉴상태
     const [book, setBook] = useState({}); //도서정보
     const [reviews, setReviews] = useState([]); //리뷰정보
+    const [thisLike, setThisLike] = useState(false); //관심도서유무
 
     const [images, setImages] = useState([]); //이미지
     const [review, setReview] = useState({ //리뷰작성내용
@@ -27,11 +28,11 @@ function BookDetail(){
     const formattedDate = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
 
     //발행일 날짜 포맷
-    const formattedPubDate = (pubdate) => {
+    /*const formattedPubDate = (pubdate) => {
         if(!pubdate) return "";
         const [year, month, day] = pubdate.split(". ").map(Number);
         return `${year}년 ${month}월 ${day}일`;
-    };
+    };*/
 
     useEffect(()=>{
         getBookInfo();
@@ -160,6 +161,23 @@ function BookDetail(){
         }
     };
 
+    //해당도서 관심도서 유무
+    const getThisBookLike = async() => {
+        const resp = await axios.get('/api/userBook/getThisBookLike',{ params: {bookNo} });
+        setThisLike(resp.data > 0);
+    };
+
+    useEffect(()=>{
+        getThisBookLike();
+    },[bookNo]);
+
+    //도서관심클릭
+    const handleBookLike = async(bookNo) => {
+        await axios.post('/api/userBook/bookLike',{bookNo});
+
+        getThisBookLike();
+    };
+
 
     return(
         <div className="book-detail-container">
@@ -177,9 +195,15 @@ function BookDetail(){
                         </div>
                     </div>
                     <div className="book-detail-btns">
-                        <div className="like-btn btns">
-                            <button type="button" className="like-text">관심있어?</button>
-                            <button type="button" className="like-icon"><i className="bi bi-suit-heart-fill"></i></button>
+                        <div className="like-btn btns" onClick={() => handleBookLike(book.bookNo)}>
+                            {(thisLike) ? (
+                                <button type="button" className="like-book"><i className="bi bi-suit-heart-fill"></i></button>
+                            ):(
+                                <>
+                                    <button type="button" className="like-text">관심있어?</button>
+                                    <button type="button" className="like-icon"><i className="bi bi-suit-heart-fill"></i></button>
+                                </>
+                            )}
                         </div>
                         <div className="reading-btn btns" onClick={() => handleBookNote(book.bookNo, book.title)}>
                             <button type="button" className="reading-text">독서할래?</button>
@@ -196,7 +220,7 @@ function BookDetail(){
                 </div>
                 <div className="publish-group">
                     <p>발행일</p>
-                    <p>{formattedPubDate(book?.pubdate)}</p>
+                    <p>{book.pubdate}</p>
                 </div>
                 <div className="publish-group">
                     <p>ISBN 13</p>

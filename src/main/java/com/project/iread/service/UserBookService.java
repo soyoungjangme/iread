@@ -30,4 +30,8 @@ public interface UserBookService {
     List<BookDTO> getAllBook(int offset, int limit);
     BookDTO getBookInfo(Long bookNo);
     List<ReviewDTO> getReviews(Long bookNo);
+
+    void clickBookLike(Long bookNo, Long userNo);
+    List<Long> getMyBookLikes(Long userNo);
+    Integer checkThisBookLike(Long bookNo, Long userNo);
 }

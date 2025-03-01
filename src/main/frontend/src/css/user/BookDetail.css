@@ -105,6 +105,12 @@ p {
     opacity: 1;
 }
 
+/*관심도서*/
+.like-book {
+    background-color: #fa8581;
+    border: 1px solid #fa8581;
+    color: white;
+}
 
 .book-publish-info {
     display: flex;

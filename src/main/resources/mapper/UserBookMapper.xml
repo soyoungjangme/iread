@@ -178,7 +178,7 @@
     <update id="updateReview" parameterType="com.project.iread.dto.ReviewDTO">
         update reviews
         set review_short = #{reviewShort},
-            review_text = #{reviewText},
+            review_text = #{reviewText}
 <!--            review_open_status = #{reviewOpenStatus}-->
         where review_no = #{reviewNo}
     </update>
@@ -233,6 +233,7 @@
         left join review_img ri on ri.review_no = r.review_no
         left join users u on u.user_no = r.user_no
         where r.book_no = #{bookNo}
+        order by r.review_reg_date desc
 <!--        and r.review_open_status = 'public'-->
     </select>
 
@@ -257,5 +258,29 @@
         <result property="reviewImgURL" column="review_img_url" />
         <result property="reviewNo" column="review_no" />
     </resultMap>
+
+    <!--유저의 관심목록 호출-->
+    <select id="getMyBookLikes" parameterType="long" resultType="long">
+        select book_no from book_likes
+        where user_no = #{userNo}
+    </select>
+
+    <!--관심유무-->
+    <select id="checkBookLike" parameterType="long" resultType="int">
+        select count(*) from book_likes
+        where book_no = #{bookNo} and user_no = #{userNo}
+    </select>
+
+    <!--관심등록-->
+    <insert id="bookLikeOn" parameterType="long">
+        insert into book_likes(book_no, user_no)
+        values (#{bookNo}, #{userNo})
+    </insert>
+
+    <!--관심취소-->
+    <delete id="bookLikeOff" parameterType="long">
+        delete from book_likes
+        where book_no = #{bookNo} and user_no = #{userNo}
+    </delete>
 
 </mapper>

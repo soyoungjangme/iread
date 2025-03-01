@@ -193,6 +193,8 @@ public class UserBookServiceImpl implements UserBookService{
         userBookMapper.endBookNote(bookNoteDTO);
     }
 
+// userBook
+
     @Override
     public List<BookDTO> getAllBook(int offset, int limit) {
         return userBookMapper.getAllBook(offset, limit);
@@ -208,7 +210,27 @@ public class UserBookServiceImpl implements UserBookService{
         return userBookMapper.getReviews(bookNo);
     }
 
-// userBook
+    @Override
+    public void clickBookLike(Long bookNo, Long userNo) {
+        //클릭한 관심도서 등록 유무
+        Integer likeNo = userBookMapper.checkBookLike(bookNo, userNo);
+
+        if(likeNo == 0) { //리스트에 없을 때 _ 관심등록
+            userBookMapper.bookLikeOn(bookNo, userNo);
+        }else{ //리스트에 있을 때 _ 관심취소
+            userBookMapper.bookLikeOff(bookNo, userNo);
+        }
+    }
+
+    @Override
+    public List<Long> getMyBookLikes(Long userNo) {
+        return userBookMapper.getMyBookLikes(userNo);
+    }
+
+    @Override
+    public Integer checkThisBookLike(Long bookNo, Long userNo) {
+        return userBookMapper.checkBookLike(bookNo, userNo);
+    }
 
 
 }

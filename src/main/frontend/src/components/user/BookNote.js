@@ -39,7 +39,7 @@ function ReadingManage(){
 
     //날짜 포맷
     const today = new Date();
-    const formattedDate = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
+    const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
 
     //북노트 데이터 호출
     const getBookNote = async() => {
@@ -118,12 +118,12 @@ function ReadingManage(){
         if (storeStatus) {
             if (endDate) {
                 const date = new Date(endDate);
-                const formattedEndDate = `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
+                const formattedEndDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
                 try {
                     await axios.post('/api/userBookNote/readingEnd', {
                         endDate: formattedEndDate,
-                        bookNoteNo: bookNoteNo
+                        bookNoteNo: bookNoteNo || newBookNoteNo
                     });
                     setEndStatus(true);
                     navigate('/user/BookNoteList');
@@ -133,6 +133,9 @@ function ReadingManage(){
             } else {
                 alert("독서 종료일을 선택하세요.");
             }
+        }else{
+            alert('저장되지 않은 항목이 있습니다.');
+            return;
         }
     };
 

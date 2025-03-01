@@ -6,6 +6,7 @@ import '../../css/user/UserBookList.css';
 function UserBookList(){
     const navigate = useNavigate();
 
+    const [myLikes, setMyLikes] = useState({}); //관심도서목록
     const [books, setBooks] = useState([]); //도서목록
     const [page, setPage] = useState(1); //현재페이지
     const [loading, setLoading] = useState(false); //로딩상태
@@ -38,6 +39,17 @@ function UserBookList(){
         getAllBook();
     }, [page]);
 
+    //유저의 관심도서 호출
+    const getMyLike = async() => {
+        const resp = await axios.get('/api/userBook/getMyBookLikes');
+        console.log('관심도서목록: ', resp.data);
+        setMyLikes(resp.data);
+    };
+
+    useEffect(()=>{
+        getMyLike();
+    },[]);
+
     // Intersection Observer 설정
     const observerCallback = useCallback((entries) => {
         if (entries[0].isIntersecting) {
@@ -63,6 +75,13 @@ function UserBookList(){
     //도서상세보기(더블클릭)
     const handleClickBook = (bookNo) => {
         navigate(`/user/BookDetail?no=${bookNo}`);
+    };
+
+    //도서관심
+    const handleBookLike = async(bookNo) => {
+        await axios.post('/api/userBook/bookLike',{bookNo});
+
+        getMyLike();
     };
 
     return(
@@ -93,9 +112,15 @@ function UserBookList(){
                             </div>
                         </div>
                         <div className="book-btns">
-                            <div className="like-btn btns">
-                                <button type="button" className="like-text">관심있어?</button>
-                                <button type="button" className="like-icon"><i className="bi bi-suit-heart-fill"></i></button>
+                            <div className="like-btn btns" onClick={() => handleBookLike(book.bookNo)}>
+                                {myLikes.includes(book.bookNo) ? (
+                                    <button type="button" className="like-book"><i className="bi bi-suit-heart-fill"></i></button>
+                                ):(
+                                    <>
+                                        <button type="button" className="like-text">관심있어?</button>
+                                        <button type="button" className="like-icon"><i className="bi bi-suit-heart-fill"></i></button>
+                                    </>
+                                )}
                             </div>
                             <div className="reading-btn btns" onClick={() => handleBookNote(book.bookNo, book.title)}>
                                 <button type="button" className="reading-text">독서할래?</button>

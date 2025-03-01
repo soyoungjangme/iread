@@ -9,6 +9,11 @@ function BookNoteList(){
     const [bookNoteList, setBookNoteList] = useState([]);
     const [endReadingCnt, setEndReadingCnt] = useState(0); //완독도서 개수
 
+    const formattedPubDate = (dateString) => {
+        const date = new Date(dateString.replace('년 ', '-').replace('월 ', '-').replace('일', ''));
+        return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
+    };
+
     useEffect(()=>{
         getList();
         getListCnt();
@@ -71,7 +76,7 @@ function BookNoteList(){
                                     style={{cursor:"pointer"}}
                                 >{list.title}</p>
                                 <div className="book-reading-period">
-                                    <p className="book-start-date">{list.startDate} ~ {list.endDate}</p>
+                                    <p className="book-start-date">{formattedPubDate(list.startDate)} ~ {formattedPubDate(list.endDate)}</p>
                                 </div>
                             </div>
                         ):(
@@ -91,7 +96,7 @@ function BookNoteList(){
                                     style={{cursor:"pointer"}}
                                 >{list.title}</p>
                                 <div className="book-reading-period">
-                                    <p className="book-start-date">{list.startDate} ~ </p>
+                                    <p className="book-start-date">{formattedPubDate(list.startDate)} ~ </p>
                                 </div>
                             </div>
                         )

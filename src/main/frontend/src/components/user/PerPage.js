@@ -121,6 +121,7 @@ function PerPage({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
                                 className={`last-page ${endStatus ? 'done-reading-page' : ''}`}
                                 value={page.endPage}
                                 onChange={(e)=>handleChangeInput(index, e)}
+                                disabled={endStatus}
                             />
                         </div>
 

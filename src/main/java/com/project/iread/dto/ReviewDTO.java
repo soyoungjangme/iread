@@ -1,5 +1,6 @@
 package com.project.iread.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @ToString
 @Setter
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReviewDTO {
 
     private Long reviewNo;
@@ -22,6 +24,7 @@ public class ReviewDTO {
     private Long userNo;
     private Integer bookNoteNo;
 
+    private String title;
     private String userNick;
 
     private List<ReviewImgDTO> reviewImgDTOS;

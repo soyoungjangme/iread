@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../../css/user/BookNoteReview.css';
@@ -63,7 +63,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
     };
 
     //입력값 저장
-    const handleReviewChange = useCallback((e) => {
+    const handleReviewChange = (e) => {
         const { id, value } = e.target;
         setReview((prev) => ({
             ...prev,
@@ -71,7 +71,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
         }));
 
         setStoreStatus(false); // setReview가 완료된 후에 호출
-    }, []);
+    };
 
     //이미지등록
     const handleFileChange = async(e) => {
@@ -166,6 +166,7 @@ function BookNoteReview({bookNoteNoStr, bookNo, storeStatus, setStoreStatus, end
                         maxLength={maxLength}
                         onChange={handleReviewChange}
                         value={review.reviewShort}
+                        disabled={endStatus}
                     />
                     <span>{review.reviewShort?.length || 0}/{maxLength}</span>
                 </div>

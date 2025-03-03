@@ -232,5 +232,15 @@ public class UserBookServiceImpl implements UserBookService{
         return userBookMapper.checkBookLike(bookNo, userNo);
     }
 
+    @Override
+    public List<ReviewDTO> getMyReviews(Long userNo) {
+        return userBookMapper.getMyReviews(userNo);
+    }
+
+    @Override
+    public boolean delMyReview(Long reviewNo) {
+        return userBookMapper.delMyReview(reviewNo);
+    }
+
 
 }

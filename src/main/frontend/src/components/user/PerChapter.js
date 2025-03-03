@@ -104,6 +104,7 @@ function PerChapter({bookNoteNoStr, storeStatus, setStoreStatus, endStatus}){
                             name="chapterTitle"
                             value={chapter.chapterTitle}
                             onChange={(e)=>handleChangeInput(index, e)}
+                            disabled={endStatus}
                         />
                         {(index === chapters.length - 1 && chapters.length > 1) && (!endStatus) &&
                             <i className="bi bi-dash" onClick={()=>removeChapter(chapter.chapterNo)}></i>

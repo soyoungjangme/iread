@@ -34,4 +34,7 @@ public interface UserBookService {
     void clickBookLike(Long bookNo, Long userNo);
     List<Long> getMyBookLikes(Long userNo);
     Integer checkThisBookLike(Long bookNo, Long userNo);
+
+    List<ReviewDTO> getMyReviews(Long userNo);
+    boolean delMyReview(Long reviewNo);
 }

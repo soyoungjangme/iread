@@ -23,9 +23,6 @@ function BookDetail(){
     });
     const maxLength = 20; //한줄평 최대 글자수
 
-    //오늘날짜포맷
-    const today = new Date();
-    const formattedDate = `${today.getFullYear()}. ${today.getMonth() + 1}. ${today.getDate()}`;
 
     //발행일 날짜 포맷
     /*const formattedPubDate = (pubdate) => {
@@ -127,6 +124,9 @@ function BookDetail(){
 
     //리뷰등록
     const registReview = async () => {
+        const today = new Date();
+        const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+
         const updatedReview = {
             ...review,
             reviewRegDate: formattedDate
@@ -300,7 +300,10 @@ function BookDetail(){
                     {reviews.length > 0 ? (
                         reviews.map((review, index)=>(
                             <div className="detail-review" key={index}>
-                                <p className="review-one">{review.reviewShort}</p>
+                                <div className="review-top-group">
+                                    <p className="review-one">{review.reviewShort}</p>
+                                    <p className="review-report">신고</p>
+                                </div>
                                 <p className="review-real">{review.reviewText}</p>
                                 <div className="review-imgs">
                                     {review.reviewImgDTOS &&

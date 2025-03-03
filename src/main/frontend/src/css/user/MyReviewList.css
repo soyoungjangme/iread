@@ -1,0 +1,166 @@
+p {margin:0;}
+
+.my-review-top {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #999;
+    font-weight: bold;
+    color: #66785f;
+    font-size: large;
+}
+
+.my-review-box {
+    padding: 20px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.mr-top-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.mr-top-group > p {
+    font-size: small;
+    color: #999;
+}
+
+.my-review-box > p {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.mr-btn-group {
+    display: flex;
+    font-size: small;
+    gap: 10px;
+}
+
+.mr-mod-btn {
+    color: #333;
+    cursor: pointer;
+}
+
+.mr-del-btn {
+    color: rgb(212, 34, 34);
+    cursor: pointer;
+}
+
+.mr-content-group {
+    font-size: small;
+}
+
+/*리뷰 한줄평*/
+.mr-short {
+    color: #333;
+    margin-bottom: 7px;
+}
+
+.mr-short.disabled {
+    border: none;
+    background-color: white;
+}
+
+.mr-short:focus {
+    outline: none;
+}
+
+/* enabled 상태에서 테두리 적용 */
+.mr-short:not(.disabled) {
+    border:none;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    padding: 3px;
+}
+
+.mr-text-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mr-toggle-icon {
+    display: flex;
+    align-items: end;
+    cursor: pointer;
+}
+
+/*리뷰 본문*/
+.mr-text {
+    color: #999;
+    resize: none;
+    width: 100%;
+}
+
+.mr-text.disabled {
+    border: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /*최대 3줄*/
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.2em; /*줄간격*/
+    color: #999;
+    transition: all 0.2s ease-in-out;
+
+    background-color: white;
+    border: none;
+}
+
+.mr-text:focus {
+    outline: none;
+}
+
+/* enabled 상태일 때 */
+.mr-text:not(.disabled) {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px;
+    width: 100%;
+    overflow-y: auto;
+    height: 100px;
+}
+
+/* 토글 시 전체 보이기 */
+.mr-text.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    white-space: pre-wrap; /* 줄바꿈을 유지 */
+    word-wrap: break-word; /* 긴 단어를 잘라서 다음 줄로 넘기도록 */
+}
+
+.mr-img-box {
+    display: flex;
+    gap: 10px;
+}
+
+.mr-img {
+    position: relative;
+    display: inline-block;
+}
+
+.mr-img > img {
+    height: 100px;
+}
+
+/* 이미지삭제버튼 */
+.mr-img button {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    background: #66666642;
+    color: #333;
+    border: none;
+    /* border-radius: 50%; */
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    font-size: x-small;
+    text-align: center;
+}
+
+/*나의 리뷰 없음*/
+.none-my-review {
+    text-align: center;
+    font-size: small;
+    color: #999;
+    margin: 20px;
+}

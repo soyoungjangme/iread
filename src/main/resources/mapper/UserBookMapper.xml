@@ -234,7 +234,6 @@
         left join users u on u.user_no = r.user_no
         where r.book_no = #{bookNo}
         order by r.review_reg_date desc
-<!--        and r.review_open_status = 'public'-->
     </select>
 
     <resultMap id="reviewMap" type="com.project.iread.dto.ReviewDTO">
@@ -249,6 +248,7 @@
         <result property="userNo" column="user_no" />
         <result property="bookNoteNo" column="book_note_no" />
 
+        <result property="title" column="title" />
         <result property="userNick" column="user_nick" />
         <collection property="reviewImgDTOS"  resultMap="reviewImgMap"/>
     </resultMap>
@@ -282,5 +282,22 @@
         delete from book_likes
         where book_no = #{bookNo} and user_no = #{userNo}
     </delete>
+
+    <!--나의리뷰호출-->
+    <select id="getMyReviews" parameterType="long" resultMap="reviewMap">
+        select r.*, ri.*, b.title
+        from reviews r
+        join books b on b.book_no = r.book_no
+        left join review_img ri on ri.review_no = r.review_no
+        where r.user_no = #{userNo}
+        order by r.review_reg_date desc
+    </select>
+
+    <!--리뷰삭제-->
+    <delete id="delMyReview" parameterType="long">
+        delete from reviews
+        where review_no = #{reviewNo}
+    </delete>
+
 
 </mapper>

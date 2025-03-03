@@ -4,6 +4,7 @@ import BookNote from '../components/user/BookNote';
 import BookNoteList from '../components/user/BookNoteList';
 import UserBookList from '../components/user/UserBookList';
 import BookDetail from '../components/user/BookDetail';
+import MyReviewList from '../components/user/MyReviewList';
 
 function UserRoutes(){
     return(
@@ -12,6 +13,7 @@ function UserRoutes(){
             <Route path="/user/BookNoteList" element={<BookNoteList />} />
             <Route path="/user/UserBookList" element={<UserBookList />} />
             <Route path="/user/BookDetail" element={<BookDetail />} />
+            <Route path="/user/MyReviewList" element={<MyReviewList />} />
         </>
     )
 }

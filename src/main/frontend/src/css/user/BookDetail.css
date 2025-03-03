@@ -302,9 +302,24 @@ p {
     padding: 20px;
 }
 
+.review-top-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.review-report {
+    font-size: small;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.review-report:hover {
+    border-bottom: 1px solid #ccc;
+}
+
 .review-one {
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .review-real {

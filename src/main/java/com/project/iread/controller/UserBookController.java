@@ -6,6 +6,7 @@ import com.project.iread.dto.ReviewDTO;
 import com.project.iread.service.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +65,24 @@ public class UserBookController {
             return ResponseEntity.ok(bookLikeYn);
         } catch (Exception e) {
             return ResponseEntity.ofNullable(-1);
+        }
+    }
+
+    //나의 리뷰 호출
+    @GetMapping("/getMyReviews")
+    public List<ReviewDTO> getMyReviews(){
+        Long userNo = UserContext.userNo;
+        return userBookService.getMyReviews(userNo);
+    }
+
+    //나의 리뷰 삭제
+    @DeleteMapping("/delMyReview/{reviewNo}")
+    public ResponseEntity<String> deleteBookNote(@PathVariable("reviewNo") Long reviewNo){
+        boolean success = userBookService.delMyReview(reviewNo);
+        if(success){
+            return ResponseEntity.ok("리뷰가 삭제되었습니다.");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 리뷰를 찾을 수 없습니다.");
         }
     }
 }

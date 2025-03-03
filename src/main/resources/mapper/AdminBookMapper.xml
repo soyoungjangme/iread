@@ -44,10 +44,16 @@
 
 <!--  모든 도서 목록 호출  -->
     <select id="getAllBook" resultMap="booksMap">
-        select b.*, g.genre_name
+        select b.*,
+            g.genre_name,
+            count(distinct r.review_no) as review_cnt,
+            count(distinct bl.user_no) as book_like_cnt
         from books b
         left join genres g on g.genre_no = b.genre_no
+        left join reviews r on r.book_no = b.book_no
+        left join book_likes bl on bl.book_no = b.book_no
         where b.book_activated = 'Y'
+        group by b.book_no
         order by b.reg_date desc
         limit #{pageSize} offset #{offset}
     </select>
@@ -67,6 +73,9 @@
         <result property="bookActivated" column="book_activated"/>
         <result property="genreNo" column="genre_no"/>
         <result property="genreName" column="genre_name"/>
+
+        <result property="reviewCnt" column="review_cnt" />
+        <result property="bookLikeCnt" column="book_like_cnt" />
     </resultMap>
 
 

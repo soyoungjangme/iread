@@ -322,11 +322,41 @@ p {
     font-weight: bold;
 }
 
+/*리뷰본문*/
+.review-text-group {
+    display: flex;
+}
+
 .review-real {
     font-size: small;
     color: #666;
     margin-bottom: 10px;
+    width: 100%;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /*최대 3줄*/
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.2em; /*줄간격*/
+    white-space: pre-wrap; /* 줄바꿈을 유지 */
+    word-wrap: break-word; /* 긴 단어를 잘라서 다음 줄로 넘기도록 */
 }
+
+.review-toggle-icon {
+    display: flex;
+    align-items: end;
+    color: #999;
+    cursor: pointer;
+}
+
+/* 토글 시 전체 보이기 */
+.review-real.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    white-space: pre-wrap; /* 줄바꿈을 유지 */
+    word-wrap: break-word; /* 긴 단어를 잘라서 다음 줄로 넘기도록 */
+}
+
 
 .review-imgs {
     display: flex;

@@ -284,20 +284,35 @@
     </delete>
 
     <!--나의리뷰호출-->
-    <select id="getMyReviews" parameterType="long" resultMap="reviewMap">
+    <select id="getMyReviews" parameterType="map" resultMap="reviewMap">
         select r.*, ri.*, b.title
         from reviews r
         join books b on b.book_no = r.book_no
         left join review_img ri on ri.review_no = r.review_no
         where r.user_no = #{userNo}
         order by r.review_reg_date desc
+        limit #{limit} offset #{offset}
     </select>
+
+    <!--나의리뷰개수-->
+    <select id="getMyReviewCnt" parameterType="long" resultType="long">
+        select count(*) from reviews
+        where user_no = #{userNo}
+    </select>
+
 
     <!--리뷰삭제-->
     <delete id="delMyReview" parameterType="long">
         delete from reviews
         where review_no = #{reviewNo}
     </delete>
+
+    <!--리뷰신고요청-->
+    <update id="complaintReview" parameterType="long">
+        update reviews
+        set review_complaint_cnt = review_complaint_cnt + 1
+        where review_no = #{reviewNo}
+    </update>
 
 
 </mapper>

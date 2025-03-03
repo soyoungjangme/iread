@@ -71,6 +71,7 @@ p {margin:0;}
     border-bottom: 1px solid #ccc;
     width: 100%;
     padding: 3px;
+    box-sizing: border-box;
 }
 
 .mr-text-group {
@@ -81,28 +82,27 @@ p {margin:0;}
 .mr-toggle-icon {
     display: flex;
     align-items: end;
+    color: #999;
     cursor: pointer;
 }
 
 /*리뷰 본문*/
 .mr-text {
     color: #999;
-    resize: none;
     width: 100%;
 }
 
-.mr-text.disabled {
+.mr-text {
     border: none;
+    background-color: white;
     display: -webkit-box;
     -webkit-line-clamp: 3; /*최대 3줄*/
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.2em; /*줄간격*/
+    white-space: pre-wrap; /* 줄바꿈을 유지 */
+    word-wrap: break-word; /* 긴 단어를 잘라서 다음 줄로 넘기도록 */
     color: #999;
-    transition: all 0.2s ease-in-out;
-
-    background-color: white;
-    border: none;
 }
 
 .mr-text:focus {
@@ -110,7 +110,8 @@ p {margin:0;}
 }
 
 /* enabled 상태일 때 */
-.mr-text:not(.disabled) {
+.mr-text-edit {
+    resize: none;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 3px;
@@ -130,6 +131,7 @@ p {margin:0;}
 .mr-img-box {
     display: flex;
     gap: 10px;
+    margin-top: 10px;
 }
 
 .mr-img {
@@ -163,4 +165,28 @@ p {margin:0;}
     font-size: small;
     color: #999;
     margin: 20px;
+}
+
+
+/*페이지네이션*/
+.mr-pagination {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    gap: 10px;
+    font-size: small;
+    margin: 30px 0 60px 0;
+    width: 85%;
+}
+
+.mr-pagination li {
+    cursor: pointer;
+    padding: 0 3px;
+    color: #999;
+}
+
+.mr-pagination .active {
+    border-bottom: 1px solid black;
+    color: black;
 }

@@ -28,5 +28,6 @@ public class BookDTO {
     private LocalDateTime regDate; // current_timestamp
 
     private String genreName;
-    private Integer reviewCnt;
+    private Integer reviewCnt; //도서의 전체리뷰 수
+    private Integer bookLikeCnt; //관심도서개수
 }

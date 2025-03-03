@@ -35,6 +35,10 @@ public interface UserBookService {
     List<Long> getMyBookLikes(Long userNo);
     Integer checkThisBookLike(Long bookNo, Long userNo);
 
-    List<ReviewDTO> getMyReviews(Long userNo);
+    List<ReviewDTO> getMyReviews(Long userNo, int offset, int limit);
     boolean delMyReview(Long reviewNo);
+    boolean complaintReview(Long reviewNo);
+    Long getMyReviewCnt(Long userNo);
+
+
 }

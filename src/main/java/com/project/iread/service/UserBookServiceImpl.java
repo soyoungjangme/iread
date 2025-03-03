@@ -233,13 +233,23 @@ public class UserBookServiceImpl implements UserBookService{
     }
 
     @Override
-    public List<ReviewDTO> getMyReviews(Long userNo) {
-        return userBookMapper.getMyReviews(userNo);
+    public List<ReviewDTO> getMyReviews(Long userNo, int offset, int limit) {
+        return userBookMapper.getMyReviews(userNo, offset, limit);
     }
 
     @Override
     public boolean delMyReview(Long reviewNo) {
         return userBookMapper.delMyReview(reviewNo);
+    }
+
+    @Override
+    public boolean complaintReview(Long reviewNo) {
+        return userBookMapper.complaintReview(reviewNo);
+    }
+
+    @Override
+    public Long getMyReviewCnt(Long userNo) {
+        return userBookMapper.getMyReviewCnt(userNo);
     }
 
 

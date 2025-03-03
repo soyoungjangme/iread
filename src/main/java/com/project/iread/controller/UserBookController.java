@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,9 +71,18 @@ public class UserBookController {
 
     //나의 리뷰 호출
     @GetMapping("/getMyReviews")
-    public List<ReviewDTO> getMyReviews(){
+    public Map<String, Object> getMyReviews(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        int offset = (page - 1) * pageSize;
         Long userNo = UserContext.userNo;
-        return userBookService.getMyReviews(userNo);
+
+        List<ReviewDTO> myReviews = userBookService.getMyReviews(userNo, offset, pageSize);
+        Long totalCnt = userBookService.getMyReviewCnt(userNo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("myReviews", myReviews);
+        response.put("totalCnt", totalCnt);
+
+        return response;
     }
 
     //나의 리뷰 삭제
@@ -83,6 +93,17 @@ public class UserBookController {
             return ResponseEntity.ok("리뷰가 삭제되었습니다.");
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 리뷰를 찾을 수 없습니다.");
+        }
+    }
+
+    //리뷰신고
+    @PostMapping("/complaintReview")
+    public ResponseEntity<String> reportHateReview(@RequestBody ReviewDTO dto){
+        boolean success = userBookService.complaintReview(dto.getReviewNo());
+        if(success){
+            return ResponseEntity.ok("리뷰 신고가 접수되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("신고 요청에 실패하였습니다.");
         }
     }
 }

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import ReactPaginate from 'react-paginate';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/user/MyReviewList.css';
@@ -11,17 +12,43 @@ function MyReviewList(){
     const [images, setImages] = useState([]); //리뷰이미지
     const [expandedReviews, setExpandedReviews] = useState({});
 
+    //pagination
+    const [pageCount, setPageCount] = useState(0); //전체 페이지수
+    const [currentPage, setCurrentPage] = useState(0); //현재 페이지번호
+
+    const reviewCnt = 10; //페이지당 도서 개수
+
+    useEffect(() => {
+        scrollTop();
+        getMyReviews();
+    },[currentPage]);
+
+    const scrollTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handlePageClick = (e) => {
+        setCurrentPage(e.selected);
+    }
+    //--pagination
+
     useEffect(()=>{
         getMyReviews();
     },[]);
 
     const getMyReviews = async() => {
-        const resp = await axios.get('/api/userBook/getMyReviews');
+        const resp = await axios.get('/api/userBook/getMyReviews',{
+            params: {
+                page : currentPage+1,
+                pageSize : reviewCnt
+            }
+        });
         console.log('나의리뷰: ', resp.data);
-        setMyReviews(resp.data.map(review => ({
+        setMyReviews(resp.data.myReviews.map(review => ({
             ...review,
             isEditing : false
         })));
+        setPageCount(Math.ceil(resp.data.totalCnt/reviewCnt));
     };
 
     //수정완료
@@ -129,19 +156,25 @@ function MyReviewList(){
                                     onChange={(e) => handleChangeMr(e, myReview.reviewNo)}
                                     disabled={!myReview.isEditing}
                                 />
-                                <div className="mr-text-group">
-                                    <textarea className={`mr-text ${expandedReviews[myReview.reviewNo] ? "expanded" : ""} ${myReview.isEditing ? '' : 'disabled'}`}
-                                        id="reviewText"
-                                        value={myReview.reviewText}
-                                        onChange={(e) => handleChangeMr(e, myReview.reviewNo)}
-                                        disabled={!myReview.isEditing}
-                                    ></textarea>
-                                    {(!myReview.isEditing &&
+
+                                {(!myReview.isEditing ? ( //읽기 상태
+                                    <div className="mr-text-group">
+                                        <p className={`mr-text ${expandedReviews[myReview.reviewNo] ? "expanded" : ""}`}>
+                                            {myReview.reviewText}
+                                        </p>
                                         <i className={`bi ${expandedReviews[myReview.reviewNo] ? "bi-chevron-up" : "bi-chevron-down"} mr-toggle-icon`}
                                             onClick={() => handleExpand(myReview.reviewNo)}
                                         ></i>
-                                    )}
-                                </div>
+                                    </div>
+                                ):( // 수정상태
+                                    <div className="mr-text-group">
+                                        <textarea className="mr-text-edit"
+                                            id="reviewText"
+                                            value={myReview.reviewText}
+                                            onChange={(e) => handleChangeMr(e, myReview.reviewNo)}
+                                        ></textarea>
+                                    </div>
+                                ))}
                                 <div className="mr-img-box">
                                     {myReview.reviewImgDTOS && myReview.reviewImgDTOS.length > 0 && (
                                         myReview.reviewImgDTOS.map((reviewImg, i) => (
@@ -165,6 +198,20 @@ function MyReviewList(){
                     </div>
                 )}
             </div>
+
+            {/* React Paginate 컴포넌트 */}
+            <ReactPaginate
+                previousLabel={"이전"} // 이전 버튼 텍스트
+                nextLabel={"다음"} // 다음 버튼 텍스트
+                breakLabel={"..."} // 페이지 사이 구분자
+                pageCount={pageCount} // 전체 페이지 수
+                marginPagesDisplayed={1} // 처음과 끝에 보여질 페이지 수
+                pageRangeDisplayed={5} // 현재 페이지 주변에 보여질 페이지 수
+                onPageChange={handlePageClick} // 페이지 클릭 이벤트
+                containerClassName={"mr-pagination"} // 페이지네이션 컨테이너 클래스
+                activeClassName={"active"} // 활성화된 페이지 클래스
+                forcePage={pageCount > 0 ? currentPage : undefined} // 현재 페이지를 강제로 지정
+            />
         </div>
     );
 }

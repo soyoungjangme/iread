@@ -126,34 +126,34 @@ function BookList(){
             {bookList.length > 0 ? (
                 bookList.map((list,index) => (
                     <div className="book-list-container" key={index}>
-                        <div className="list-no">
+                        <div className="admin-book-list-no">
                             <p>{currentPage*bookPerPage + index + 1}</p>
                         </div>
-                        <div className="book-img">
+                        <div className="admin-book-img">
                             <img src={list.image || "/null-img.png"} />
                         </div>
-                        <div className="book-info">
+                        <div className="admin-book-info">
                             <div>
-                                <div className="info-title">
+                                <div className="admin-info-title">
                                     <p>{list.title}</p>
                                 </div>
-                                <div className="info-from">
-                                    <p>{list.genreName} | {list.author} | {list.publisher} | {list.pubdate}</p>
+                                <div className="admin-info-from">
+                                    <p>[{list.genreName}] {list.author} | {list.publisher} | {list.pubdate}</p>
                                 </div>
                             </div>
                             <div className="book-count">
                                 <div className="review-cnt">
                                     <p>리뷰</p>
-                                    <p>201</p>
+                                    <p>{list.reviewCnt}</p>
                                 </div>
                                 <div className="like-cnt">
                                     <p>관심</p>
-                                    <p>53</p>
+                                    <p>{list.bookLikeCnt}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="book-btn">
-                            <button className="book-detail">상세보기</button>
+                        <div className="admin-book-btn">
+                            <button className="book-detail" onClick={() => window.location.href = `/iread/user/BookDetail?no=${list.bookNo}`}>상세보기</button>
                             <button className="book-del" onClick={() => deleteBook(list.bookNo)}>삭제</button>
                         </div>
                     </div>

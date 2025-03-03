@@ -1,6 +1,7 @@
 import {useState, useEffect, useCallback} from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../css/user/BookDetail.css';
 
 function BookDetail(){
@@ -13,6 +14,7 @@ function BookDetail(){
     const [book, setBook] = useState({}); //도서정보
     const [reviews, setReviews] = useState([]); //리뷰정보
     const [thisLike, setThisLike] = useState(false); //관심도서유무
+    const [expandedReviews, setExpandedReviews] = useState({}); //리뷰토글
 
     const [images, setImages] = useState([]); //이미지
     const [review, setReview] = useState({ //리뷰작성내용
@@ -178,6 +180,22 @@ function BookDetail(){
         getThisBookLike();
     };
 
+    //리뷰토글
+    const handleExpand = (reviewNo) => {
+        setExpandedReviews(prevState => ({
+            ...prevState,
+            [reviewNo]: !prevState[reviewNo],  // 해당 reviewNo에 대한 expanded 상태를 토글
+        }));
+    };
+
+    //신고버튼
+    const handleComplaintBtn = async(reviewNo) => {
+        if(!window.confirm('해당 리뷰를 신고하시겠습니까?')) return;
+
+        const resp = await axios.post('/api/userBook/complaintReview',{reviewNo});
+        alert(resp.data);
+    };
+
 
     return(
         <div className="book-detail-container">
@@ -302,9 +320,16 @@ function BookDetail(){
                             <div className="detail-review" key={index}>
                                 <div className="review-top-group">
                                     <p className="review-one">{review.reviewShort}</p>
-                                    <p className="review-report">신고</p>
+                                    <p className="review-report" onClick={() => handleComplaintBtn(review.reviewNo)}>신고</p>
                                 </div>
-                                <p className="review-real">{review.reviewText}</p>
+                                <div className="review-text-group">
+                                    <p className={`review-real ${expandedReviews[review.reviewNo] ? "expanded" : ""}`}>
+                                        {review.reviewText}
+                                    </p>
+                                    <i className={`bi ${expandedReviews[review.reviewNo] ? "bi-chevron-up" : "bi-chevron-down"} review-toggle-icon`}
+                                        onClick={() => handleExpand(review.reviewNo)}
+                                    ></i>
+                                </div>
                                 <div className="review-imgs">
                                     {review.reviewImgDTOS &&
                                         review.reviewImgDTOS.map((reviewImg, index)=>

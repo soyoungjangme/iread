@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.project.iread.mapper.AdminBookMapper">
+<mapper namespace="com.project.iread.mapper.AdminMapper">
 
     <select id="getIsbn" resultType="string">
         select isbn
@@ -138,5 +138,33 @@
             where genre_name = #{genreName}
         )
     </select>
+
+    <!--모든회원정보호출-->
+    <select id="getUserInfo" resultMap="userInfoMap">
+        select users.user_name,
+            users.user_nick,
+            user_phone,
+            users.user_reg_date,
+            users.user_birth,
+            users.user_activated_yn,
+            count(distinct bn.book_no) as book_note_cnt,
+            count(distinct r.review_no) as review_cnt
+        from users
+        left join book_note bn on bn.user_no = users.user_no
+        left join reviews r on r.user_no = users.user_no
+        group by users.user_no;
+    </select>
+
+    <resultMap id="userInfoMap" type="com.project.iread.dto.UserDTO">
+        <result column="user_name" property="userName" />
+        <result column="user_nick" property="userNick" />
+        <result column="user_phone" property="userPhone" />
+        <result column="user_birth" property="userBirth" />
+        <result column="user_reg_date" property="userRegDate" />
+        <result column="user_activated_yn" property="userActivatedYN" />
+        <result column="book_note_cnt" property="bookNoteCnt" />
+        <result column="review_cnt" property="reviewCnt" />
+    </resultMap>
+
 
 </mapper>

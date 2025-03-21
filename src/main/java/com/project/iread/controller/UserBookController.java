@@ -3,7 +3,7 @@ package com.project.iread.controller;
 import com.project.iread.UserContext;
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.ReviewDTO;
-import com.project.iread.service.UserBookService;
+import com.project.iread.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -19,26 +19,26 @@ import java.util.Map;
 public class UserBookController {
 
     @Autowired
-    @Qualifier("userBookService")
-    private UserBookService userBookService;
+    @Qualifier("userService")
+    private UserService userService;
 
     @GetMapping("/getAllBook")
     public List<BookDTO> getAllBook (@RequestParam("page") int page, @RequestParam("limit") int limit){
         int offset = (page - 1) * limit;
-        List<BookDTO> allBook = userBookService.getAllBook(offset, limit);
+        List<BookDTO> allBook = userService.getAllBook(offset, limit);
         return allBook;
     }
 
     //도서상세보기
     @GetMapping("/getABook")
     public BookDTO getBookInfo(@RequestParam("bookNo") Long bookNo){
-        return userBookService.getBookInfo(bookNo);
+        return userService.getBookInfo(bookNo);
     }
 
     //도서리뷰호출
     @GetMapping("/getReviews")
     public List<ReviewDTO> getReviews(@RequestParam("bookNo") Long bookNo){
-        return userBookService.getReviews(bookNo);
+        return userService.getReviews(bookNo);
     }
 
     //도서_관심클릭
@@ -46,14 +46,14 @@ public class UserBookController {
     public void clickBookLike(@RequestBody Map<String, Long> requestData) {
         Long bookNo = requestData.get("bookNo");
         Long userNo = UserContext.userNo;
-        userBookService.clickBookLike(bookNo, userNo);
+        userService.clickBookLike(bookNo, userNo);
     }
 
     //관심도서목록호출
     @GetMapping("/getMyBookLikes")
     public List<Long> getMyBookLikes(){
         Long userNo = UserContext.userNo;
-        return userBookService.getMyBookLikes(userNo);
+        return userService.getMyBookLikes(userNo);
     }
 
     //관심도서유무
@@ -61,7 +61,7 @@ public class UserBookController {
     public ResponseEntity<Integer> checkThisBookLike(@RequestParam("bookNo") Long bookNo){
         try{
             Long userNo = UserContext.userNo;
-            Integer bookLikeYn = userBookService.checkThisBookLike(bookNo, userNo);
+            Integer bookLikeYn = userService.checkThisBookLike(bookNo, userNo);
 
             return ResponseEntity.ok(bookLikeYn);
         } catch (Exception e) {
@@ -75,8 +75,8 @@ public class UserBookController {
         int offset = (page - 1) * pageSize;
         Long userNo = UserContext.userNo;
 
-        List<ReviewDTO> myReviews = userBookService.getMyReviews(userNo, offset, pageSize);
-        Long totalCnt = userBookService.getMyReviewCnt(userNo);
+        List<ReviewDTO> myReviews = userService.getMyReviews(userNo, offset, pageSize);
+        Long totalCnt = userService.getMyReviewCnt(userNo);
 
         Map<String, Object> response = new HashMap<>();
         response.put("myReviews", myReviews);
@@ -88,7 +88,7 @@ public class UserBookController {
     //나의 리뷰 삭제
     @DeleteMapping("/delMyReview/{reviewNo}")
     public ResponseEntity<String> deleteBookNote(@PathVariable("reviewNo") Long reviewNo){
-        boolean success = userBookService.delMyReview(reviewNo);
+        boolean success = userService.delMyReview(reviewNo);
         if(success){
             return ResponseEntity.ok("리뷰가 삭제되었습니다.");
         }else{
@@ -99,7 +99,7 @@ public class UserBookController {
     //리뷰신고
     @PostMapping("/complaintReview")
     public ResponseEntity<String> reportHateReview(@RequestBody ReviewDTO dto){
-        boolean success = userBookService.complaintReview(dto.getReviewNo());
+        boolean success = userService.complaintReview(dto.getReviewNo());
         if(success){
             return ResponseEntity.ok("리뷰 신고가 접수되었습니다.");
         } else {

@@ -5,7 +5,7 @@ import com.project.iread.dto.*;
 import java.util.List;
 import java.util.Map;
 
-public interface UserBookService {
+public interface UserService {
 // userBookNote
     List<BookNoteDTO> getMyBookNote(Long userNo);
     Integer endReadingCnt(Long userNo);

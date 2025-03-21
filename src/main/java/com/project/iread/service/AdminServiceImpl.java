@@ -2,54 +2,55 @@ package com.project.iread.service;
 
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.GenreDTO;
-import com.project.iread.mapper.AdminBookMapper;
+import com.project.iread.dto.UserDTO;
+import com.project.iread.mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service("adminBookService")
-public class AdminBookServiceImpl implements AdminBookService{
+@Service("adminService")
+public class AdminServiceImpl implements AdminService{
 
     @Autowired
-    private AdminBookMapper adminBookMapper;
+    private AdminMapper adminMapper;
 
     @Override
     public List<String> getIsbn() {
-        return adminBookMapper.getIsbn();
+        return adminMapper.getIsbn();
     }
 
     @Override
     public void registBook(BookDTO bookDTO) {
-        adminBookMapper.registBook(bookDTO);
+        adminMapper.registBook(bookDTO);
     }
 
     @Override
     public Long totalCount() {
-        return adminBookMapper.totalCount();
+        return adminMapper.totalCount();
     }
 
     @Override
     public Long searchTotalCount(String keyword) {
-        return adminBookMapper.searchTotalCount(keyword);
+        return adminMapper.searchTotalCount(keyword);
     }
 
     @Override
     public List<BookDTO> getAllBook(int offset, int pageSize) {
-        return adminBookMapper.getAllBook(offset,pageSize);
+        return adminMapper.getAllBook(offset,pageSize);
     }
 
     @Override
     public List<BookDTO> getSearchBook(String keyword, int offset, int pageSize) {
-        return adminBookMapper.getSearchBook(keyword, offset, pageSize);
+        return adminMapper.getSearchBook(keyword, offset, pageSize);
     }
 
     @Override
     @Transactional
     public void registGenre(List<GenreDTO> newGenre) {
         // 기존에 등록된 장르 가져오기
-        List<GenreDTO> existingGenres = adminBookMapper.getGenre();
+        List<GenreDTO> existingGenres = adminMapper.getGenre();
 
         // 새 장르 중에서 기존에 없는 장르만 필터링 (genreName 기준)
         List<GenreDTO> genresToAdd = newGenre.stream()
@@ -65,33 +66,38 @@ public class AdminBookServiceImpl implements AdminBookService{
 
         // 새로운 장르 등록
         if (!genresToAdd.isEmpty()) {
-            adminBookMapper.registGenre(genresToAdd);
+            adminMapper.registGenre(genresToAdd);
         }
 
 //        // 기존 장르 삭제
 //        if (!genresToDelete.isEmpty()) {
-//            adminBookMapper.deleteGenre(genresToDelete);
+//            adminMapper.deleteGenre(genresToDelete);
 //        }
         // 기존 장르 삭제
         if (!genresToDelete.isEmpty()) {
             for (GenreDTO genre : genresToDelete) {
                 // 해당 장르에 등록된 도서가 있는지 확인
-                int bookCount = adminBookMapper.countBooksByGenreName(genre.getGenreName());
+                int bookCount = adminMapper.countBooksByGenreName(genre.getGenreName());
                 if (bookCount > 0) {
                     throw new RuntimeException("해당 장르에 등록된 도서가 존재합니다. 삭제할 수 없습니다.");
                 }
             }
-            adminBookMapper.deleteGenre(genresToDelete);
+            adminMapper.deleteGenre(genresToDelete);
         }
     }
 
     @Override
     public List<GenreDTO> getGenre() {
-        return adminBookMapper.getGenre();
+        return adminMapper.getGenre();
     }
 
     @Override
     public boolean deleteBook(Long bookNo) {
-        return adminBookMapper.deleteBook(bookNo);
+        return adminMapper.deleteBook(bookNo);
+    }
+
+    @Override
+    public List<UserDTO> getUserInfo() {
+        return adminMapper.getUserInfo();
     }
 }

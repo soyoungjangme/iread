@@ -1,50 +1,50 @@
 package com.project.iread.service;
 
 import com.project.iread.dto.*;
-import com.project.iread.mapper.UserBookMapper;
+import com.project.iread.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service("userBookService")
-public class UserBookServiceImpl implements UserBookService{
+@Service("userService")
+public class UserServiceImpl implements UserService{
 
     @Autowired
-    private UserBookMapper userBookMapper;
+    private UserMapper userMapper;
 
 // userBookNote
     @Override
     public List<BookNoteDTO> getMyBookNote(Long userNo) {
-        return userBookMapper.getMyBookNote(userNo);
+        return userMapper.getMyBookNote(userNo);
     }
 
     @Override
     public Integer endReadingCnt(Long userNo) {
-        return userBookMapper.endReadingCnt(userNo);
+        return userMapper.endReadingCnt(userNo);
     }
 
     @Override
     public boolean deleteBookNote(Integer bookNoteNo) {
-        return userBookMapper.deleteBookNote(bookNoteNo);
+        return userMapper.deleteBookNote(bookNoteNo);
     }
 
     @Override
     public List<BookDTO> getSearchResult(String keyword) {
-        return userBookMapper.getSearchResult(keyword);
+        return userMapper.getSearchResult(keyword);
     }
 
     @Override
     public Integer readingStart(BookNoteDTO dto) {
-        userBookMapper.createBookTable(dto);
+        userMapper.createBookTable(dto);
         return dto.getBookNoteNo();
     }
 
     @Override
     public void storeChapters(List<ChapterDTO> chapters, Integer bookNoteNo) {
         // 1. 현재 DB에 저장된 챕터 목록 조회
-        List<ChapterDTO> existingChapters = userBookMapper.getChapterData(bookNoteNo);
+        List<ChapterDTO> existingChapters = userMapper.getChapterData(bookNoteNo);
 
         // 2. 현재 DB에 저장된 챕터들의 perChapterNo 목록 저장
         Set<Long> existingPerChapterNos = existingChapters.stream()
@@ -60,40 +60,40 @@ public class UserBookServiceImpl implements UserBookService{
         // 4. DB에는 있는데, 전달받은 목록에는 없는 챕터를 삭제
         for (Long perChapterNo : existingPerChapterNos) {
             if (!receivedPerChapterNos.contains(perChapterNo)) {
-                userBookMapper.deleteChapter(perChapterNo); // 삭제 실행
+                userMapper.deleteChapter(perChapterNo); // 삭제 실행
             }
         }
 
         // 5. Insert & Update 처리
         for (ChapterDTO chapter : chapters) {
             if (chapter.getPerChapterNo() == null) {
-                userBookMapper.insertChapter(chapter); // Insert 실행
+                userMapper.insertChapter(chapter); // Insert 실행
             } else {
-                userBookMapper.updateChapter(chapter); // Update 실행
+                userMapper.updateChapter(chapter); // Update 실행
             }
         }
     }
 
     @Override
     public BookNoteDTO bookNoteDetail(Integer bookNoteNo, Long bookNo) {
-        return userBookMapper.bookNoteDetail(bookNoteNo, bookNo);
+        return userMapper.bookNoteDetail(bookNoteNo, bookNo);
     }
 
     @Override
     public List<ChapterDTO> getChapterData(Integer bookNoteNo) {
-        return userBookMapper.getChapterData(bookNoteNo);
+        return userMapper.getChapterData(bookNoteNo);
     }
 
     @Override
     public List<PageDTO> getPageData(Integer bookNoteNo) {
-        return userBookMapper.getPageData(bookNoteNo);
+        return userMapper.getPageData(bookNoteNo);
     }
 
     @Override
     public void storePages(List<PageDTO> pageDTOS, Integer bookNoteNo) {
         //챕터 저장 방식과 동일 (insert & update & delete)
 
-        List<PageDTO> existingPages = userBookMapper.getPageData(bookNoteNo);
+        List<PageDTO> existingPages = userMapper.getPageData(bookNoteNo);
 
         Set<Long> existingPerPageNos = existingPages.stream()
                 .map(PageDTO::getPerPageNo)
@@ -106,17 +106,17 @@ public class UserBookServiceImpl implements UserBookService{
 
         for (Long perPageNo : existingPerPageNos) {
             if (!receivedPerPageNos.contains(perPageNo)) {
-                userBookMapper.deletePage(perPageNo); // 삭제 실행
+                userMapper.deletePage(perPageNo); // 삭제 실행
             }
         }
 
         for (PageDTO page : pageDTOS) {
             if (page.getPerPageNo() == null) {
                 // Insert 실행
-                userBookMapper.insertPage(page);
+                userMapper.insertPage(page);
             } else {
                 // Update 실행
-                userBookMapper.updatePage(page);
+                userMapper.updatePage(page);
             }
         }
     }
@@ -124,20 +124,20 @@ public class UserBookServiceImpl implements UserBookService{
     @Override
     public void storeReview(ReviewDTO reviewDTO, List<ReviewImgDTO> reviewImgDTOS) {
         if(reviewDTO.getReviewNo() == null){ //review 첫등록
-            userBookMapper.insertReview(reviewDTO); //review 내용 저장
+            userMapper.insertReview(reviewDTO); //review 내용 저장
             Long getNo = reviewDTO.getReviewNo();
 
             if(!reviewImgDTOS.isEmpty()){ //review 이미지 저장
-                userBookMapper.insertReviewImg(reviewImgDTOS, getNo);
+                userMapper.insertReviewImg(reviewImgDTOS, getNo);
             }
         }else{
             Long getNo = reviewDTO.getReviewNo();
 
             //리뷰내용 update
-            userBookMapper.updateReview(reviewDTO);
+            userMapper.updateReview(reviewDTO);
 
             //img select > delete > insert
-            List<ReviewImgDTO> existingImgs = userBookMapper.getReviewImgData(getNo);
+            List<ReviewImgDTO> existingImgs = userMapper.getReviewImgData(getNo);
 
             //기존 리뷰이미지 key값 저장
             Set<Long> existingReviewImgNos = existingImgs.stream()
@@ -153,7 +153,7 @@ public class UserBookServiceImpl implements UserBookService{
             for(Long existingReviewImgNo : existingReviewImgNos){
                 if(!receivedReviewImgNos.contains(existingReviewImgNo)){
                     //delete
-                    userBookMapper.deleteReviewImg(existingReviewImgNo);
+                    userMapper.deleteReviewImg(existingReviewImgNo);
                 }
             }
 
@@ -163,7 +163,7 @@ public class UserBookServiceImpl implements UserBookService{
                     .collect(Collectors.toList());
 
             if(!newImgs.isEmpty()){
-                userBookMapper.insertReviewImg(newImgs, getNo);
+                userMapper.insertReviewImg(newImgs, getNo);
             }
         }
     }
@@ -171,12 +171,12 @@ public class UserBookServiceImpl implements UserBookService{
     @Override
     public Map<String, Object> getBookNoteReview(Integer bookNoteNo) {
         //review 내용 호출
-        ReviewDTO reviewData = userBookMapper.getReviewData(bookNoteNo);
+        ReviewDTO reviewData = userMapper.getReviewData(bookNoteNo);
         if(reviewData != null){
             Long getReviewNo = reviewData.getReviewNo();
 
             //review 이미지 호출
-            List<ReviewImgDTO> reviewImgData = userBookMapper.getReviewImgData(getReviewNo);
+            List<ReviewImgDTO> reviewImgData = userMapper.getReviewImgData(getReviewNo);
 
             Map<String, Object> response = new HashMap<>();
             response.put("reviewData", reviewData);
@@ -190,66 +190,66 @@ public class UserBookServiceImpl implements UserBookService{
 
     @Override
     public void endBookNote(BookNoteDTO bookNoteDTO) {
-        userBookMapper.endBookNote(bookNoteDTO);
+        userMapper.endBookNote(bookNoteDTO);
     }
 
 // userBook
 
     @Override
     public List<BookDTO> getAllBook(int offset, int limit) {
-        return userBookMapper.getAllBook(offset, limit);
+        return userMapper.getAllBook(offset, limit);
     }
 
     @Override
     public BookDTO getBookInfo(Long bookNo) {
-        return userBookMapper.getBookInfo(bookNo);
+        return userMapper.getBookInfo(bookNo);
     }
 
     @Override
     public List<ReviewDTO> getReviews(Long bookNo) {
-        return userBookMapper.getReviews(bookNo);
+        return userMapper.getReviews(bookNo);
     }
 
     @Override
     public void clickBookLike(Long bookNo, Long userNo) {
         //클릭한 관심도서 등록 유무
-        Integer likeNo = userBookMapper.checkBookLike(bookNo, userNo);
+        Integer likeNo = userMapper.checkBookLike(bookNo, userNo);
 
         if(likeNo == 0) { //리스트에 없을 때 _ 관심등록
-            userBookMapper.bookLikeOn(bookNo, userNo);
+            userMapper.bookLikeOn(bookNo, userNo);
         }else{ //리스트에 있을 때 _ 관심취소
-            userBookMapper.bookLikeOff(bookNo, userNo);
+            userMapper.bookLikeOff(bookNo, userNo);
         }
     }
 
     @Override
     public List<Long> getMyBookLikes(Long userNo) {
-        return userBookMapper.getMyBookLikes(userNo);
+        return userMapper.getMyBookLikes(userNo);
     }
 
     @Override
     public Integer checkThisBookLike(Long bookNo, Long userNo) {
-        return userBookMapper.checkBookLike(bookNo, userNo);
+        return userMapper.checkBookLike(bookNo, userNo);
     }
 
     @Override
     public List<ReviewDTO> getMyReviews(Long userNo, int offset, int limit) {
-        return userBookMapper.getMyReviews(userNo, offset, limit);
+        return userMapper.getMyReviews(userNo, offset, limit);
     }
 
     @Override
     public boolean delMyReview(Long reviewNo) {
-        return userBookMapper.delMyReview(reviewNo);
+        return userMapper.delMyReview(reviewNo);
     }
 
     @Override
     public boolean complaintReview(Long reviewNo) {
-        return userBookMapper.complaintReview(reviewNo);
+        return userMapper.complaintReview(reviewNo);
     }
 
     @Override
     public Long getMyReviewCnt(Long userNo) {
-        return userBookMapper.getMyReviewCnt(userNo);
+        return userMapper.getMyReviewCnt(userNo);
     }
 
 

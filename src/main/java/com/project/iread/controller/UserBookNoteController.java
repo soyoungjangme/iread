@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.iread.UserContext;
 import com.project.iread.dto.*;
-import com.project.iread.service.UserBookService;
+import com.project.iread.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -19,27 +19,27 @@ import java.util.Map;
 public class UserBookNoteController {
 
     @Autowired
-    @Qualifier("userBookService")
-    private UserBookService userBookService;
+    @Qualifier("userService")
+    private UserService userService;
 
     // 북노트 목록
     @GetMapping("/getMyBookNote")
     public List<BookNoteDTO> getMyBookNote(){
         Long userNo = UserContext.userNo;
-        return userBookService.getMyBookNote(userNo);
+        return userService.getMyBookNote(userNo);
     }
 
     //북노트 목록_완독도서카운트
     @GetMapping("/endReadingCnt")
     public Integer endReadingCnt(){
         Long userNo = UserContext.userNo;
-        return userBookService.endReadingCnt(userNo);
+        return userService.endReadingCnt(userNo);
     }
 
     //북노트 삭제
     @DeleteMapping("/deleteBookNote/{no}")
     public ResponseEntity<String> deleteBookNote(@PathVariable("no") Integer bookNoteNo){
-        boolean success = userBookService.deleteBookNote(bookNoteNo);
+        boolean success = userService.deleteBookNote(bookNoteNo);
         if(success){
             return ResponseEntity.ok("삭제되었습니다.");
         }else{
@@ -51,7 +51,7 @@ public class UserBookNoteController {
     @GetMapping("/searchResult")
     public ResponseEntity<List<BookDTO>> searchResult(@RequestParam("keyword") String keyword){
 
-        List<BookDTO> booklist = userBookService.getSearchResult(keyword);
+        List<BookDTO> booklist = userService.getSearchResult(keyword);
         return ResponseEntity.ok(booklist);
     }
 
@@ -60,7 +60,7 @@ public class UserBookNoteController {
         Long userNo = UserContext.userNo;
         dto.setUserNo(userNo);
 
-        Integer createNo = userBookService.readingStart(dto);
+        Integer createNo = userService.readingStart(dto);
         System.out.println("생성된 bookNoteNo: " + createNo);
         return createNo;
     }
@@ -72,21 +72,21 @@ public class UserBookNoteController {
         List<ChapterDTO> chapters = objectMapper.convertValue(data.get("chapters"), new TypeReference<List<ChapterDTO>>() {});
         Integer bookNoteNo = (Integer) data.get("bookNoteNo");
 
-        userBookService.storeChapters(chapters, bookNoteNo);
+        userService.storeChapters(chapters, bookNoteNo);
         return ResponseEntity.ok("북노트 기록이 정상적으로 저장되었습니다.");
     }
 
     //북노트 상세보기
     @GetMapping("/bookNoteDetail")
     public BookNoteDTO bookNoteDetail(@RequestParam("bookNoteNo") Integer bookNoteNo, @RequestParam("bookNo") Long bookNo){
-        BookNoteDTO bookNoteDTO = userBookService.bookNoteDetail(bookNoteNo, bookNo);
+        BookNoteDTO bookNoteDTO = userService.bookNoteDetail(bookNoteNo, bookNo);
         return bookNoteDTO;
     }
 
     //북노트 chapter 호출
     @GetMapping("/chapterData")
     public List<ChapterDTO> getChapterData(@RequestParam("bookNoteNo") Integer bookNoteNo){
-        List<ChapterDTO> chapterDTOS = userBookService.getChapterData(bookNoteNo);
+        List<ChapterDTO> chapterDTOS = userService.getChapterData(bookNoteNo);
         return chapterDTOS;
     }
 
@@ -98,14 +98,14 @@ public class UserBookNoteController {
         List<PageDTO> pages = objectMapper.convertValue(data.get("pages"), new TypeReference<List<PageDTO>>() {});
         Integer bookNoteNo = (Integer) data.get("bookNoteNo");
 
-        userBookService.storePages(pages, bookNoteNo);
+        userService.storePages(pages, bookNoteNo);
         return ResponseEntity.ok("북노트 기록이 정상적으로 저장되었습니다.");
     }
 
     //page 데이터 호출
     @GetMapping("/pageData")
     public List<PageDTO> getPageData(@RequestParam("bookNoteNo") Integer bookNoteNo){
-        List<PageDTO> pageDTOS = userBookService.getPageData(bookNoteNo);
+        List<PageDTO> pageDTOS = userService.getPageData(bookNoteNo);
         return pageDTOS;
     }
 
@@ -119,7 +119,7 @@ public class UserBookNoteController {
         Long userNo = UserContext.userNo;
         reviewDTO.setUserNo(userNo);
 
-        userBookService.storeReview(reviewDTO, reviewImgDTOS);
+        userService.storeReview(reviewDTO, reviewImgDTOS);
 
         return ResponseEntity.ok("리뷰가 정상적으로 저장되었습니다.");
     }
@@ -127,14 +127,14 @@ public class UserBookNoteController {
     //리뷰호출_북노트
     @GetMapping("/getBookNoteReview")
     public ResponseEntity<Map<String, Object>> getBookNoteReview(@RequestParam("bookNoteNo") Integer bookNoteNo){
-        Map<String, Object> bookNoteReview = userBookService.getBookNoteReview(bookNoteNo);
+        Map<String, Object> bookNoteReview = userService.getBookNoteReview(bookNoteNo);
         return ResponseEntity.ok(bookNoteReview);
     }
 
     //독서종료
     @PostMapping("/readingEnd")
     public void readingEnd(@RequestBody BookNoteDTO dto){
-        userBookService.endBookNote(dto);
+        userService.endBookNote(dto);
     }
 
 }

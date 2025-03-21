@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface UserBookMapper {
+public interface UserMapper {
 // userBookNote
     List<BookNoteDTO> getMyBookNote(Long userNo);
     Integer endReadingCnt(Long userNo);

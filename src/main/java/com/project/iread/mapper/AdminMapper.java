@@ -2,13 +2,14 @@ package com.project.iread.mapper;
 
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.GenreDTO;
+import com.project.iread.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface AdminBookMapper {
+public interface AdminMapper {
 
     List<String> getIsbn();
     void registBook(BookDTO bookDTO);
@@ -21,4 +22,6 @@ public interface AdminBookMapper {
     List<GenreDTO> getGenre();
     boolean deleteBook(Long bookNo);
     int countBooksByGenreName(String genreName);
+
+    List<UserDTO> getUserInfo();
 }

@@ -5,6 +5,7 @@ import RegistSearchBook from "../components/admin/RegistSearchBook";
 import RegistWriteBook from "../components/admin/RegistWriteBook";
 import AdminBookList from "../components/admin/AdminBookList";
 import GenreManage from "../components/admin/GenreManage";
+import UserManage from "../components/admin/UserManage";
 
 function AdminRoutes() {
     return (
@@ -14,6 +15,7 @@ function AdminRoutes() {
             <Route path="/admin/RegistWriteBook" element={<RegistWriteBook />} />
             <Route path="/admin/RegistSearchBook" element={<RegistSearchBook />} />
             <Route path="/admin/GenreManage" element={<GenreManage />} />
+            <Route path="/admin/UserManage" element={<UserManage />} />
         </>
     );
 }

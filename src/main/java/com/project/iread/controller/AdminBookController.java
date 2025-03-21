@@ -2,7 +2,7 @@ package com.project.iread.controller;
 
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.GenreDTO;
-import com.project.iread.service.AdminBookService;
+import com.project.iread.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
@@ -18,8 +18,8 @@ import java.util.Map;
 public class AdminBookController {
 
     @Autowired
-    @Qualifier("adminBookService")
-    private AdminBookService adminBookService;
+    @Qualifier("adminService")
+    private AdminService adminService;
 
     // 네이버 도서 검색 api
     @GetMapping("/searchBook")
@@ -61,7 +61,7 @@ public class AdminBookController {
         if(bookList != null && !bookList.isEmpty()){
             try{
                 for(BookDTO dto : bookList){
-                    adminBookService.registBook(dto);
+                    adminService.registBook(dto);
                 }
                 //모든 책이 등록 성공
                 return ResponseEntity.ok("성공적으로 등록되었습니다.");
@@ -79,7 +79,7 @@ public class AdminBookController {
     @PostMapping("/registWriteBook")
     public ResponseEntity<String> registWriteBook(@RequestBody BookDTO bookInfo){
         try{
-            adminBookService.registBook(bookInfo);
+            adminService.registBook(bookInfo);
             return ResponseEntity.ok("성공적으로 등록되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("도서 리스트 전달에 실패하였습니다."); //400 반환
@@ -89,7 +89,7 @@ public class AdminBookController {
     //등록된 도서 isbn호출
     @GetMapping("/getIsbn")
     public List<String> getIsbn(){
-        List<String> result = adminBookService.getIsbn();
+        List<String> result = adminService.getIsbn();
         return result;
     }
 
@@ -98,8 +98,8 @@ public class AdminBookController {
     public Map<String, Object> getAllBooks(@RequestParam("page") int page,
                                            @RequestParam("pageSize") int pageSize){
         int offset = (page -1) * pageSize;
-        List<BookDTO> bookList = adminBookService.getAllBook(offset, pageSize);
-        Long totalCount = adminBookService.totalCount();
+        List<BookDTO> bookList = adminService.getAllBook(offset, pageSize);
+        Long totalCount = adminService.totalCount();
 
         Map<String, Object> response = new HashMap<>();
         response.put("books", bookList);
@@ -114,8 +114,8 @@ public class AdminBookController {
                                                  @RequestParam("page") int page,
                                                  @RequestParam("pageSize") int pageSize){
         int offset = (page-1) * pageSize;
-        List<BookDTO> searchResult = adminBookService.getSearchBook(keyword, offset, pageSize);
-        Long totalCount = adminBookService.searchTotalCount(keyword);
+        List<BookDTO> searchResult = adminService.getSearchBook(keyword, offset, pageSize);
+        Long totalCount = adminService.searchTotalCount(keyword);
         System.out.println("totalCount2 " + totalCount);
 
         Map<String, Object> response = new HashMap<>();
@@ -128,7 +128,7 @@ public class AdminBookController {
     //도서목록_삭제
     @DeleteMapping("/deleteBook")
     public ResponseEntity<String> deleteBook(@RequestParam("bookNo") Long bookNo){
-        boolean success = adminBookService.deleteBook(bookNo);
+        boolean success = adminService.deleteBook(bookNo);
         if(success){
             return ResponseEntity.ok("삭제되었습니다.");
         } else {
@@ -140,7 +140,7 @@ public class AdminBookController {
     @PostMapping("/registGenre")
     public ResponseEntity<String> registGenre(@RequestBody List<GenreDTO> newGenre){
         try{
-            adminBookService.registGenre(newGenre);
+            adminService.registGenre(newGenre);
             return ResponseEntity.ok("성공적으로 등록되었습니다.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -154,7 +154,7 @@ public class AdminBookController {
     //기존장르 호출
     @GetMapping("/getGenre")
     public ResponseEntity<List<GenreDTO>> getGenre(){
-        List<GenreDTO> genreList = adminBookService.getGenre();
+        List<GenreDTO> genreList = adminService.getGenre();
         return ResponseEntity.ok(genreList);
     }
 }

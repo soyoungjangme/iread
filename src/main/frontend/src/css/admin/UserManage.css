@@ -1,0 +1,143 @@
+p { margin:0; }
+
+/* top */
+.user-manage-top {
+    border-bottom: 1px solid #999;
+    color: #999;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.user-manage-top > p:nth-child(2) {
+    font-size: small;
+    font-weight: 100;
+}
+
+/* 회원관리 필터 */
+.user-search-part {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-state-filter {
+    display: flex;
+    gap: 5px;
+    font-size: small;
+}
+
+.user-state-filter .bi-arrow-repeat {
+    padding: 5px;
+    color: #999;
+    cursor: pointer;
+}
+
+.disabled-user-filter {
+    padding: 5px 8px;
+    background-color: #66785f8e;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.activated-user-filter {
+    padding: 5px 8px;
+    background-color: #664b0080;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.user-name-filter > input {
+    border: 1px solid #664b0080;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.user-name-filter > input:focus {
+    outline: none;
+}
+
+/* 회원테이블 */
+.user-info-table {
+    margin-top: 10px;
+}
+
+/* 제목 */
+.user-info-title {
+/*    background-color: #664b0059;*/
+        background-color: #66785f8e;
+    padding: 7px 0;
+    display: flex;
+    /* justify-content: space-around; */
+}
+
+.user-info-title > span,
+.user-info-content > span {
+    width: 14%;
+    text-align: center;
+}
+
+/* 목록 */
+.user-info-content-box {
+    margin-top: 5px;
+    border: 1px solid #664b0059;
+    border-radius: 3px;
+    font-size: small;
+}
+
+.user-info-content {
+    padding: 7px 0;
+    display: flex;
+    /* justify-content: space-around; */
+    align-items: center;
+    border-bottom: 1px solid #664b0059;
+}
+
+.user-info-content:last-child {
+    border-bottom: none;
+}
+
+.user-info-title > span:first-child,
+.user-info-content > span:first-child {
+    width: 7%;
+}
+
+.user-info-title > span:nth-child(2),
+.user-info-content > span:nth-child(2) {
+    width: 14%;
+}
+
+.user-activation-state {
+    width: 14%;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.activation-state {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.activated-user {
+    background-color: #664b0059;
+    color: white;
+}
+
+.disabled-user {
+    background-color: #66785f8e;
+    color: white;
+}
+
+/*no 회원*/
+.no-user {
+    text-align: center;
+    padding: 5px;
+    color: #ddd;
+    font-size: small;
+}

@@ -141,7 +141,8 @@
 
     <!--모든회원정보호출-->
     <select id="getUserInfo" resultMap="userInfoMap">
-        select users.user_name,
+        select users.user_no,
+            users.user_name,
             users.user_nick,
             user_phone,
             users.user_reg_date,
@@ -152,10 +153,21 @@
         from users
         left join book_note bn on bn.user_no = users.user_no
         left join reviews r on r.user_no = users.user_no
-        group by users.user_no;
+        <where>
+            <if test="userActivatedYN != null and userActivatedYN != ''">
+                users.user_activated_yn = #{userActivatedYN}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                (users.user_name like CONCAT('%', #{keyword}, '%')
+                or users.user_nick like CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        group by users.user_no
+        order by users.user_reg_date desc
     </select>
 
     <resultMap id="userInfoMap" type="com.project.iread.dto.UserDTO">
+        <result column="user_no" property="userNo" />
         <result column="user_name" property="userName" />
         <result column="user_nick" property="userNick" />
         <result column="user_phone" property="userPhone" />
@@ -166,5 +178,11 @@
         <result column="review_cnt" property="reviewCnt" />
     </resultMap>
 
+    <!--유저활동상태변경-->
+    <update id="changeUserState">
+        update users
+        set user_activated_yn = #{userActivatedYN}
+        where user_no = #{userNo}
+    </update>
 
 </mapper>

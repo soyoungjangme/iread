@@ -97,7 +97,12 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public List<UserDTO> getUserInfo() {
-        return adminMapper.getUserInfo();
+    public List<UserDTO> getUserInfo(String userActivatedYN, String keyword) {
+        return adminMapper.getUserInfo(userActivatedYN, keyword);
+    }
+
+    @Override
+    public void changeUserState(Long userNo, String userActivatedYN) {
+        adminMapper.changeUserState(userNo, userActivatedYN);
     }
 }

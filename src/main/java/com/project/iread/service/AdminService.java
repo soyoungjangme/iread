@@ -19,6 +19,7 @@ public interface AdminService {
     boolean deleteBook(Long bookNo);
 
     /*회원정보호출*/
-    List<UserDTO> getUserInfo();
+    List<UserDTO> getUserInfo(String userActivatedYN, String keyword);
+    void changeUserState(Long userNo, String userActivatedYN);
 
 }

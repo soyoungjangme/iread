@@ -61,7 +61,6 @@ function BookSearchModal({onClose, onSelect}){
                 <div className="modal-input">
                     <input type="text"
                         value={keyword}
-                        onChange={changeKeyword}
                         onKeyDown={handleKeyDown}
                         onChange={(e)=>changeKeyword(e)} placeholder="도서명, 저자"
                         ref={inputRef}

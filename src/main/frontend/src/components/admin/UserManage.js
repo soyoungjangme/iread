@@ -6,6 +6,7 @@ import '../../css/admin/UserManage.css';
 function UserManage(){
 
     const [users, setUsers] = useState([]);
+    const [keyword, setKeyword] = useState('');
 
     useEffect(()=>{
         getUsers();
@@ -22,6 +23,39 @@ function UserManage(){
 
     };
 
+    //유저활동상태 변경
+    const handleChangeState = async(userNo, userActivatedYN) => {
+        await axios.patch('/api/adminManage/changeUserState',{
+            userNo, userActivatedYN
+        });
+        getUsers();
+    };
+
+    //유저활동상태 필터
+    const handleStateFilter = async(state) => {
+        const resp = await axios.get('/api/adminManage/getUserInfo', {
+            params: { state }
+        });
+        console.log('필터링된 유저: ', resp.data);
+        setUsers(resp.data);
+    };
+
+    //검색어입력
+    const changeKeyword = (e) => {
+        setKeyword(e.target.value);
+    }
+
+    //검색_엔터키
+    const handleKeyDown = async(e) =>{
+        if(e.key !== 'Enter') return;
+
+        const resp = await axios.get('/api/adminManage/getUserInfo', {
+            params: { keyword }
+        });
+        console.log('검색어 필터: ', resp.data);
+        setUsers(resp.data);
+    };
+
     return(
         <div className="user-manage-container">
             <div className="user-manage-top">
@@ -31,12 +65,16 @@ function UserManage(){
 
             <div className="user-search-part">
                 <div className="user-state-filter">
-                    <p className="disabled-user-filter">비활성화</p>
-                    <p className="activated-user-filter">활성화</p>
-                    <i className="bi bi-arrow-repeat"></i>
+                    <p className="disabled-user-filter" onClick={()=>handleStateFilter('N')}>비활성화</p>
+                    <p className="activated-user-filter" onClick={()=>handleStateFilter('Y')}>활성화</p>
+                    <i className="bi bi-arrow-repeat" onClick={getUsers}></i>
                 </div>
                 <div className="user-name-filter">
-                    <input type="text" placeholder="회원명, 닉네임" />
+                    <input type="text" placeholder="회원명, 닉네임"
+                        value={keyword}
+                        onKeyDown={handleKeyDown}
+                        onChange={(e)=>changeKeyword(e)}
+                    />
                 </div>
             </div>
 
@@ -63,8 +101,14 @@ function UserManage(){
                                 <span>{user.reviewCnt}개</span>
                                 <span>{user.userRegDate || 'x'}</span>
                                 <div className="user-activation-state">
-                                    <p className={`activation-state ${user.userActivatedYN === 'N' ? 'disabled-user' : ''}`}>비활성화</p>
-                                    <p className={`activation-state ${user.userActivatedYN === 'Y' ? 'activated-user' : ''}`}>활성화</p>
+                                    <p className={`activation-state ${user.userActivatedYN === 'N' ? 'disabled-user' : ''}`}
+                                        onClick={()=>handleChangeState(user.userNo, 'N')}>
+                                        비활성화
+                                    </p>
+                                    <p className={`activation-state ${user.userActivatedYN === 'Y' ? 'activated-user' : ''}`}
+                                        onClick={()=>handleChangeState(user.userNo, 'Y')}>
+                                        활성화
+                                    </p>
                                 </div>
                             </div>
                         ))

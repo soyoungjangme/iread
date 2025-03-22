@@ -51,7 +51,7 @@ p { margin:0; }
 }
 
 .user-name-filter > input {
-    border: 1px solid #664b0080;
+    border: 1px solid #66785f8e;
     padding: 5px;
     border-radius: 3px;
 }
@@ -83,7 +83,7 @@ p { margin:0; }
 /* 목록 */
 .user-info-content-box {
     margin-top: 5px;
-    border: 1px solid #664b0059;
+    border: 1px solid #66785f8e;
     border-radius: 3px;
     font-size: small;
 }

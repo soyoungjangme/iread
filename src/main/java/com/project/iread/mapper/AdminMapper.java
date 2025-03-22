@@ -23,5 +23,7 @@ public interface AdminMapper {
     boolean deleteBook(Long bookNo);
     int countBooksByGenreName(String genreName);
 
-    List<UserDTO> getUserInfo();
+    List<UserDTO> getUserInfo(@Param("userActivatedYN") String userActivatedYN, @Param("keyword") String keyword); //필터링 조회
+    void changeUserState(@Param("userNo") Long userNo, @Param("userActivatedYN") String userActivatedYN);
+
 }

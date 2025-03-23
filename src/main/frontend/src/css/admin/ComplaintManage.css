@@ -1,0 +1,195 @@
+p { margin:0; }
+
+/* top */
+.complaint-manage-top {
+    border-bottom: 1px solid #999;
+    color: #999;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* 신고관리 필터 */
+.complaint-search-part {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.complaint-state-filter {
+    display: flex;
+    gap: 5px;
+    font-size: small;
+}
+
+.complaint-state-filter .bi-arrow-repeat {
+    padding: 5px;
+    color: #999;
+    cursor: pointer;
+}
+
+.disabled-complaint-filter {
+    padding: 5px 8px;
+    background-color: #66785f8e;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.activated-complaint-filter {
+    padding: 5px 8px;
+    background-color: #664b0080;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.complaint-name-filter > input {
+    border: 1px solid #66785f8e;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.complaint-name-filter > input:focus {
+    outline: none;
+}
+
+/* 신고테이블 */
+.complaint-info-table {
+    margin-top: 10px;
+}
+
+/* 제목 */
+.complaint-info-title {
+    background-color: #66785f8e;
+    padding: 7px 0;
+    display: flex;
+    gap: 20px;
+}
+
+/* 도서명, 작성자, 작성일 */
+.complaint-info-title > span,
+.complaint-info-content > span {
+    width: 10%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 공개여부_제목 */
+.complaint-info-title > span:nth-child(6) {
+    width: 10%;
+}
+
+/* 목록 */
+.complaint-info-content-box {
+    margin-top: 5px;
+    border: 1px solid #66785f8e;
+    border-radius: 3px;
+    font-size: small;
+}
+
+.complaint-info-content {
+    padding: 7px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #664b0059;
+    gap: 20px;
+}
+
+.complaint-info-content:last-child {
+    border-bottom: none;
+}
+
+/* no */
+.complaint-info-title > span:first-child,
+.complaint-info-content > span:first-child {
+    width: 5%;
+}
+
+/* 리뷰내용 */
+.complaint-info-title > span:nth-child(2),
+.complaint-review {
+    width: 35%;
+}
+
+.complaint-review {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+/* 리뷰내용_내용 */
+.complaint-review > .review-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /*최대 3줄*/
+    -webkit-box-orient: vertical;
+    word-wrap: break-word; /* 긴 단어를 잘라서 다음 줄로 넘기도록 */
+    overflow: hidden;          /* 넘치는 부분 감춤 */
+    text-overflow: ellipsis;   /* '...' 표시 */
+}
+
+/* 리뷰_토글 시 전체 보이기 */
+.review-text.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    white-space: pre-wrap; /* 줄바꿈을 유지 */
+    word-wrap: break-word; /* 긴 단어를 잘라서 다음 줄로 넘기도록 */
+}
+
+/* 리뷰내용_토글 */
+.complaint-review > i {
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+}
+
+.complainted-book-title {
+    width: 15%;
+}
+
+.complainted-book-title:hover {
+    cursor: pointer;
+    color: #999;
+}
+
+/* 누적수 */
+.complaint-info-title > span:last-child,
+.complaint-info-content > span:last-child {
+    width: 7%;
+}
+
+/* 공개여부_목록 */
+.complaint-activation-state {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.complaint-open-state {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.activated-complaint {
+    background-color: #664b0059;
+    color: white;
+}
+
+.disabled-complaint {
+    background-color: #66785f8e;
+    color: white;
+}
+
+/*no 신고리뷰*/
+.no-complaint {
+    text-align: center;
+    padding: 5px;
+    color: #ddd;
+    font-size: small;
+}

@@ -243,7 +243,7 @@
         <result property="reviewRegDate" column="review_reg_date" />
         <result property="reviewLikeCnt" column="review_like_cnt" />
         <result property="reviewComplaintCnt" column="review_complaint_cnt" />
-<!--        <result property="reviewOpenStatus" column="review_open_status" />-->
+        <result property="reviewOpenYN" column="review_open_yn" />
         <result property="bookNo" column="book_no" />
         <result property="userNo" column="user_no" />
         <result property="bookNoteNo" column="book_note_no" />

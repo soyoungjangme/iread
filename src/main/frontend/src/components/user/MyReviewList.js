@@ -7,7 +7,6 @@ import '../../css/user/MyReviewList.css';
 function MyReviewList(){
 
     const [myReviews, setMyReviews] = useState([]);
-    const [isExpanded, setIsExpanded] = useState(false);
     const [reviewInput, setReviewInput] = useState({}); // 입력값
     const [images, setImages] = useState([]); //리뷰이미지
     const [expandedReviews, setExpandedReviews] = useState({});

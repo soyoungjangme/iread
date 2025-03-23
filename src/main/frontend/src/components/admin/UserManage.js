@@ -15,7 +15,6 @@ function UserManage(){
     const getUsers = async() => {
         try{
             const resp = await axios.get('/api/adminManage/getUserInfo');
-            console.log('모든회원정보: ', resp.data);
             setUsers(resp.data);
         } catch (error) {
             console.log('회원정보 호출 중 error', error);
@@ -36,7 +35,6 @@ function UserManage(){
         const resp = await axios.get('/api/adminManage/getUserInfo', {
             params: { state }
         });
-        console.log('필터링된 유저: ', resp.data);
         setUsers(resp.data);
     };
 
@@ -52,7 +50,6 @@ function UserManage(){
         const resp = await axios.get('/api/adminManage/getUserInfo', {
             params: { keyword }
         });
-        console.log('검색어 필터: ', resp.data);
         setUsers(resp.data);
     };
 

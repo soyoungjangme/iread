@@ -2,6 +2,7 @@ package com.project.iread.service;
 
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.GenreDTO;
+import com.project.iread.dto.ReviewDTO;
 import com.project.iread.dto.UserDTO;
 import com.project.iread.mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,5 +105,15 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public void changeUserState(Long userNo, String userActivatedYN) {
         adminMapper.changeUserState(userNo, userActivatedYN);
+    }
+
+    @Override
+    public List<ReviewDTO> getComplaintReview(String reviewOpenYN, String keyword) {
+        return adminMapper.getComplaintReview(reviewOpenYN, keyword);
+    }
+
+    @Override
+    public void changeReviewStatus(Long reviewNo, String reviewOpenYN) {
+        adminMapper.changeReviewStatus(reviewNo, reviewOpenYN);
     }
 }

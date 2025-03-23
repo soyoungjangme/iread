@@ -13,7 +13,7 @@ function GenreManage(){
     useEffect(()=>{
         const getGenre = async() => {
             try{
-                const resp = await axios.get('/api/adminBook/getGenre');
+                const resp = await axios.get('/api/adminManage/getGenre');
                 console.log('기존장르 ', resp.data);
                 setGenreList(resp.data.map(genre => ({genreName: genre.genreName})));
             }catch (error){
@@ -49,7 +49,7 @@ function GenreManage(){
     const registGenre = async() => {
         console.log("최종 장르 리스트 ", genreList);
         try{
-            const resp = await axios.post('/api/adminBook/registGenre',genreList);
+            const resp = await axios.post('/api/adminManage/registGenre',genreList);
             alert(resp.data);
             window.location.reload();
         }catch(error){

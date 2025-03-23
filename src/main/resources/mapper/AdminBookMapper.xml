@@ -185,4 +185,49 @@
         where user_no = #{userNo}
     </update>
 
+    <!--신고받은 리뷰 호출-->
+    <select id="getComplaintReview" resultMap="complaintReviewsMap">
+        select r.review_no,
+            r.review_text,
+            r.review_reg_date,
+            r.review_complaint_cnt,
+            r.review_open_yn,
+            u.user_nick,
+            r.book_no,
+            b.title
+        from reviews r
+        join users u on u.user_no = r.user_no
+        join books b on b.book_no = r.book_no
+        <where>
+            r.review_complaint_cnt > 0
+            <if test="reviewOpenYN != null and reviewOpenYN != ''">
+                and r.review_open_yn = #{reviewOpenYN}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (b.title LIKE CONCAT('%', #{keyword}, '%')
+                OR u.user_nick LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="complaintReviewsMap" type="com.project.iread.dto.ReviewDTO">
+        <id property="reviewNo" column="review_no" />
+        <result property="reviewText" column="review_text" />
+        <result property="reviewRegDate" column="review_reg_date" />
+        <result property="reviewComplaintCnt" column="review_complaint_cnt" />
+        <result property="reviewOpenYN" column="review_open_yn" />
+        <result property="bookNo" column="book_no" />
+        <result property="userNo" column="user_no" />
+
+        <result property="title" column="title" />
+        <result property="userNick" column="user_nick" />
+    </resultMap>
+
+    <!--리뷰공개상태변경-->
+    <update id="changeReviewStatus" parameterType="map">
+        update reviews
+        set review_open_yn = #{reviewOpenYN}
+        where review_no = #{reviewNo}
+    </update>
+
 </mapper>

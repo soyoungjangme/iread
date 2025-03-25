@@ -50,4 +50,6 @@ public interface UserMapper {
     boolean delMyReview(Long reviewNo);
     boolean complaintReview(Long reviewNo);
     Long getMyReviewCnt(Long userNo);
+
+    void registedNewBook(RequestedBookDTO dto);
 }

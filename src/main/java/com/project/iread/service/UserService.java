@@ -40,5 +40,6 @@ public interface UserService {
     boolean complaintReview(Long reviewNo);
     Long getMyReviewCnt(Long userNo);
 
+    void registedNewBook(RequestedBookDTO dto); //도서신청
 
 }

@@ -252,5 +252,10 @@ public class UserServiceImpl implements UserService{
         return userMapper.getMyReviewCnt(userNo);
     }
 
+    @Override
+    public void registedNewBook(RequestedBookDTO dto) {
+        userMapper.registedNewBook(dto);
+    }
+
 
 }

@@ -1,0 +1,70 @@
+p {margin:0;}
+
+.book-request-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.request-form-name > p {
+    font-weight: bold;
+    color: #66785f;
+    text-align: center;
+    font-size: large;
+}
+
+.request-form-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.request-text {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.request-text > p {
+    font-weight: bold;
+    width: 10%;
+    color: #333;
+}
+
+.request-text > input {
+    padding: 5px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    width: 50%;
+}
+
+.request-text > input:focus {
+    outline: none;
+}
+
+.request-form-btn-group {
+    font-size: small;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    gap: 10px;
+}
+
+.book-regist-btn {
+    background-color: #66785f8e;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 3px 10px;
+    color: white;
+}
+
+.book-regist-btn:hover {
+    background-color: #66785fbe;
+}
+
+.move-to-list {
+    color: #bbb;
+    cursor: pointer;
+}

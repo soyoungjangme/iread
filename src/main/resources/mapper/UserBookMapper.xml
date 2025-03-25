@@ -314,5 +314,16 @@
         where review_no = #{reviewNo}
     </update>
 
+    <!--도서신청-->
+    <insert id="registedNewBook" parameterType="com.project.iread.dto.RequestedBookDTO">
+        insert into requested_books(request_book_name,
+                                    request_book_author,
+                                    request_reg_date,
+                                    user_no)
+        values(#{requestBookName},
+                #{requestBookAuthor},
+                #{requestRegDate},
+                #{userNo})
+    </insert>
 
 </mapper>

@@ -2,6 +2,7 @@ package com.project.iread.controller;
 
 import com.project.iread.UserContext;
 import com.project.iread.dto.BookDTO;
+import com.project.iread.dto.RequestedBookDTO;
 import com.project.iread.dto.ReviewDTO;
 import com.project.iread.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +106,12 @@ public class UserBookController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("신고 요청에 실패하였습니다.");
         }
+    }
+
+    //도서신청
+    @PostMapping("/registedNewBook")
+    public void registedNewBook(@RequestBody RequestedBookDTO dto){
+        dto.setUserNo(UserContext.userNo);
+        userService.registedNewBook(dto);
     }
 }

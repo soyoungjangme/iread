@@ -52,4 +52,6 @@ public interface UserMapper {
     Long getMyReviewCnt(Long userNo);
 
     void registedNewBook(RequestedBookDTO dto);
+    List<RequestedBookDTO> getRequestedBooks();
+    void newRequestComplete(List<Long> requestNos);
 }

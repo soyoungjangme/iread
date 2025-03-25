@@ -13,7 +13,7 @@ public class RequestedBookDTO {
     private String requestBookName;
     private String requestBookAuthor;
     private String requestRegDate;
-    private String requestCheckYN;
+    private String requestCheckStatus;
     private Long userNo;
 
 }

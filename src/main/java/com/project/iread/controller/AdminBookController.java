@@ -2,6 +2,7 @@ package com.project.iread.controller;
 
 import com.project.iread.dto.BookDTO;
 import com.project.iread.dto.GenreDTO;
+import com.project.iread.dto.RequestedBookDTO;
 import com.project.iread.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -135,6 +136,7 @@ public class AdminBookController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당도서를 찾을 수 없습니다.");
         }
     }
+
 
 
 }

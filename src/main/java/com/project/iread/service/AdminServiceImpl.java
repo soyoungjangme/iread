@@ -1,9 +1,6 @@
 package com.project.iread.service;
 
-import com.project.iread.dto.BookDTO;
-import com.project.iread.dto.GenreDTO;
-import com.project.iread.dto.ReviewDTO;
-import com.project.iread.dto.UserDTO;
+import com.project.iread.dto.*;
 import com.project.iread.mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,4 +113,5 @@ public class AdminServiceImpl implements AdminService{
     public void changeReviewStatus(Long reviewNo, String reviewOpenYN) {
         adminMapper.changeReviewStatus(reviewNo, reviewOpenYN);
     }
+
 }

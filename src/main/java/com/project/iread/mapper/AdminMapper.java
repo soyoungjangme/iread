@@ -1,9 +1,6 @@
 package com.project.iread.mapper;
 
-import com.project.iread.dto.BookDTO;
-import com.project.iread.dto.GenreDTO;
-import com.project.iread.dto.ReviewDTO;
-import com.project.iread.dto.UserDTO;
+import com.project.iread.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

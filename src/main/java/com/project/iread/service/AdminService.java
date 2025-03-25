@@ -1,9 +1,6 @@
 package com.project.iread.service;
 
-import com.project.iread.dto.BookDTO;
-import com.project.iread.dto.GenreDTO;
-import com.project.iread.dto.ReviewDTO;
-import com.project.iread.dto.UserDTO;
+import com.project.iread.dto.*;
 
 import java.util.List;
 
@@ -25,4 +22,6 @@ public interface AdminService {
     //신고관리
     List<ReviewDTO> getComplaintReview(String reviewOpenYN, String keyword);
     void changeReviewStatus(Long reviewNo, String reviewOpenYN);
+
+
 }

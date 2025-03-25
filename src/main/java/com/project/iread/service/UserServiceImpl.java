@@ -257,5 +257,13 @@ public class UserServiceImpl implements UserService{
         userMapper.registedNewBook(dto);
     }
 
+    @Override
+    public List<RequestedBookDTO> getRequestedBooks() {
+        return userMapper.getRequestedBooks();
+    }
 
+    @Override
+    public void newRequestComplete(List<Long> requestNos) {
+        userMapper.newRequestComplete(requestNos);
+    }
 }

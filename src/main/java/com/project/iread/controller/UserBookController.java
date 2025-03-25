@@ -114,4 +114,17 @@ public class UserBookController {
         dto.setUserNo(UserContext.userNo);
         userService.registedNewBook(dto);
     }
+
+    //도서신청목록 호출
+    @GetMapping("/getRequestedBooks")
+    public List<RequestedBookDTO> getRequestedBooks(){
+        return userService.getRequestedBooks();
+    }
+
+    //도서신청_처리완료
+    @PatchMapping("/newRequestComplete")
+    public void newRequestComplete(@RequestBody List<Long> requestNos){
+        System.out.println(requestNos);
+        userService.newRequestComplete(requestNos);
+    }
 }

@@ -41,5 +41,7 @@ public interface UserService {
     Long getMyReviewCnt(Long userNo);
 
     void registedNewBook(RequestedBookDTO dto); //도서신청
+    List<RequestedBookDTO> getRequestedBooks();
+    void newRequestComplete(List<Long> requestNos);
 
 }

@@ -326,4 +326,19 @@
                 #{userNo})
     </insert>
 
+    <!--도서신청목록 호출-->
+    <select id="getRequestedBooks" resultType="com.project.iread.dto.RequestedBookDTO">
+        select * from requested_books
+    </select>
+
+    <!--관리자_신청도서 처리완료-->
+    <update id="newRequestComplete" parameterType="java.util.List">
+        update requested_books
+        set request_check_status = '처리완료'
+        where request_no in
+        <foreach item="requestNo" collection="list" open="(" separator="," close=")">
+            #{requestNo}
+        </foreach>
+    </update>
+
 </mapper>

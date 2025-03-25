@@ -6,6 +6,7 @@ import UserBookList from '../components/user/UserBookList';
 import BookDetail from '../components/user/BookDetail';
 import MyReviewList from '../components/user/MyReviewList';
 import NewBookRequestForm from '../components/user/NewBookRequestForm';
+import NewBookRequestList from '../components/user/NewBookRequestList';
 
 function UserRoutes(){
     return(
@@ -16,6 +17,7 @@ function UserRoutes(){
             <Route path="/user/BookDetail" element={<BookDetail />} />
             <Route path="/user/MyReviewList" element={<MyReviewList />} />
             <Route path="/user/NewBookRequestForm" element={<NewBookRequestForm />} />
+            <Route path="/user/NewBookRequestList" element={<NewBookRequestList />} />
         </>
     )
 }

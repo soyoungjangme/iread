@@ -1,0 +1,120 @@
+p { margin:0; }
+
+/* top */
+.book-request-top {
+    border-bottom: 1px solid #999;
+    color: #999;
+    padding-bottom: 10px;
+}
+
+/* 테이블상단버튼 */
+.book-request-btn-part {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.request-complete {
+    padding: 3px 10px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background-color: #66785f8e;
+    font-size: small;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.request-complete:hover {
+    background-color: #55674f;
+}
+
+.request-complete:active {
+    background-color: #44553e;
+    transform: translateY(1px);
+}
+
+.move-to-request {
+    font-size: small;
+    color: #bbb;
+    cursor: pointer;
+}
+
+/* 테이블 */
+.book-request-table {
+    margin-top: 10px;
+}
+
+.book-request-title {
+    background-color: #66785f8e;
+    padding: 7px 0;
+    display: flex;
+    gap: 20px;
+}
+
+/* 체크박스 */
+.book-request-title > input,
+.book-request-content > input {
+    margin-left: 10px;
+}
+
+/* no */
+.request-no {
+    width: 5%;
+    text-align: center;
+}
+
+.request-book-title {
+    width: 50%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.request-author,
+.request-date {
+    width: 15%;
+    text-align: center;
+}
+
+.request-status {
+    width: 10%;
+    text-align: center;
+}
+
+.book-request-content-box {
+    margin-top: 5px;
+    border: 1px solid #66785f8e;
+    border-radius: 3px;
+}
+
+.book-request-content {
+    padding: 7px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #66785f8e;
+    gap: 20px;
+    font-size: small;
+}
+
+.book-request-content:last-child {
+    border-bottom: none;
+}
+
+/* 처리완료 */
+.completed-request {
+    color: #ccc;
+}
+
+/* 확인중 */
+.checking-request {
+    color: rgb(49, 49, 197);
+}
+
+.no-requested-book {
+    text-align: center;
+    font-size: small;
+    color: #999;
+    padding: 5px;
+}
